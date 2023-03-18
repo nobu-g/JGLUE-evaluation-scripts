@@ -1,0 +1,29 @@
+defaults:
+  - base
+  - callbacks: [early_stopping, model_checkpoint, model_summary, progress_bar, lr_monitor]
+  - datamodule: marc_ja
+  - logger: wandb
+  - encoder: word_deberta_large
+  - module: marc_ja
+  - optimizer: adamw
+  - scheduler: cosine_schedule_with_warmup
+  - trainer: default
+  - _self_
+
+max_seq_length: 256
+checkpoint_path: ""
+
+# set monitor and mode for early_stopping and model_checkpoint
+monitor: valid/accuracy
+mode: max
+
+# hyper-parameters to be tuned
+lr: 1e-4
+max_epochs: 20
+warmup_steps: 100
+effective_batch_size: 16
+
+# environment dependent settings
+devices: ${oc.env:DEVICES,0}
+max_batches_per_device: ${oc.env:MAX_BATCHES_PER_DEVICE,2}
+num_workers: ${oc.env:NUM_WORKERS,4}
