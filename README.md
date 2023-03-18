@@ -15,4 +15,4 @@ $ poetry install
 
 ## Reference
 
-- huggingface hub のリンクを載せる
+- [yahoojapan/JGLUE: JGLUE: Japanese General Language Understanding Evaluation](https://github.com/yahoojapan/JGLUE)
