@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from typing import Any
 
@@ -29,20 +30,25 @@ class MarkJaDataset(Dataset[MarkJaFeatures]):
         self.split: str = split
         self.tokenizer: PreTrainedTokenizerBase = tokenizer
         self.max_seq_length: int = max_seq_length
-        self.jumanpp = Jumanpp()
 
         # NOTE: JGLUE does not provide test set.
         if self.split == "test":
             self.split = "validation"
-        self.hf_dataset: HFDataset = load_dataset("shunk031/JGLUE", name="MARC-ja")[self.split]
+        dataset = load_dataset("shunk031/JGLUE", name="MARC-ja")[self.split]
+        # apply Juman++ segmentation
+        dataset = dataset.map(
+            lambda x: {"segmented": batch_segment(x["sentence"])},
+            batched=True,
+            batch_size=100,
+            num_proc=os.cpu_count(),
+        )
+        self.hf_dataset: HFDataset = dataset
 
     def __getitem__(self, index: int) -> MarkJaFeatures:
         example: dict[str, Any] = self.hf_dataset[index]
-        sentence: str = example["sentence"]
-        segmented_sentence = self.jumanpp.apply_to_sentence(sentence)
         label: int = example["label"]
         encoding: Encoding = self.tokenizer(
-            [m.text for m in segmented_sentence.morphemes],
+            example["segmented"],
             padding=PaddingStrategy.MAX_LENGTH,
             truncation=True,
             max_length=self.max_seq_length - 2,  # +2 for [CLS] and [SEP]
@@ -57,3 +63,8 @@ class MarkJaDataset(Dataset[MarkJaFeatures]):
 
     def __len__(self) -> int:
         return len(self.hf_dataset)
+
+
+def batch_segment(texts: list[str]) -> list[str]:
+    jumanpp = Jumanpp()
+    return [" ".join(m.text for m in jumanpp.apply_to_sentence(text).morphemes) for text in texts]

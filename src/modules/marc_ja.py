@@ -1,8 +1,8 @@
 from typing import Any
 
 import torch
-import torchmetrics
 from omegaconf import DictConfig
+from torchmetrics.classification import MulticlassAccuracy
 from transformers import AutoModelForSequenceClassification
 from transformers.modeling_outputs import SequenceClassifierOutput
 
@@ -13,7 +13,7 @@ class MarcJaModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         self.model = AutoModelForSequenceClassification.from_pretrained(hparams.encoder.pretrained_model_name_or_path)
-        self.metric = torchmetrics.classification.MulticlassAccuracy(num_classes=2)
+        self.metric = MulticlassAccuracy(num_classes=2)
 
     def forward(self, batch: Any) -> SequenceClassifierOutput:
         return self.model(
