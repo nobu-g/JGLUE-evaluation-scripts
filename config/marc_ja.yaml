@@ -12,6 +12,7 @@ defaults:
 
 max_seq_length: 512
 checkpoint_path: ""
+limit_examples: -1
 
 # set monitor and mode for early_stopping and model_checkpoint
 monitor: valid/accuracy
