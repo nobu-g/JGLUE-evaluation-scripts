@@ -34,7 +34,7 @@ class MarkJaDataset(Dataset[MarkJaFeatures]):
         # NOTE: JGLUE does not provide test set.
         if self.split == "test":
             self.split = "validation"
-        dataset = load_dataset("shunk031/JGLUE", name="MARC-ja")[self.split]
+        dataset = load_dataset("shunk031/JGLUE", name="MARC-ja", split=self.split)
         # apply Juman++ segmentation
         dataset = dataset.map(
             lambda x: {"segmented": batch_segment(x["sentence"])},
@@ -52,7 +52,6 @@ class MarkJaDataset(Dataset[MarkJaFeatures]):
             padding=PaddingStrategy.MAX_LENGTH,
             truncation=True,
             max_length=self.max_seq_length - 2,  # +2 for [CLS] and [SEP]
-            is_split_into_words=True,
         ).encodings[0]
         return MarkJaFeatures(
             input_ids=encoding.ids,
