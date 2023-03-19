@@ -11,14 +11,14 @@ from transformers.utils import PaddingStrategy
 
 
 @dataclass(frozen=True)
-class MarkJaFeatures:
+class JstsFeatures:
     input_ids: list[int]
     attention_mask: list[int]
     token_type_ids: list[int]
     labels: int
 
 
-class MarkJaDataset(Dataset[MarkJaFeatures]):
+class JstsDataset(Dataset[JstsFeatures]):
     def __init__(
         self,
         split: str,
@@ -34,17 +34,18 @@ class MarkJaDataset(Dataset[MarkJaFeatures]):
         # NOTE: JGLUE does not provide test set.
         if self.split == "test":
             self.split = "validation"
-        dataset = load_dataset("shunk031/JGLUE", name="MARC-ja", split=self.split)
+        dataset = load_dataset("shunk031/JGLUE", name="JSTS", split=self.split)
         if limit_examples > 0:
             dataset = dataset.select(range(limit_examples))
         self.hf_dataset: HFDataset = dataset.map(
-            lambda x: {"segmented": batch_segment(x["sentence"])},
+            lambda x: {"segmented1": batch_segment(x["sentence1"]), "segmented2": batch_segment(x["sentence2"])},
             batched=True,
             batch_size=100,
             num_proc=os.cpu_count(),
         ).map(
             lambda x: self.tokenizer(
-                x["segmented"],
+                x["segmented1"],
+                x["segmented2"],
                 padding=PaddingStrategy.MAX_LENGTH,
                 truncation=True,
                 max_length=self.max_seq_length,
@@ -52,9 +53,9 @@ class MarkJaDataset(Dataset[MarkJaFeatures]):
             batched=True,
         )
 
-    def __getitem__(self, index: int) -> MarkJaFeatures:
+    def __getitem__(self, index: int) -> JstsFeatures:
         example: dict[str, Any] = self.hf_dataset[index]
-        return MarkJaFeatures(
+        return JstsFeatures(
             input_ids=example["input_ids"],
             attention_mask=example["attention_mask"],
             token_type_ids=example["token_type_ids"],

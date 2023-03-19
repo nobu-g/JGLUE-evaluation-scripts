@@ -1,0 +1,7 @@
+defaults:
+  - train: jsts.yaml
+  - valid: jsts.yaml
+  - test: jsts.yaml
+
+batch_size: ${max_batches_per_device}
+num_workers: ${num_workers}

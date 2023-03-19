@@ -1,5 +1,4 @@
+from .jsts import JstsDataset
 from .marc_ja import MarkJaDataset
 
-__all__ = [
-    "MarkJaDataset",
-]
+__all__ = ["MarkJaDataset", "JstsDataset"]

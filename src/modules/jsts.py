@@ -2,26 +2,26 @@ from typing import Any
 
 import torch
 from omegaconf import DictConfig
-from torchmetrics.classification import MulticlassAccuracy
+from torchmetrics import SpearmanCorrCoef
 from transformers import AutoConfig, AutoModelForSequenceClassification
 from transformers.modeling_outputs import SequenceClassifierOutput
 
 from modules.base import BaseModule
 
 
-class MarcJaModule(BaseModule):
+class JstsModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         config = AutoConfig.from_pretrained(
             hparams.encoder.pretrained_model_name_or_path,
-            num_labels=2,
-            finetuning_task="MARC-ja",
+            num_labels=1,
+            finetuning_task="JSTS",
         )
         self.model = AutoModelForSequenceClassification.from_pretrained(
             hparams.encoder.pretrained_model_name_or_path,
             config=config,
         )
-        self.metric = MulticlassAccuracy(num_classes=2)
+        self.metric = SpearmanCorrCoef()
 
     def forward(self, batch: Any) -> SequenceClassifierOutput:
         return self.model(
@@ -38,20 +38,18 @@ class MarcJaModule(BaseModule):
 
     def validation_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
-        preds = torch.argmax(out.logits, dim=1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        self.metric.update(out.logits, batch["labels"])
 
     def on_validation_epoch_end(self) -> None:
         metrics = self.metric.compute()
         self.metric.reset()
-        self.log("valid/accuracy", metrics)
+        self.log("valid/spearman", metrics)
 
     def test_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
-        preds = torch.argmax(out.logits, dim=1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        self.metric.update(out.logits, batch["labels"])
 
     def on_test_epoch_end(self) -> None:
         metrics = self.metric.compute()
         self.metric.reset()
-        self.log("test/accuracy", metrics)
+        self.log("test/spearman", metrics)
