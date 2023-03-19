@@ -1,0 +1,7 @@
+defaults:
+  - train: jnli.yaml
+  - valid: jnli.yaml
+  - test: jnli.yaml
+
+batch_size: ${max_batches_per_device}
+num_workers: ${num_workers}

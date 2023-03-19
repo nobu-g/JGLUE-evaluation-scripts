@@ -1,0 +1,3 @@
+defaults:
+  - /datamodule/base/train@
+_target_: datamodule.datasets.JnliDataset
