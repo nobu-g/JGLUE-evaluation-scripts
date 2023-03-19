@@ -1,5 +1,4 @@
 import os
-from dataclasses import dataclass
 from typing import Any
 
 from datasets import Dataset as HFDataset
@@ -9,16 +8,10 @@ from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
-
-@dataclass(frozen=True)
-class MarkJaFeatures:
-    input_ids: list[int]
-    attention_mask: list[int]
-    token_type_ids: list[int]
-    labels: int
+from datamodule.datasets.base import SequenceClassificationFeatures
 
 
-class MarkJaDataset(Dataset[MarkJaFeatures]):
+class MarkJaDataset(Dataset[SequenceClassificationFeatures]):
     def __init__(
         self,
         split: str,
@@ -52,9 +45,9 @@ class MarkJaDataset(Dataset[MarkJaFeatures]):
             batched=True,
         )
 
-    def __getitem__(self, index: int) -> MarkJaFeatures:
+    def __getitem__(self, index: int) -> SequenceClassificationFeatures:
         example: dict[str, Any] = self.hf_dataset[index]
-        return MarkJaFeatures(
+        return SequenceClassificationFeatures(
             input_ids=example["input_ids"],
             attention_mask=example["attention_mask"],
             token_type_ids=example["token_type_ids"],

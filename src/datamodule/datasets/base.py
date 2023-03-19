@@ -1,5 +1,6 @@
 import logging
 from abc import ABC
+from dataclasses import dataclass
 from typing import Generic, List, TypeVar
 
 from torch.utils.data import Dataset
@@ -9,6 +10,14 @@ logger = logging.getLogger(__name__)
 
 ExampleType = TypeVar("ExampleType")
 FeatureType = TypeVar("FeatureType")
+
+
+@dataclass(frozen=True)
+class SequenceClassificationFeatures:
+    input_ids: list[int]
+    attention_mask: list[int]
+    token_type_ids: list[int]
+    labels: int
 
 
 class BaseDataset(Dataset[FeatureType], Generic[ExampleType, FeatureType], ABC):

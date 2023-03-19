@@ -1,5 +1,4 @@
 import os
-from dataclasses import dataclass
 from typing import Any
 
 from datasets import Dataset as HFDataset
@@ -9,16 +8,10 @@ from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
-
-@dataclass(frozen=True)
-class JnliFeatures:
-    input_ids: list[int]
-    attention_mask: list[int]
-    token_type_ids: list[int]
-    labels: int
+from datamodule.datasets.base import SequenceClassificationFeatures
 
 
-class JnliDataset(Dataset[JnliFeatures]):
+class JnliDataset(Dataset[SequenceClassificationFeatures]):
     def __init__(
         self,
         split: str,
@@ -53,9 +46,9 @@ class JnliDataset(Dataset[JnliFeatures]):
             batched=True,
         )
 
-    def __getitem__(self, index: int) -> JnliFeatures:
+    def __getitem__(self, index: int) -> SequenceClassificationFeatures:
         example: dict[str, Any] = self.hf_dataset[index]
-        return JnliFeatures(
+        return SequenceClassificationFeatures(
             input_ids=example["input_ids"],
             attention_mask=example["attention_mask"],
             token_type_ids=example["token_type_ids"],
