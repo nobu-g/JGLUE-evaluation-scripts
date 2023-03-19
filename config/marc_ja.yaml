@@ -10,7 +10,7 @@ defaults:
   - trainer: default
   - _self_
 
-max_seq_length: 256
+max_seq_length: 512
 checkpoint_path: ""
 
 # set monitor and mode for early_stopping and model_checkpoint
@@ -18,10 +18,10 @@ monitor: valid/accuracy
 mode: max
 
 # hyper-parameters to be tuned
-lr: 1e-4
-max_epochs: 20
-warmup_steps: 100
-effective_batch_size: 16
+lr: 3e-5
+max_epochs: 6
+warmup_steps: 500
+effective_batch_size: 64
 
 # environment dependent settings
 devices: ${oc.env:DEVICES,0}
