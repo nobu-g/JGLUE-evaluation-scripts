@@ -22,7 +22,7 @@ mode: max
 lr: 3e-5
 max_epochs: 6
 warmup_steps: 500
-effective_batch_size: 64
+effective_batch_size: 256
 
 # environment dependent settings
 devices: ${oc.env:DEVICES,0}
