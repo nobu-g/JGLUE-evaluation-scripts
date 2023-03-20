@@ -12,7 +12,7 @@ python = "^3.9"
 torch = "~2.0.0"
 transformers = {version = "~4.27.1", extras = ["sentencepiece"]}
 tokenizers = "^0.13.2"
-pytorch-lightning = "~2.0.0"
+lightning = "~2.0.0"
 torchmetrics = "^0.11.3"
 omegaconf = "^2.3"
 hydra-core = "^1.3"
