@@ -1,0 +1,3 @@
+defaults:
+  - /datamodule/base/valid@
+_target_: datamodule.datasets.JcqaDataset

@@ -1,0 +1,29 @@
+defaults:
+  - base
+  - callbacks: [early_stopping, model_checkpoint, model_summary, progress_bar]
+  - datamodule: jcqa
+  - logger: null
+  - encoder: word_deberta_tiny
+  - module: jcqa
+  - optimizer: adamw
+  - scheduler: constant_schedule_with_warmup
+  - trainer: debug
+  - _self_
+
+max_seq_length: 64
+checkpoint_path: ""
+limit_examples: 100
+
+monitor: valid/accuracy
+mode: max
+
+# hyper-parameters to be tuned
+lr: 1e-4
+max_epochs: 2
+warmup_steps: 10
+effective_batch_size: 16
+
+# environment dependent settings
+devices: ${oc.env:DEVICES,0}
+max_batches_per_device: ${oc.env:MAX_BATCHES_PER_DEVICE,2}
+num_workers: ${oc.env:NUM_WORKERS,0}

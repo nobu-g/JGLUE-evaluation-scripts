@@ -1,0 +1,7 @@
+defaults:
+  - train: jcqa.yaml
+  - valid: jcqa.yaml
+  - test: jcqa.yaml
+
+batch_size: ${max_batches_per_device}
+num_workers: ${num_workers}

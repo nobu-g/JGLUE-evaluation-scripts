@@ -20,6 +20,14 @@ class SequenceClassificationFeatures:
     labels: int
 
 
+@dataclass(frozen=True)
+class MultipleChoiceFeatures:
+    input_ids: list[list[int]]
+    attention_mask: list[list[int]]
+    token_type_ids: list[list[int]]
+    labels: int
+
+
 class BaseDataset(Dataset[FeatureType], Generic[ExampleType, FeatureType], ABC):
     def __init__(
         self,
