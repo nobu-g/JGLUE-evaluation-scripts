@@ -2,6 +2,6 @@ max_seq_length: ${max_seq_length}
 split: test
 tokenizer:
   _target_: transformers.AutoTokenizer.from_pretrained
-  pretrained_model_name_or_path: ${encoder.pretrained_model_name_or_path}
+  pretrained_model_name_or_path: ${model_name_or_path}
   _convert_: all
 limit_examples: ${limit_examples}
