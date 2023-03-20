@@ -2,11 +2,11 @@ import copy
 from typing import Any, Dict
 
 import hydra
-import pytorch_lightning as pl
+import lightning
 from omegaconf import DictConfig, OmegaConf
 
 
-class BaseModule(pl.LightningModule):
+class BaseModule(lightning.LightningModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__()
         self.save_hyperparameters(hparams)

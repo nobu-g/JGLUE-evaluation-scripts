@@ -3,14 +3,14 @@ import warnings
 from typing import Union
 
 import hydra
-import pytorch_lightning as pl
+import lightning
 import transformers.utils.logging as hf_logging
 import wandb
 from dotenv import load_dotenv
+from lightning.pytorch.callbacks import Callback
+from lightning.pytorch.loggers import Logger
+from lightning.pytorch.utilities.warnings import PossibleUserWarning
 from omegaconf import DictConfig, ListConfig
-from pytorch_lightning.callbacks import Callback
-from pytorch_lightning.loggers import Logger
-from pytorch_lightning.utilities.warnings import PossibleUserWarning
 
 from datamodule.datamodule import DataModule
 
@@ -35,7 +35,7 @@ def main(cfg: DictConfig):
         cfg.max_batches_per_device = int(cfg.max_batches_per_device)
     if isinstance(cfg.num_workers, str):
         cfg.num_workers = int(cfg.num_workers)
-    cfg.seed = pl.seed_everything(seed=cfg.seed, workers=True)
+    cfg.seed = lightning.seed_everything(seed=cfg.seed, workers=True)
 
     logger: Union[Logger, bool] = cfg.get("logger", False) and hydra.utils.instantiate(cfg.get("logger"))
     callbacks: list[Callback] = list(map(hydra.utils.instantiate, cfg.get("callbacks", {}).values()))
@@ -56,7 +56,7 @@ def main(cfg: DictConfig):
     cfg.effective_batch_size = batches_per_device * num_devices * cfg.trainer.accumulate_grad_batches
     cfg.datamodule.batch_size = batches_per_device
 
-    trainer: pl.Trainer = hydra.utils.instantiate(
+    trainer: lightning.Trainer = hydra.utils.instantiate(
         cfg.trainer,
         logger=logger,
         callbacks=callbacks,
@@ -65,7 +65,7 @@ def main(cfg: DictConfig):
 
     datamodule = DataModule(cfg=cfg.datamodule)
 
-    model: pl.LightningModule = hydra.utils.instantiate(cfg.module.cls, hparams=cfg, _recursive_=False)
+    model: lightning.LightningModule = hydra.utils.instantiate(cfg.module.cls, hparams=cfg, _recursive_=False)
 
     trainer.fit(model=model, datamodule=datamodule)
     trainer.test(model=model, datamodule=datamodule, ckpt_path="best" if not trainer.fast_dev_run else None)

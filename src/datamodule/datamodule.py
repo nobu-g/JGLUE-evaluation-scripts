@@ -2,15 +2,15 @@ from dataclasses import fields, is_dataclass
 from typing import Any, Dict, List, Optional, Union
 
 import hydra
-import pytorch_lightning as pl
+import lightning
 import torch
+from lightning.pytorch.trainer.states import TrainerFn
 from omegaconf import DictConfig
-from pytorch_lightning.trainer.states import TrainerFn
 from torch import Tensor
 from torch.utils.data import DataLoader, Dataset
 
 
-class DataModule(pl.LightningDataModule):
+class DataModule(lightning.LightningDataModule):
     def __init__(self, cfg: DictConfig) -> None:
         super().__init__()
         self.cfg: DictConfig = cfg

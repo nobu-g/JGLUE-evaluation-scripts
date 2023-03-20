@@ -1,4 +1,4 @@
-_target_: pytorch_lightning.Trainer
+_target_: lightning.Trainer
 gradient_clip_val: 0.5
 #fast_dev_run: 3
 accumulate_grad_batches: null
