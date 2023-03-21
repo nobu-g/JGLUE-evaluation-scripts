@@ -3,6 +3,6 @@ gradient_clip_val: 0.5
 accumulate_grad_batches: null
 max_epochs: ${max_epochs}
 min_epochs: 1
-accelerator: "cpu"
+accelerator: cpu
 strategy: ddp
 precision: 32

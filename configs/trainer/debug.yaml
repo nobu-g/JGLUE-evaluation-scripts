@@ -7,6 +7,6 @@ min_epochs: 1
 limit_train_batches: 10
 limit_val_batches: 10
 limit_test_batches: 10
-accelerator: "auto"     # set gpu or cpu automatically
+accelerator: auto  # set gpu or cpu automatically
 strategy: ddp
 precision: 32
