@@ -1,0 +1,17 @@
+defaults:
+  - callbacks: [progress_bar.yaml]
+  - logger: null
+  - module: null
+  - _self_
+
+# required settings
+checkpoint_path: null  # path to trained checkpoint
+eval_set: test  # test or valid
+
+# TODO: fix `test.py` for the following settings to take effect
+
+# environment dependent settings
+devices: ${oc.env:DEVICES,1}
+max_batches_per_device: ${oc.env:MAX_BATCHES_PER_DEVICE,4}
+num_workers: ${oc.env:NUM_WORKERS,4}
+compile: ${oc.env:COMPILE,false}  # compile model for faster training with pytorch 2.0
