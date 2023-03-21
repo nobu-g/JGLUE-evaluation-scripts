@@ -26,6 +26,11 @@ config_name: ${hydra:job.config_name}
 # compile model for faster training with pytorch 2.0
 compile: false
 
+# environment dependent settings
+devices: ${oc.env:DEVICES,0}
+max_batches_per_device: ${oc.env:MAX_BATCHES_PER_DEVICE,4}
+num_workers: ${oc.env:NUM_WORKERS,4}
+
 hydra:
   run:
     dir: ${exp_dir}
