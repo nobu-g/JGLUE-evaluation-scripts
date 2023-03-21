@@ -5,7 +5,6 @@ description = ""
 authors = ["nobu-g <ueda-n127@hotmail.co.jp>"]
 maintainers = ["nobu-g <ueda-n127@hotmail.co.jp>"]
 readme = "README.md"
-packages = [{include = "jglue_benchmark"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
