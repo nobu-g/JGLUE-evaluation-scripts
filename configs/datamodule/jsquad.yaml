@@ -1,0 +1,7 @@
+defaults:
+  - train: jsquad.yaml
+  - valid: jsquad.yaml
+  - test: jsquad.yaml
+
+batch_size: ${max_batches_per_device}
+num_workers: ${num_workers}

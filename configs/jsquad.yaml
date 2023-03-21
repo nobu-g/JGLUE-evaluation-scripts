@@ -1,0 +1,25 @@
+defaults:
+  - base
+  - callbacks: [early_stopping, model_checkpoint, model_summary, progress_bar, lr_monitor]
+  - datamodule: jsquad
+  - logger: wandb
+  - module: jsquad
+  - optimizer: adamw
+  - scheduler: cosine_schedule_with_warmup
+  - trainer: default
+  - _self_
+
+model_name_or_path: ku-nlp/deberta-v2-large-japanese
+max_seq_length: 384
+checkpoint_path: ""
+limit_examples: -1
+
+# set monitor and mode for early_stopping and model_checkpoint
+monitor: valid/f1
+mode: max
+
+# hyper-parameters to be tuned
+lr: 3e-5
+max_epochs: 6
+warmup_steps: 500
+effective_batch_size: 64
