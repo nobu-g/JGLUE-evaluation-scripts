@@ -23,7 +23,7 @@ warnings.filterwarnings(
 )
 
 
-@hydra.main(version_base=None, config_path="../config")
+@hydra.main(version_base=None, config_path="../configs")
 def main(cfg: DictConfig):
     load_dotenv()
     if isinstance(cfg.devices, str):

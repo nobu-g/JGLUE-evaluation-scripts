@@ -165,8 +165,8 @@ outputs
 wandb
 log
 
-# config
-config/base.yaml
+# configs
+configs/base.yaml
 
 # weights and biases
 wandb/
