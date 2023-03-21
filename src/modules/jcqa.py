@@ -23,13 +23,8 @@ class JcqaModule(BaseModule):
         )
         self.metric = MulticlassAccuracy(num_classes=5)
 
-    def forward(self, batch: Any) -> MultipleChoiceModelOutput:
-        return self.model(
-            input_ids=batch["input_ids"],
-            attention_mask=batch["attention_mask"],
-            token_type_ids=batch["token_type_ids"],
-            labels=batch["labels"],
-        )
+    def forward(self, batch: dict[str, Any]) -> MultipleChoiceModelOutput:
+        return self.model(**batch)
 
     def training_step(self, batch: Any, batch_idx: int) -> torch.Tensor:
         out: MultipleChoiceModelOutput = self(batch)
