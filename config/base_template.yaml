@@ -23,6 +23,9 @@ run_id: ${now:%m%d}_${now:%H%M%S}
 run_dir: ${exp_dir}/${run_id}
 config_name: ${hydra:job.config_name}
 
+# compile model for faster training with pytorch 2.0
+compile: false
+
 hydra:
   run:
     dir: ${exp_dir}

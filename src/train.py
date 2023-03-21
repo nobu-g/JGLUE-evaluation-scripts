@@ -4,6 +4,7 @@ from typing import Union
 
 import hydra
 import lightning
+import torch
 import transformers.utils.logging as hf_logging
 import wandb
 from dotenv import load_dotenv
@@ -66,6 +67,8 @@ def main(cfg: DictConfig):
     datamodule = DataModule(cfg=cfg.datamodule)
 
     model: lightning.LightningModule = hydra.utils.instantiate(cfg.module.cls, hparams=cfg, _recursive_=False)
+    if cfg.compile is True:
+        model = torch.compile(model)
 
     trainer.fit(model=model, datamodule=datamodule)
     trainer.test(model=model, datamodule=datamodule, ckpt_path="best" if not trainer.fast_dev_run else None)
