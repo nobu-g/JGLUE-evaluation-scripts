@@ -7,7 +7,6 @@ import hydra
 import torch
 import transformers.utils.logging as hf_logging
 import wandb
-from dotenv import load_dotenv
 from lightning import Callback, LightningModule, Trainer, seed_everything
 from lightning.pytorch.loggers import Logger
 from lightning.pytorch.utilities.warnings import PossibleUserWarning
@@ -27,7 +26,6 @@ logging.getLogger("torch").setLevel(logging.WARNING)
 
 @hydra.main(version_base=None, config_path="../configs")
 def main(cfg: DictConfig):
-    load_dotenv()
     if isinstance(cfg.devices, str):
         try:
             cfg.devices = [int(x) for x in cfg.devices.split(",")]

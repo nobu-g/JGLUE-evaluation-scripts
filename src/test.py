@@ -5,7 +5,6 @@ from typing import Union
 import hydra
 import torch
 import transformers.utils.logging as hf_logging
-from dotenv import load_dotenv
 from lightning import Callback, LightningModule, Trainer
 from lightning.pytorch.loggers import Logger
 from lightning.pytorch.trainer.states import TrainerFn
@@ -26,7 +25,6 @@ logging.getLogger("torch").setLevel(logging.WARNING)
 
 @hydra.main(version_base=None, config_path="../configs", config_name="eval")
 def main(eval_cfg: DictConfig):
-    load_dotenv()
     if isinstance(eval_cfg.devices, str):
         try:
             eval_cfg.devices = [int(x) for x in eval_cfg.devices.split(",")]

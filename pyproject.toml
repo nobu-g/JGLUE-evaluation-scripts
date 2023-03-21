@@ -15,9 +15,8 @@ lightning = "~2.0.0"
 torchmetrics = "^0.11.3"
 omegaconf = "^2.3"
 hydra-core = "^1.3"
-python-dotenv = "^1.0"
 rich = "^13.3"
-datasets = "^2.10.1"
+datasets = "^2.10"
 rhoknp = "^1.2.2"
 
 [tool.poetry.group.dev.dependencies]
