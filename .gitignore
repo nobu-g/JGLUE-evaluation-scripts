@@ -164,9 +164,3 @@ result
 outputs
 wandb
 log
-
-# configs
-configs/base.yaml
-
-# weights and biases
-wandb/
