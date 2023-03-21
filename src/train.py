@@ -1,3 +1,4 @@
+import logging
 import math
 import warnings
 from typing import Union
@@ -21,6 +22,7 @@ warnings.filterwarnings(
     r" across devices",
     category=PossibleUserWarning,
 )
+logging.getLogger("torch").setLevel(logging.WARNING)
 
 
 @hydra.main(version_base=None, config_path="../configs")
