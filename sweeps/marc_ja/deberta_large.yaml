@@ -9,7 +9,7 @@ parameters:
   lr:
     values: [0.00002, 0.00003, 0.00005]
   max_epochs:
-    values: [4, 8, 12]
+    values: [3, 4]
 command:
   - ${env}
   - ${interpreter}
