@@ -2,11 +2,11 @@ import copy
 from typing import Any, Dict
 
 import hydra
-import lightning
+from lightning import LightningModule
 from omegaconf import DictConfig, OmegaConf
 
 
-class BaseModule(lightning.LightningModule):
+class BaseModule(LightningModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__()
         self.save_hyperparameters(hparams)
@@ -34,6 +34,9 @@ class BaseModule(lightning.LightningModule):
             self.hparams.optimizer, params=optimizer_grouped_parameters, _convert_="partial"
         )
         total_steps = self.trainer.estimated_stepping_batches
+        warmup_steps = self.hparams.warmup_steps or total_steps * self.hparams.warmup_ratio
+        if hasattr(self.hparams.scheduler, "num_warmup_steps"):
+            self.hparams.scheduler.num_warmup_steps = warmup_steps
         if hasattr(self.hparams.scheduler, "num_training_steps"):
             self.hparams.scheduler.num_training_steps = total_steps
         lr_scheduler = hydra.utils.instantiate(self.hparams.scheduler, optimizer=optimizer)
