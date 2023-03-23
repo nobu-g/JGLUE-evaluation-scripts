@@ -30,3 +30,4 @@ repos:
           - transformers==4.27.1
           - tokenizers==0.13.2
           - wandb==0.14.0
+          - types-tabulate==0.9.0.1
