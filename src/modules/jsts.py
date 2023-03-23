@@ -2,7 +2,7 @@ from typing import Any
 
 import torch
 from omegaconf import DictConfig
-from torchmetrics import SpearmanCorrCoef
+from torchmetrics import Metric, PearsonCorrCoef, SpearmanCorrCoef
 from transformers import AutoConfig, AutoModelForSequenceClassification
 from transformers.modeling_outputs import SequenceClassifierOutput
 
@@ -21,7 +21,7 @@ class JstsModule(BaseModule):
             hparams.model_name_or_path,
             config=config,
         )
-        self.metric = SpearmanCorrCoef()
+        self.metrics: dict[str, Metric] = {"spearman": SpearmanCorrCoef(), "pearson": PearsonCorrCoef()}
 
     def forward(self, batch: dict[str, Any]) -> SequenceClassifierOutput:
         return self.model(**batch)
@@ -34,19 +34,21 @@ class JstsModule(BaseModule):
     def validation_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
         preds = torch.squeeze(out.logits, dim=-1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        for metric in self.metrics.values():
+            metric.update(preds, batch["labels"])
 
     def on_validation_epoch_end(self) -> None:
-        metrics = self.metric.compute()
-        self.metric.reset()
-        self.log("valid/spearman", metrics)
+        for name, metric in self.metrics.items():
+            self.log(f"valid/{name}", metric.compute())
+            metric.reset()
 
     def test_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
         preds = torch.squeeze(out.logits, dim=-1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        for metric in self.metrics.values():
+            metric.update(preds, batch["labels"])
 
     def on_test_epoch_end(self) -> None:
-        metrics = self.metric.compute()
-        self.metric.reset()
-        self.log("test/spearman", metrics)
+        for name, metric in self.metrics.items():
+            self.log(f"test/{name}", metric.compute())
+            metric.reset()
