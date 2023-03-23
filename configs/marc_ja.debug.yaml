@@ -22,7 +22,7 @@ lr: 1e-4
 max_epochs: 2
 warmup_steps: null
 warmup_ratio: 0.1
-effective_batch_size: 16
+effective_batch_size: 4
 
 # environment dependent settings
 num_workers: 0

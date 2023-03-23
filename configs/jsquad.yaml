@@ -23,4 +23,4 @@ lr: 3e-5
 max_epochs: 6
 warmup_steps: null
 warmup_ratio: 0.1
-effective_batch_size: 64
+effective_batch_size: 32
