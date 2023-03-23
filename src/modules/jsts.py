@@ -1,8 +1,9 @@
 from typing import Any
 
 import torch
+import torch.nn as nn
 from omegaconf import DictConfig
-from torchmetrics import Metric, PearsonCorrCoef, SpearmanCorrCoef
+from torchmetrics import PearsonCorrCoef, SpearmanCorrCoef
 from transformers import AutoConfig, AutoModelForSequenceClassification
 from transformers.modeling_outputs import SequenceClassifierOutput
 
@@ -21,7 +22,7 @@ class JstsModule(BaseModule):
             hparams.model_name_or_path,
             config=config,
         )
-        self.metrics: dict[str, Metric] = {"spearman": SpearmanCorrCoef(), "pearson": PearsonCorrCoef()}
+        self.metrics = nn.ModuleDict({"spearman": SpearmanCorrCoef(), "pearson": PearsonCorrCoef()})
 
     def forward(self, batch: dict[str, Any]) -> SequenceClassifierOutput:
         return self.model(**batch)
