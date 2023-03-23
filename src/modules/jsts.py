@@ -33,7 +33,8 @@ class JstsModule(BaseModule):
 
     def validation_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
-        self.metric.update(out.logits, batch["labels"])
+        preds = torch.squeeze(out.logits, dim=-1)  # (b)
+        self.metric.update(preds, batch["labels"])
 
     def on_validation_epoch_end(self) -> None:
         metrics = self.metric.compute()
@@ -42,7 +43,8 @@ class JstsModule(BaseModule):
 
     def test_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
-        self.metric.update(out.logits, batch["labels"])
+        preds = torch.squeeze(out.logits, dim=-1)  # (b)
+        self.metric.update(preds, batch["labels"])
 
     def on_test_epoch_end(self) -> None:
         metrics = self.metric.compute()
