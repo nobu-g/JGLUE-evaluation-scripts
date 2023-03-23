@@ -1,0 +1,20 @@
+project: JGLUE-benchmark
+entity: ueda
+program: src/train.py
+method: grid
+metric:
+  name: valid/spearman
+  goal: maximize
+parameters:
+  lr:
+    values: [0.00002, 0.00003, 0.00005]
+  max_epochs:
+    values: [3, 4]
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - "-cn"
+  - "jsts"
+  - "model_name_or_path=nlp-waseda/roberta-base-japanese"
+  - ${args_no_hyphens}
