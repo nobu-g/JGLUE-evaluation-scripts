@@ -3,7 +3,7 @@ from typing import Any
 import torch
 from omegaconf import DictConfig
 from torchmetrics.classification import MulticlassAccuracy
-from transformers import AutoConfig, AutoModelForSequenceClassification
+from transformers import AutoConfig, AutoModelForSequenceClassification, PretrainedConfig, PreTrainedModel
 from transformers.modeling_outputs import SequenceClassifierOutput
 
 from modules.base import BaseModule
@@ -12,12 +12,12 @@ from modules.base import BaseModule
 class JnliModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
-        config = AutoConfig.from_pretrained(
+        config: PretrainedConfig = AutoConfig.from_pretrained(
             hparams.model_name_or_path,
             num_labels=3,
             finetuning_task="JNLI",
         )
-        self.model = AutoModelForSequenceClassification.from_pretrained(
+        self.model: PreTrainedModel = AutoModelForSequenceClassification.from_pretrained(
             hparams.model_name_or_path,
             config=config,
         )
