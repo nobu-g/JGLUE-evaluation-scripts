@@ -32,22 +32,21 @@ poetry run python scripts/test.py module=char checkpoint_path="/path/to/checkpoi
 -->
 ## Debugging
 
-You can do debugging on CPU and GPU with the following command:
-
-On CPU machine:
-
 ```shell
-# For debugging word segmenter
-poetry run python src/train.py -cn marc_ja.debug devices=1
+poetry run python scripts/train.py -cn char_module.debug
 ```
 
-On GPU machine:
+You can specify `trainer=cpu.debug` to use CPU.
 
 ```shell
-# For debugging word segmenter
-poetry run python src/train.py -cn marc_ja.debug devices=[0]
+poetry run python scripts/train.py -cn char_module.debug trainer=cpu.debug
 ```
 
+If you are on a machine with GPUs, you can specify the GPUs to use with the `devices` option.
+
+```shell
+poetry run python scripts/train.py -cn char_module.debug devices=[0]
+```
 
 ## Reference
 
