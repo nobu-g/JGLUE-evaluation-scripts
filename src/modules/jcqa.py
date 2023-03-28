@@ -21,7 +21,7 @@ class JcqaModule(BaseModule):
             hparams.model_name_or_path,
             config=config,
         )
-        self.metric = MulticlassAccuracy(num_classes=5)
+        self.metric = MulticlassAccuracy(num_classes=5, average="micro")
 
     def forward(self, batch: dict[str, Any]) -> MultipleChoiceModelOutput:
         return self.model(**batch)

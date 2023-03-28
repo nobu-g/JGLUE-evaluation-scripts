@@ -21,7 +21,7 @@ class MarcJaModule(BaseModule):
             hparams.model_name_or_path,
             config=config,
         )
-        self.metric = MulticlassAccuracy(num_classes=2)
+        self.metric = MulticlassAccuracy(num_classes=2, average="micro")
 
     def forward(self, batch: dict[str, Any]) -> SequenceClassifierOutput:
         return self.model(**batch)
