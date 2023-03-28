@@ -24,7 +24,7 @@ def main():
                 items.append("-")
             else:
                 try:
-                    metric_name = sweep.config["metric"]["name"]
+                    metric_name = sweep.config["metric"]["name"].replace("valid", "test")
                     items.append(f"{run.summary[metric_name]:.3f}")
                 except KeyError:
                     items.append("-")
