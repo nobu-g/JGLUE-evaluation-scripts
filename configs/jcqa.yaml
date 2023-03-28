@@ -19,8 +19,8 @@ monitor: valid/accuracy
 mode: max
 
 # hyper-parameters to be tuned
-lr: 3e-5
-max_epochs: 6
+lr: 5e-5
+max_epochs: 4
 warmup_steps: null
 warmup_ratio: 0.1
 effective_batch_size: 32
