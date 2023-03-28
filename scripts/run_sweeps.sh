@@ -3,9 +3,8 @@
 set -euo pipefail
 
 for sweep in "$@"; do
-  while read -r task_model sweep_id status; do
-    if [[ "${sweep}" = "${task_model}" && "${status}" = "0" ]]; then
-      sed -i "s|${task_model} ${sweep_id} 0|${task_model} ${sweep_id} 1|" sweep_status.txt
+  while read -r task_model sweep_id; do
+    if [[ "${sweep}" = "${task_model}" ]]; then
       wandb agent "${sweep_id}"
       break
     fi
