@@ -1,7 +1,7 @@
 import logging
 from abc import ABC
 from dataclasses import dataclass
-from typing import Generic, List, TypeVar
+from typing import Generic, List, Optional, TypeVar
 
 from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
@@ -26,6 +26,17 @@ class MultipleChoiceFeatures:
     attention_mask: list[list[int]]
     token_type_ids: list[list[int]]
     labels: int
+
+
+@dataclass(frozen=True)
+class QuestionAnsweringFeatures:
+    input_ids: list[int]
+    attention_mask: list[int]
+    token_type_ids: list[int]
+    start_positions: int
+    end_positions: int
+    start_positions_all: Optional[list[int]]
+    end_positions_all: Optional[list[int]]
 
 
 class BaseDataset(Dataset[FeatureType], Generic[ExampleType, FeatureType], ABC):
