@@ -7,8 +7,15 @@ def test_init(tokenizer: PreTrainedTokenizerBase):
     _ = JsquadDataset("train", tokenizer, max_seq_length=128, limit_examples=3)
 
 
+def test_examples_0(tokenizer: PreTrainedTokenizerBase):
+    dataset = JsquadDataset("validation", tokenizer, max_seq_length=128, limit_examples=1)
+    example = dataset.examples[0]
+    for answer in example.answers:
+        assert example.context[answer.start :].startswith(answer.text)
+
+
 def test_getitem(tokenizer: PreTrainedTokenizerBase):
-    max_seq_length: int = 128
+    max_seq_length = 128
     dataset = JsquadDataset("train", tokenizer, max_seq_length, limit_examples=3)
     for i in range(len(dataset)):
         feature = dataset[i]
@@ -20,7 +27,7 @@ def test_getitem(tokenizer: PreTrainedTokenizerBase):
 
 
 def test_features_0(tokenizer: PreTrainedTokenizerBase):
-    max_seq_length: int = 128
+    max_seq_length = 128
     dataset = JsquadDataset("validation", tokenizer, max_seq_length, limit_examples=1)
     example = JsquadExample(
         id="a10336p0q0",
@@ -46,5 +53,15 @@ def test_features_0(tokenizer: PreTrainedTokenizerBase):
     assert features.token_type_ids == [0] * (len(question_tokens) + 2) + [1] * (len(context_tokens) + 1) + [0] * (
         max_seq_length - len(input_tokens)
     )
-    # assert features.start_positions == 35
-    # assert features.end_positions == 41
+
+    answer_span = slice(features.start_positions, features.end_positions + 1)
+    tokenized_answer_text: str = tokenizer.decode(features.input_ids[answer_span])
+    assert tokenized_answer_text == example.answers[0].text
+
+    for start_position, end_position, answer in zip(
+        features.start_positions_all, features.end_positions_all, example.answers
+    ):
+        assert 0 <= start_position <= end_position < max_seq_length
+        answer_span = slice(start_position, end_position + 1)
+        tokenized_answer_text = tokenizer.decode(features.input_ids[answer_span])
+        assert tokenized_answer_text == answer.text
