@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 torch = "~2.0.0"
-transformers = {version = "~4.27.1", extras = ["sentencepiece"]}
+transformers = { version = "~4.27.1", extras = ["sentencepiece"] }
 tokenizers = "^0.13.2"
 lightning = "~2.0.0"
 torchmetrics = "^0.11.3"
