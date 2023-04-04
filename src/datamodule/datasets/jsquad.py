@@ -4,12 +4,11 @@ from typing import Any, Optional
 import numpy as np
 from datasets import Dataset as HFDataset
 from datasets import load_dataset
-from rhoknp import Jumanpp
 from torch.utils.data import Dataset
 from transformers import BatchEncoding, PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
-from datamodule.datasets.base import QuestionAnsweringFeatures
+from datamodule.util import QuestionAnsweringFeatures, batch_segment
 
 ANSWER_COLUMN_NAME = "answer"
 
@@ -129,11 +128,6 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
             token_start, token_end = 0, 0
 
         return token_start, token_end
-
-
-def batch_segment(texts: list[str]) -> list[str]:
-    jumanpp = Jumanpp()
-    return [" ".join(m.text for m in jumanpp.apply_to_sentence(text).morphemes) for text in texts]
 
 
 def preprocess(example: JsquadExample):

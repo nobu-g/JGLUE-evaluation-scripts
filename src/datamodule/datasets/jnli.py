@@ -3,12 +3,11 @@ from typing import Any
 
 from datasets import Dataset as HFDataset
 from datasets import load_dataset
-from rhoknp import Jumanpp
 from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
-from datamodule.datasets.base import SequenceClassificationFeatures
+from datamodule.util import SequenceClassificationFeatures, batch_segment
 
 
 class JnliDataset(Dataset[SequenceClassificationFeatures]):
@@ -57,8 +56,3 @@ class JnliDataset(Dataset[SequenceClassificationFeatures]):
 
     def __len__(self) -> int:
         return len(self.hf_dataset)
-
-
-def batch_segment(texts: list[str]) -> list[str]:
-    jumanpp = Jumanpp()
-    return [" ".join(m.text for m in jumanpp.apply_to_sentence(text).morphemes) for text in texts]
