@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+import os
 from typing import Any, Optional
 
 import numpy as np
@@ -9,35 +9,6 @@ from transformers import BatchEncoding, PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
 from datamodule.util import QuestionAnsweringFeatures, batch_segment
-
-ANSWER_COLUMN_NAME = "answer"
-
-
-@dataclass
-class Answer:
-    text: str
-    start: int  # character index
-
-
-@dataclass
-class JsquadExample:
-    id: str
-    title: str
-    context: str
-    question: str
-    answers: list[Answer]
-    is_impossible: bool
-
-    @classmethod
-    def from_hf_dataset(cls, hf_example: dict[str, Any]) -> "JsquadExample":
-        return cls(
-            id=hf_example["id"],
-            title=hf_example["title"],
-            context=hf_example["context"],
-            question=hf_example["question"],
-            answers=[Answer(*x) for x in zip(hf_example["answers"]["text"], hf_example["answers"]["answer_start"])],
-            is_impossible=hf_example["is_impossible"],
-        )
 
 
 class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
@@ -61,24 +32,27 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
         if limit_examples > 0:
             dataset = dataset.select(range(limit_examples))
 
-        self.examples: list[JsquadExample] = []
-        for hf_example in dataset:
-            example = JsquadExample.from_hf_dataset(hf_example)
-            preprocess(example)
-            self.examples.append(example)
+        self.hf_dataset: HFDataset = dataset.map(
+            preprocess,
+            batched=True,
+            batch_size=100,
+            num_proc=os.cpu_count(),
+        )
 
     def __getitem__(self, index: int) -> QuestionAnsweringFeatures:
-        example: JsquadExample = self.examples[index]
+        example: dict[str, Any] = self.hf_dataset[index]
         inputs = self.tokenizer(
-            example.question,
-            example.context,
+            example["question"],
+            example["context"],
             padding=PaddingStrategy.MAX_LENGTH,
             truncation="only_second",
             max_length=self.max_seq_length,
             return_offsets_mapping=True,
-            # return_tensors="pt",
         )
-        start_positions, end_positions = self._get_token_span(inputs, example.context, example.answers[0])
+        answer = example["answers"][0]
+        start_positions, end_positions = self._get_token_span(
+            inputs, example["context"], answer["text"], answer["answer_start"]
+        )
 
         return QuestionAnsweringFeatures(
             example_ids=index,
@@ -90,10 +64,10 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
         )
 
     def __len__(self) -> int:
-        return len(self.examples)
+        return len(self.hf_dataset)
 
     @staticmethod
-    def _get_token_span(inputs: BatchEncoding, context: str, answer: Answer) -> tuple[int, int]:
+    def _get_token_span(inputs: BatchEncoding, context: str, answer_text: str, answer_start: int) -> tuple[int, int]:
         """スパンの位置について、文字単位からトークン単位に変換"""
         context_length = 0
         # sequence_ids の内容は
@@ -118,10 +92,10 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
                 # 対象外のトークンは`answer_start`の検索時に引っかからないように -100 をセット
                 offset_mapping[i, :] = -100
 
-        answer_end = answer.start + len(answer.text)
+        answer_end = answer_start + len(answer_text)
         try:
             # `answer_start`に対応するトークンのインデックスを検索
-            token_start = (offset_mapping[:, 0] == answer.start).nonzero()[0].item()
+            token_start = (offset_mapping[:, 0] == answer_start).nonzero()[0].item()
             token_end = (offset_mapping[:, 1] == answer_end).nonzero()[0].item()
         except ValueError:
             # 見つからなければ先頭のトークン([CLS])を指すように設定
@@ -130,24 +104,32 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
         return token_start, token_end
 
 
-def preprocess(example: JsquadExample):
-    """前処理を適用"""
-    title, body = example.context.split(" [SEP] ")
-    segmented_title, segmented_body, segmented_question = batch_segment([title, body, example.question])
-    example.context = f"{segmented_title} [SEP] {segmented_body}"
-    example.question = segmented_question
-    for answer in example.answers:
-        segmented_answer_text, answer_start = find_segmented_answer(example.context, answer, len(title))
-        # 答えの文字列が単語区切りに沿わない場合は分かち書きを適用しない
-        if answer_start is None:
-            answer.start = -1
-            continue
-        assert segmented_answer_text is not None
-        answer.text = segmented_answer_text
-        answer.start = answer_start
+def preprocess(examples):
+    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])
+    segmented_titles = batch_segment(titles)
+    segmented_bodies = batch_segment(bodies)
+    segmented_contexts = [f"{title} [SEP] {body}" for title, body in zip(segmented_titles, segmented_bodies)]
+    segmented_questions = batch_segment(examples["question"])
+    batch_answers: list[list[dict]] = []
+    for answers, segmented_context, segmented_title in zip(examples["answers"], segmented_contexts, segmented_titles):
+        processed_answers: list[dict] = []
+        for answer_text, answer_start in zip(answers["text"], answers["answer_start"]):
+            segmented_answer_text, answer_start = find_segmented_answer(
+                segmented_context, answer_text, answer_start, len(segmented_titles)
+            )
+            # 答えの文字列が単語区切りに沿わない場合は分かち書きを適用しない
+            if answer_start is None:
+                processed_answers.append(dict(text=answer_text, answer_start=-1))
+                continue
+            assert segmented_answer_text is not None
+            processed_answers.append(dict(text=segmented_answer_text, answer_start=answer_start))
+        batch_answers.append(processed_answers)
+    return {"context": segmented_contexts, "question": segmented_questions, "answers": batch_answers}
 
 
-def find_segmented_answer(segmented_context: str, answer: Answer, sep_index) -> tuple[Optional[str], Optional[int]]:
+def find_segmented_answer(
+    segmented_context: str, answer_text: str, answer_start: int, sep_index: int
+) -> tuple[Optional[str], Optional[int]]:
     """単語区切りの文脈から単語区切りの答えのスパンを探す"""
     words = segmented_context.split(" ")
     # 単語のインデックスと文字のインデックスの対応関係を保持
@@ -158,13 +140,13 @@ def find_segmented_answer(segmented_context: str, answer: Answer, sep_index) -> 
         word_index2char_index.append(word_index2char_index[-1] + char_length)
 
     # 答えのスパンの開始位置が単語区切りに沿うかチェック
-    if answer.start in word_index2char_index:
-        word_index = word_index2char_index.index(answer.start)
+    if answer_start in word_index2char_index:
+        word_index = word_index2char_index.index(answer_start)
         buf = []
         for word in words[word_index:]:
             buf.append(word)
             # 分かち書きしても答えのスパンが見つかる場合
-            if "".join(buf) == answer.text:
-                offset = 2 if answer.start >= sep_index else 0
-                return " ".join(buf), answer.start + word_index - offset
+            if "".join(buf) == answer_text:
+                offset = 2 if answer_start >= sep_index else 0
+                return " ".join(buf), answer_start + word_index - offset
     return None, None

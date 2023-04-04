@@ -10,7 +10,7 @@ from transformers import (
 )
 from transformers.modeling_outputs import QuestionAnsweringModelOutput
 
-from datamodule.datasets.jsquad import JsquadDataset, JsquadExample
+from datamodule.datasets.jsquad import JsquadDataset
 from modules.base import BaseModule
 
 
@@ -47,7 +47,7 @@ class JsquadModule(BaseModule):
         for example_id, input_ids, pred_start, pred_end in zip(
             batch["example_ids"].tolist(), batch["input_ids"].tolist(), pred_starts.tolist(), pred_ends.tolist()
         ):
-            example: JsquadExample = dataset.examples[example_id]
+            example = dataset.hf_dataset[example_id]
             preds.append(
                 {
                     "prediction_text": self._get_text(input_ids, pred_start, pred_end, dataset.tokenizer),
@@ -57,8 +57,8 @@ class JsquadModule(BaseModule):
             target.append(
                 {
                     "answers": {
-                        "text": [answer.text for answer in example.answers],
-                        "answer_start": [answer.start for answer in example.answers],
+                        "text": [answer["text"] for answer in example["answers"]],
+                        "answer_start": [answer["answer_start"] for answer in example["answers"]],
                     },
                     "id": example_id,
                 }
@@ -80,7 +80,7 @@ class JsquadModule(BaseModule):
         for example_id, input_ids, pred_start, pred_end in zip(
             batch["example_ids"].tolist(), batch["input_ids"].tolist(), pred_starts.tolist(), pred_ends.tolist()
         ):
-            example: JsquadExample = dataset.examples[example_id]
+            example = dataset.hf_dataset[example_id]
             preds.append(
                 {
                     "prediction_text": self._get_text(input_ids, pred_start, pred_end, dataset.tokenizer),
@@ -90,8 +90,8 @@ class JsquadModule(BaseModule):
             target.append(
                 {
                     "answers": {
-                        "text": [answer.text for answer in example.answers],
-                        "answer_start": [answer.start for answer in example.answers],
+                        "text": [answer["text"] for answer in example["answers"]],
+                        "answer_start": [answer["answer_start"] for answer in example["answers"]],
                     },
                     "id": example_id,
                 }
