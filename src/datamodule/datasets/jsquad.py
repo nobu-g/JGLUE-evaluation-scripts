@@ -80,28 +80,14 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
             # return_tensors="pt",
         )
         start_positions, end_positions = self._get_token_span(inputs, example.context, example.answers[0])
-        if self.split == "train":
-            start_positions_all = None
-            end_positions_all = None
-        else:
-            # 評価時は答えの候補が 2つ または 3つ ある
-            start_positions_all, end_positions_all = [], []
-            for answer in example.answers:
-                start_position, end_position = self._get_token_span(inputs, example.context, answer)
-                start_positions_all.append(start_position)
-                end_positions_all.append(end_position)
-            if len(example.answers) == 2:  # 候補が2つの時はpadding
-                start_positions_all.append(-100)
-                end_positions_all.append(-100)
 
         return QuestionAnsweringFeatures(
+            example_ids=index,
             input_ids=inputs["input_ids"],
             attention_mask=inputs["attention_mask"],
             token_type_ids=inputs["token_type_ids"],
             start_positions=start_positions,
             end_positions=end_positions,
-            start_positions_all=start_positions_all,
-            end_positions_all=end_positions_all,
         )
 
     def __len__(self) -> int:

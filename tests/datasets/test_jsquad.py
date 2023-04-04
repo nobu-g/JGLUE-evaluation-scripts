@@ -54,14 +54,7 @@ def test_features_0(tokenizer: PreTrainedTokenizerBase):
         max_seq_length - len(input_tokens)
     )
 
+    assert 0 <= features.start_positions <= features.end_positions < max_seq_length
     answer_span = slice(features.start_positions, features.end_positions + 1)
     tokenized_answer_text: str = tokenizer.decode(features.input_ids[answer_span])
     assert tokenized_answer_text == example.answers[0].text
-
-    for start_position, end_position, answer in zip(
-        features.start_positions_all, features.end_positions_all, example.answers
-    ):
-        assert 0 <= start_position <= end_position < max_seq_length
-        answer_span = slice(start_position, end_position + 1)
-        tokenized_answer_text = tokenizer.decode(features.input_ids[answer_span])
-        assert tokenized_answer_text == answer.text
