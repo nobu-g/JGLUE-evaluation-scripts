@@ -132,16 +132,17 @@ def find_segmented_answer(
 ) -> tuple[Optional[str], Optional[int]]:
     """単語区切りの文脈から単語区切りの答えのスパンを探す"""
     words = segmented_context.split(" ")
-    # 単語のインデックスと文字のインデックスの対応関係を保持
-    word_index2char_index = [0]
-    for word in words:
+    char_to_word_index = {}
+    char_index = 0
+    for word_index, word in enumerate(words):
+        char_to_word_index[char_index] = word_index
         # [SEP]だけ前後の半角スペースを考慮する必要があるため+2する
         char_length = len(word) + 2 if word == "[SEP]" else len(word)
-        word_index2char_index.append(word_index2char_index[-1] + char_length)
+        char_index += char_length
 
     # 答えのスパンの開始位置が単語区切りに沿うかチェック
-    if answer_start in word_index2char_index:
-        word_index = word_index2char_index.index(answer_start)
+    if answer_start in char_to_word_index:
+        word_index = char_to_word_index[answer_start]
         buf = []
         for word in words[word_index:]:
             buf.append(word)
