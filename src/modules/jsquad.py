@@ -68,7 +68,7 @@ class JsquadModule(BaseModule):
     def on_validation_epoch_end(self) -> None:
         metrics = self.metric.compute()
         self.metric.reset()
-        self.log_dict({f"valid/{key}": value for key, value in metrics.items()})
+        self.log_dict({f"valid/{key}": value / 100.0 for key, value in metrics.items()})
 
     def test_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
         out: QuestionAnsweringModelOutput = self({k: v for k, v in batch.items() if k in self.MODEL_ARGS})
@@ -101,7 +101,7 @@ class JsquadModule(BaseModule):
     def on_test_epoch_end(self) -> None:
         metrics = self.metric.compute()
         self.metric.reset()
-        self.log_dict({f"test/{key}": value for key, value in metrics.items()})
+        self.log_dict({f"test/{key}": value / 100.0 for key, value in metrics.items()})
 
     @staticmethod
     def _get_text(
