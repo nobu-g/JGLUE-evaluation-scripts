@@ -1,5 +1,7 @@
 from typing import Any
 
+from datasets import Dataset as HFDataset
+from datasets import load_dataset
 from transformers import PreTrainedTokenizerBase
 
 from datamodule.datasets.jsquad import JsquadDataset
@@ -7,6 +9,21 @@ from datamodule.datasets.jsquad import JsquadDataset
 
 def test_init(tokenizer: PreTrainedTokenizerBase):
     _ = JsquadDataset("train", tokenizer, max_seq_length=128, limit_examples=3)
+
+
+def test_raw_examples():
+    dataset: HFDataset = load_dataset("shunk031/JGLUE", name="JSQuAD", split="validation")
+    for example in dataset:
+        assert isinstance(example["id"], str)
+        assert isinstance(example["title"], str)
+        assert isinstance(example["context"], str)
+        assert isinstance(example["question"], str)
+        assert isinstance(example["answers"], dict)
+        texts = example["answers"]["text"]
+        answer_starts = example["answers"]["answer_start"]
+        for text, answer_start in zip(texts, answer_starts):
+            assert example["context"][answer_start:].startswith(text)
+        assert example["is_impossible"] is False
 
 
 def test_examples_0(tokenizer: PreTrainedTokenizerBase):
