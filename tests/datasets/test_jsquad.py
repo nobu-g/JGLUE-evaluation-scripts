@@ -26,11 +26,13 @@ def test_raw_examples():
         assert example["is_impossible"] is False
 
 
-def test_examples_0(tokenizer: PreTrainedTokenizerBase):
-    dataset = JsquadDataset("validation", tokenizer, max_seq_length=128, limit_examples=1)
-    example = dataset.hf_dataset[0]
-    for answer in example["answers"]:
-        assert example["context"][answer["answer_start"] :].startswith(answer["text"])
+def test_examples(tokenizer: PreTrainedTokenizerBase):
+    dataset = JsquadDataset("validation", tokenizer, max_seq_length=128, limit_examples=10)
+    for example in dataset.hf_dataset:
+        for answer in example["answers"]:
+            if answer["answer_start"] == -1:
+                continue
+            assert example["context"][answer["answer_start"] :].startswith(answer["text"])
 
 
 def test_getitem(tokenizer: PreTrainedTokenizerBase):
