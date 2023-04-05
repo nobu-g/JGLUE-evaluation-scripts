@@ -57,7 +57,7 @@ class JsquadModule(BaseModule):
             target.append(
                 {
                     "answers": {
-                        "text": [answer["text"] for answer in example["answers"]],
+                        "text": [answer["text"].rstrip("。").rstrip() for answer in example["answers"]],
                         "answer_start": [answer["answer_start"] for answer in example["answers"]],
                     },
                     "id": example_id,
@@ -90,7 +90,7 @@ class JsquadModule(BaseModule):
             target.append(
                 {
                     "answers": {
-                        "text": [answer["text"] for answer in example["answers"]],
+                        "text": [answer["text"].rstrip("。").rstrip() for answer in example["answers"]],
                         "answer_start": [answer["answer_start"] for answer in example["answers"]],
                     },
                     "id": example_id,
@@ -111,5 +111,5 @@ class JsquadModule(BaseModule):
         token_span = slice(start_position, end_position + 1)
         token_ids = input_ids[token_span]
         # 文末に句点がある場合は除く
-        text = tokenizer.decode(token_ids).replace(" ", "").rstrip("。")
+        text = tokenizer.decode(token_ids).rstrip("。").rstrip()
         return text
