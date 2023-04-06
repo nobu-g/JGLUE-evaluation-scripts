@@ -1,7 +1,6 @@
 import os
 from typing import Any, Optional
 
-import numpy as np
 from datasets import Dataset as HFDataset
 from datasets import load_dataset
 from torch.utils.data import Dataset
@@ -69,7 +68,6 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
     @staticmethod
     def _get_token_span(inputs: BatchEncoding, context: str, answer_text: str, answer_start: int) -> tuple[int, int]:
         """スパンの位置について、文字単位からトークン単位に変換"""
-        context_length = 0
         # sequence_ids の内容は
         #   None ... 特殊トークン
         #   0 ... 1番目の入力(=`question`)のトークン
@@ -79,43 +77,41 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
         # トークンのインデックスと文字のスパンのマッピングを保持した変数
         # "京都 大学" -> ["[CLS]", "▁京都", "▁大学", "[SEP]"] のように分割された場合、
         #   [(0, 0), (0, 2), (2, 5), (0, 0)]
-        offset_mapping: np.ndarray = np.array(inputs["offset_mapping"])  # (N, 2)
-        assert offset_mapping.shape[0] == len(sequence_ids)
-        for i, (sequence_id, offset) in enumerate(zip(sequence_ids, offset_mapping)):
-            char_start, _ = offset
-            if sequence_id == 1:
-                context_length += 1
-                # 時折半角スペースが無視されていない時があるため、その場合はマッピングを1つずらす
-                if context[char_start] == " ":
-                    offset_mapping[i, 0] += 1
-            else:
-                # 対象外のトークンは`answer_start`の検索時に引っかからないように -100 をセット
-                offset_mapping[i, :] = -100
-
+        offset_mapping: list[tuple[int, int]] = inputs["offset_mapping"]
+        assert len(offset_mapping) == len(sequence_ids)
+        token_to_char_start_index = [x[0] for x in offset_mapping]
+        token_to_char_end_index = [x[1] for x in offset_mapping]
         answer_end = answer_start + len(answer_text)
-        try:
-            # `answer_start`に対応するトークンのインデックスを検索
-            token_start = (offset_mapping[:, 0] == answer_start).nonzero()[0].item()
-            token_end = (offset_mapping[:, 1] == answer_end).nonzero()[0].item()
-        except ValueError:
-            # 見つからなければ先頭のトークン([CLS])を指すように設定
-            token_start, token_end = 0, 0
-
-        return token_start, token_end
+        token_start_index = token_end_index = 0
+        for token_index, (sequence_id, char_start_index, char_end_index) in enumerate(
+            zip(sequence_ids, token_to_char_start_index, token_to_char_end_index)
+        ):
+            if sequence_id != 1:
+                continue
+            # 時折半角スペースが無視されていない時があるため、その場合はマッピングを1つずらす
+            if context[char_start_index] == " ":
+                char_start_index += 1
+            if answer_start == char_start_index:
+                token_start_index = token_index
+            if answer_end == char_end_index:
+                token_end_index = token_index
+        return token_start_index, token_end_index
 
 
 def preprocess(examples):
+    titles: list[str]
+    bodies: list[str]
     titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])
     segmented_titles = batch_segment(titles)
     segmented_bodies = batch_segment(bodies)
     segmented_contexts = [f"{title} [SEP] {body}" for title, body in zip(segmented_titles, segmented_bodies)]
     segmented_questions = batch_segment(examples["question"])
     batch_answers: list[list[dict]] = []
-    for answers, segmented_context, segmented_title in zip(examples["answers"], segmented_contexts, segmented_titles):
+    for answers, segmented_context, title in zip(examples["answers"], segmented_contexts, titles):
         processed_answers: list[dict] = []
         for answer_text, answer_start in zip(answers["text"], answers["answer_start"]):
             segmented_answer_text, answer_start = find_segmented_answer(
-                segmented_context, answer_text, answer_start, len(segmented_titles)
+                segmented_context, answer_text, answer_start, len(title)
             )
             # 答えの文字列が単語区切りに沿わない場合は分かち書きを適用しない
             if answer_start is None:
