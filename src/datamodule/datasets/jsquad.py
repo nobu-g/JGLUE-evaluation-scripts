@@ -48,10 +48,13 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
             max_length=self.max_seq_length,
             return_offsets_mapping=True,
         )
-        answer = example["answers"][0]
-        start_positions, end_positions = self._get_token_span(
-            inputs, example["context"], answer["text"], answer["answer_start"]
-        )
+        start_positions = end_positions = 0
+        for answer in example["answers"]:
+            start_positions, end_positions = self._get_token_span(
+                inputs, example["context"], answer["text"], answer["answer_start"]
+            )
+            if start_positions > 0 or end_positions > 0:
+                break
 
         return QuestionAnsweringFeatures(
             example_ids=index,
@@ -113,9 +116,8 @@ def preprocess(examples):
             segmented_answer_text, answer_start = find_segmented_answer(
                 segmented_context, answer_text, answer_start, len(title)
             )
-            # 答えの文字列が単語区切りに沿わない場合は分かち書きを適用しない
             if answer_start is None:
-                processed_answers.append(dict(text=answer_text, answer_start=-1))
+                processed_answers.append(dict(text=batch_segment([answer_text])[0], answer_start=-1))
                 continue
             assert segmented_answer_text is not None
             processed_answers.append(dict(text=segmented_answer_text, answer_start=answer_start))
@@ -126,7 +128,18 @@ def preprocess(examples):
 def find_segmented_answer(
     segmented_context: str, answer_text: str, answer_start: int, sep_index: int
 ) -> tuple[Optional[str], Optional[int]]:
-    """単語区切りの文脈から単語区切りの答えのスパンを探す"""
+    """単語区切りされた context から単語区切りされた answer のスパンを探索
+
+    Args:
+        segmented_context: 単語区切りされた context
+        answer_text: answer の文字列
+        answer_start: answer の文字単位開始インデックス
+        sep_index: [SEP] の文字単位開始インデックス
+
+    Returns:
+        Optional[str]: 単語区切りされた answer（見つからなければ None）
+        Optional[int]: 単語区切りされた context における answer の文字単位開始インデックス（見つからなければ None）
+    """
     words = segmented_context.split(" ")
     char_to_word_index = {}
     char_index = 0
