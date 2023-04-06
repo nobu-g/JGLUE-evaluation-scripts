@@ -18,7 +18,7 @@ monitor: valid/f1
 mode: max
 
 # hyper-parameters to be tuned
-lr: 1e-4
+lr: 5e-5
 max_epochs: 2
 warmup_steps: null
 warmup_ratio: 0.1
