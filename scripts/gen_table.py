@@ -5,7 +5,7 @@ import wandb
 from tabulate import tabulate
 from wandb.apis.public import Run, Sweep
 
-TASKS = ["marc_ja", "jsts", "jnli", "jcqa"]
+TASKS = ["marc_ja/accuracy", "jsts/spearman", "jnli/accuracy", "jsquad/exact_match", "jsquad/f1", "jcqa/accuracy"]
 MODELS = ["roberta_base", "roberta_large", "deberta_base", "deberta_large"]
 
 
@@ -18,18 +18,19 @@ def main():
     for model in MODELS:
         items: list[str] = [model]
         for task in TASKS:
+            task, metric_name = task.split("/")
             sweep: Sweep = api.sweep(name_to_sweep_path[f"{task}-{model}"])
             run: Optional[Run] = sweep.best_run()
             if run is None:
                 items.append("-")
             else:
                 try:
-                    metric_name = sweep.config["metric"]["name"].replace("valid", "test")
-                    items.append(f"{run.summary[metric_name]:.3f}")
+                    metric_name = "valid/" + metric_name
+                    items.append(str(run.summary[metric_name]))
                 except KeyError:
                     items.append("-")
         table.append(items)
-    print(tabulate(table, headers=["model"] + TASKS, tablefmt="github"))
+    print(tabulate(table, headers=["model"] + TASKS, tablefmt="github", floatfmt=".3f"))
 
 
 if __name__ == "__main__":
