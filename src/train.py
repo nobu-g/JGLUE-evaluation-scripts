@@ -27,7 +27,7 @@ logging.getLogger("torch").setLevel(logging.WARNING)
 @hydra.main(version_base=None, config_path="../configs")
 def main(cfg: DictConfig):
     if isinstance(cfg.devices, str):
-        cfg.devices = list(map(int, cfg.devices.split(","))) if "," in cfg.devices else [int(cfg.devices)]
+        cfg.devices = list(map(int, cfg.devices.split(","))) if "," in cfg.devices else int(cfg.devices)
     if isinstance(cfg.max_batches_per_device, str):
         cfg.max_batches_per_device = int(cfg.max_batches_per_device)
     if isinstance(cfg.num_workers, str):
