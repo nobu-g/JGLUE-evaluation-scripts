@@ -30,14 +30,16 @@ class JSQuADMetric(Metric):
             example = dataset.hf_dataset[example_id]
             preds.append(
                 {
-                    "prediction_text": self._get_text(input_id, pred_start, pred_end, dataset.tokenizer),
+                    "prediction_text": self._postprocess_text(
+                        self._get_text_span(input_id, pred_start, pred_end, dataset.tokenizer)
+                    ),
                     "id": example_id,
                 }
             )
             target.append(
                 {
                     "answers": {
-                        "text": [answer["text"].rstrip("。").rstrip() for answer in example["answers"]],
+                        "text": [self._postprocess_text(answer["text"]) for answer in example["answers"]],
                         "answer_start": [answer["answer_start"] for answer in example["answers"]],
                     },
                     "id": example_id,
@@ -49,12 +51,15 @@ class JSQuADMetric(Metric):
         return self.squad.compute()
 
     @staticmethod
-    def _get_text(
+    def _get_text_span(
         input_ids: list[int], start_position: int, end_position: int, tokenizer: PreTrainedTokenizerBase
     ) -> str:
         """トークンの開始位置と終了位置から対応する文字列を取得"""
         token_span = slice(start_position, end_position + 1)
         token_ids = input_ids[token_span]
-        # 文末に句点がある場合は除く
-        text = tokenizer.decode(token_ids).rstrip("。").rstrip()
-        return text
+        return tokenizer.decode(token_ids)
+
+    @staticmethod
+    def _postprocess_text(text: str) -> str:
+        """句点を除去し，文字単位に分割"""
+        return " ".join(text.replace(" ", "").rstrip("。"))
