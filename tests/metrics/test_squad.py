@@ -34,6 +34,14 @@ CASES = [
         "exact_match": 0.0,
         "f1": 6 / 7,  # precision: 3 / 4, recall: 3 / 3
     },
+    {
+        "preds": [
+            {"prediction_text": "2 時 間 2 1 分", "id": "001"},
+        ],
+        "target": [{"answers": {"answer_start": [10], "text": ["2 時 間"]}, "id": "001"}],
+        "exact_match": 0.0,
+        "f1": 2 / 3,  # precision: 3 / 6, recall: 3 / 3
+    },
 ]
 
 
