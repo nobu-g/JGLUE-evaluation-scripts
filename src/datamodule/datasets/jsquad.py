@@ -38,6 +38,12 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
             num_proc=os.cpu_count(),
         )
 
+        # skip invalid examples for training
+        if self.split == "train":
+            self.hf_dataset = self.hf_dataset.filter(
+                lambda example: any(answer["answer_start"] >= 0 for answer in example["answers"])
+            )
+
     def __getitem__(self, index: int) -> QuestionAnsweringFeatures:
         example: dict[str, Any] = self.hf_dataset[index]
         inputs = self.tokenizer(
