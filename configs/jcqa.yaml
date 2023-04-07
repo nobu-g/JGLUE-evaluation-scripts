@@ -10,7 +10,7 @@ defaults:
   - _self_
 
 model_name_or_path: ku-nlp/deberta-v2-large-japanese
-max_seq_length: 64
+max_seq_length: 128
 checkpoint_path: ""
 limit_examples: -1
 
