@@ -19,6 +19,8 @@ rich = "^13.3"
 datasets = "^2.10"
 rhoknp = "^1.2.2"
 fastapi = ">=0.80"
+jaconv = "^0.3.4"
+mecab-python3 = "^1.0.6"
 
 [tool.poetry.group.dev.dependencies]
 ipdb = "^0.13.9"
