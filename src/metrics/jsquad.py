@@ -1,3 +1,8 @@
+# This file contains code adapted from transformers
+# (https://github.com/huggingface/transformers/blob/main/examples/flax/question-answering/utils_qa.py)
+# Copyright 2020 The HuggingFace Team All rights reserved.
+# Licensed under the Apache License, Version 2.0 (the "License");
+
 from typing import Any
 
 import numpy as np
