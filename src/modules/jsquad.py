@@ -26,15 +26,15 @@ class JsquadModule(BaseModule):
         self.metric = JSQuADMetric()
 
     def forward(self, batch: dict[str, torch.Tensor]) -> QuestionAnsweringModelOutput:
-        return self.model(**batch)
+        return self.model(**{k: v for k, v in batch.items() if k in self.MODEL_ARGS})
 
     def training_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> torch.Tensor:
-        out: QuestionAnsweringModelOutput = self({k: v for k, v in batch.items() if k in self.MODEL_ARGS})
+        out: QuestionAnsweringModelOutput = self(batch)
         self.log("train/loss", out.loss)
         return out.loss
 
     def validation_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
-        out: QuestionAnsweringModelOutput = self({k: v for k, v in batch.items() if k in self.MODEL_ARGS})
+        out: QuestionAnsweringModelOutput = self(batch)
         pred_starts = torch.argmax(out.start_logits, dim=1)  # (b, seq) -> (b)
         pred_ends = torch.argmax(out.end_logits, dim=1)  # (b, seq) -> (b)
         dataset: JsquadDataset = self.trainer.val_dataloaders.dataset
@@ -43,12 +43,11 @@ class JsquadModule(BaseModule):
         self.metric.update(**metric_kwargs)
 
     def on_validation_epoch_end(self) -> None:
-        metrics = self.metric.compute()
+        self.log_dict({f"valid/{key}": value / 100.0 for key, value in self.metric.compute().items()})
         self.metric.reset()
-        self.log_dict({f"valid/{key}": value / 100.0 for key, value in metrics.items()})
 
     def test_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
-        out: QuestionAnsweringModelOutput = self({k: v for k, v in batch.items() if k in self.MODEL_ARGS})
+        out: QuestionAnsweringModelOutput = self(batch)
         pred_starts = torch.argmax(out.start_logits, dim=1)  # (b, seq) -> (b)
         pred_ends = torch.argmax(out.end_logits, dim=1)  # (b, seq) -> (b)
         dataset: JsquadDataset = self.trainer.test_dataloaders.dataset
@@ -57,6 +56,5 @@ class JsquadModule(BaseModule):
         self.metric.update(**metric_kwargs)
 
     def on_test_epoch_end(self) -> None:
-        metrics = self.metric.compute()
+        self.log_dict({f"test/{key}": value / 100.0 for key, value in self.metric.compute().items()})
         self.metric.reset()
-        self.log_dict({f"test/{key}": value / 100.0 for key, value in metrics.items()})

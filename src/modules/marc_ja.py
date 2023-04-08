@@ -37,9 +37,8 @@ class MarcJaModule(BaseModule):
         self.metric.update(preds, batch["labels"])
 
     def on_validation_epoch_end(self) -> None:
-        metrics = self.metric.compute()
+        self.log("valid/accuracy", self.metric.compute())
         self.metric.reset()
-        self.log("valid/accuracy", metrics)
 
     def test_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
@@ -47,6 +46,5 @@ class MarcJaModule(BaseModule):
         self.metric.update(preds, batch["labels"])
 
     def on_test_epoch_end(self) -> None:
-        metrics = self.metric.compute()
+        self.log("test/accuracy", self.metric.compute())
         self.metric.reset()
-        self.log("test/accuracy", metrics)

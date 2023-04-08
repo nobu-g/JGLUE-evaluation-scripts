@@ -1,9 +1,8 @@
 from typing import Any
 
 import torch
-import torch.nn as nn
 from omegaconf import DictConfig
-from torchmetrics import PearsonCorrCoef, SpearmanCorrCoef
+from torchmetrics import MetricCollection, PearsonCorrCoef, SpearmanCorrCoef
 from transformers import AutoConfig, AutoModelForSequenceClassification
 from transformers.modeling_outputs import SequenceClassifierOutput
 
@@ -22,7 +21,7 @@ class JstsModule(BaseModule):
             hparams.model_name_or_path,
             config=config,
         )
-        self.metrics = nn.ModuleDict({"spearman": SpearmanCorrCoef(), "pearson": PearsonCorrCoef()})
+        self.metric = MetricCollection({"spearman": SpearmanCorrCoef(), "pearson": PearsonCorrCoef()})
 
     def forward(self, batch: dict[str, Any]) -> SequenceClassifierOutput:
         return self.model(**batch)
@@ -35,21 +34,17 @@ class JstsModule(BaseModule):
     def validation_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
         preds = torch.squeeze(out.logits, dim=-1)  # (b)
-        for metric in self.metrics.values():
-            metric.update(preds, batch["labels"])
+        self.metric.update(preds, batch["labels"])
 
     def on_validation_epoch_end(self) -> None:
-        for name, metric in self.metrics.items():
-            self.log(f"valid/{name}", metric.compute())
-            metric.reset()
+        self.log_dict({f"valid/{key}": value for key, value in self.metric.compute().items()})
+        self.metric.reset()
 
     def test_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
         preds = torch.squeeze(out.logits, dim=-1)  # (b)
-        for metric in self.metrics.values():
-            metric.update(preds, batch["labels"])
+        self.metric.update(preds, batch["labels"])
 
     def on_test_epoch_end(self) -> None:
-        for name, metric in self.metrics.items():
-            self.log(f"test/{name}", metric.compute())
-            metric.reset()
+        self.log_dict({f"test/{key}": value for key, value in self.metric.compute().items()})
+        self.metric.reset()
