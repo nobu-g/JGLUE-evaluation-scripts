@@ -9,7 +9,7 @@ import numpy as np
 import torch
 from torchmetrics import Metric, SQuAD
 
-from datamodule.datasets import JsquadDataset
+from datamodule.datasets import JSQuADDataset
 
 
 class JSQuADMetric(Metric):
@@ -26,7 +26,7 @@ class JSQuADMetric(Metric):
         example_ids: torch.Tensor,  # (b)
         batch_start_logits: torch.Tensor,  # (b, seq)
         batch_end_logits: torch.Tensor,  # (b, seq)
-        dataset: JsquadDataset,
+        dataset: JSQuADDataset,
     ) -> None:
         preds = []
         target = []

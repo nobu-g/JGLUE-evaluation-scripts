@@ -4,11 +4,11 @@ from datasets import Dataset as HFDataset
 from datasets import load_dataset
 from transformers import PreTrainedTokenizerBase
 
-from datamodule.datasets.jsquad import JsquadDataset
+from datamodule.datasets.jsquad import JSQuADDataset
 
 
 def test_init(tokenizer: PreTrainedTokenizerBase):
-    _ = JsquadDataset("train", tokenizer, max_seq_length=128, limit_examples=3)
+    _ = JSQuADDataset("train", tokenizer, max_seq_length=128, limit_examples=3)
 
 
 def test_raw_examples():
@@ -27,7 +27,7 @@ def test_raw_examples():
 
 
 def test_examples(tokenizer: PreTrainedTokenizerBase):
-    dataset = JsquadDataset("validation", tokenizer, max_seq_length=128, limit_examples=10)
+    dataset = JSQuADDataset("validation", tokenizer, max_seq_length=128, limit_examples=10)
     for example in dataset.hf_dataset:
         for answer in example["answers"]:
             if answer["answer_start"] == -1:
@@ -37,7 +37,7 @@ def test_examples(tokenizer: PreTrainedTokenizerBase):
 
 def test_getitem(tokenizer: PreTrainedTokenizerBase):
     max_seq_length = 128
-    dataset = JsquadDataset("train", tokenizer, max_seq_length, limit_examples=3)
+    dataset = JSQuADDataset("train", tokenizer, max_seq_length, limit_examples=3)
     for i in range(len(dataset)):
         feature = dataset[i]
         assert len(feature.input_ids) == max_seq_length
@@ -49,7 +49,7 @@ def test_getitem(tokenizer: PreTrainedTokenizerBase):
 
 def test_features_0(tokenizer: PreTrainedTokenizerBase):
     max_seq_length = 128
-    dataset = JsquadDataset("validation", tokenizer, max_seq_length, limit_examples=1)
+    dataset = JSQuADDataset("validation", tokenizer, max_seq_length, limit_examples=1)
     example: dict[str, Any] = dict(
         id="a10336p0q0",
         title="梅雨",

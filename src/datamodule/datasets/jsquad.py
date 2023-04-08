@@ -10,7 +10,7 @@ from transformers.utils import PaddingStrategy
 from datamodule.util import QuestionAnsweringFeatures, batch_segment
 
 
-class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
+class JSQuADDataset(Dataset[QuestionAnsweringFeatures]):
     def __init__(
         self,
         split: str,

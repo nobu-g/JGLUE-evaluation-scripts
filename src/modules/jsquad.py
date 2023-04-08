@@ -3,7 +3,7 @@ from omegaconf import DictConfig
 from transformers import AutoConfig, AutoModelForQuestionAnswering, PretrainedConfig, PreTrainedModel
 from transformers.modeling_outputs import QuestionAnsweringModelOutput
 
-from datamodule.datasets.jsquad import JsquadDataset
+from datamodule.datasets.jsquad import JSQuADDataset
 from metrics import JSQuADMetric
 from modules.base import BaseModule
 
@@ -33,7 +33,7 @@ class JsquadModule(BaseModule):
 
     def validation_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
-        dataset: JsquadDataset = self.trainer.val_dataloaders.dataset
+        dataset: JSQuADDataset = self.trainer.val_dataloaders.dataset
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
     def on_validation_epoch_end(self) -> None:
@@ -42,7 +42,7 @@ class JsquadModule(BaseModule):
 
     def test_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
-        dataset: JsquadDataset = self.trainer.test_dataloaders.dataset
+        dataset: JSQuADDataset = self.trainer.test_dataloaders.dataset
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
     def on_test_epoch_end(self) -> None:
