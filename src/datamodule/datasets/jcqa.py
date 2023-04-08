@@ -2,19 +2,17 @@ import os
 from itertools import chain
 from typing import Any
 
-from datasets import Dataset as HFDataset
-from datasets import load_dataset
-from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
+from datamodule.datasets.base import BaseDataset
 from datamodule.util import MultipleChoiceFeatures, batch_segment
 
 CHOICE_NAMES = ["choice0", "choice1", "choice2", "choice3", "choice4"]
 NUM_CHOICES = len(CHOICE_NAMES)
 
 
-class JCommonsenseQADataset(Dataset[MultipleChoiceFeatures]):
+class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
     def __init__(
         self,
         split: str,
@@ -22,17 +20,7 @@ class JCommonsenseQADataset(Dataset[MultipleChoiceFeatures]):
         max_seq_length: int,
         limit_examples: int = -1,
     ) -> None:
-        super().__init__()
-        self.split: str = split
-        self.tokenizer: PreTrainedTokenizerBase = tokenizer
-        self.max_seq_length: int = max_seq_length
-
-        # NOTE: JGLUE does not provide test set.
-        if self.split == "test":
-            self.split = "validation"
-        dataset = load_dataset("shunk031/JGLUE", name="JCommonsenseQA", split=self.split)
-        if limit_examples > 0:
-            dataset = dataset.select(range(limit_examples))
+        super().__init__("JCommonsenseQA", split, tokenizer, max_seq_length, limit_examples)
 
         def preprocess_function(examples) -> dict[str, list[list[Any]]]:
             # (example, 5)
@@ -54,7 +42,7 @@ class JCommonsenseQADataset(Dataset[MultipleChoiceFeatures]):
                 for k, v in tokenized_examples.items()
             }
 
-        self.hf_dataset: HFDataset = dataset.map(
+        self.hf_dataset = self.hf_dataset.map(
             lambda x: {
                 "question": batch_segment(x["question"]),
                 "choice0": batch_segment(x["choice0"]),
@@ -79,6 +67,3 @@ class JCommonsenseQADataset(Dataset[MultipleChoiceFeatures]):
             token_type_ids=example["token_type_ids"],
             labels=example["label"],
         )
-
-    def __len__(self) -> int:
-        return len(self.hf_dataset)

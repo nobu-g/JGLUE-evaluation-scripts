@@ -1,16 +1,14 @@
 import os
 from typing import Any
 
-from datasets import Dataset as HFDataset
-from datasets import load_dataset
-from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
+from datamodule.datasets.base import BaseDataset
 from datamodule.util import SequenceClassificationFeatures, batch_segment
 
 
-class JNLIDataset(Dataset[SequenceClassificationFeatures]):
+class JNLIDataset(BaseDataset[SequenceClassificationFeatures]):
     def __init__(
         self,
         split: str,
@@ -18,18 +16,9 @@ class JNLIDataset(Dataset[SequenceClassificationFeatures]):
         max_seq_length: int,
         limit_examples: int = -1,
     ) -> None:
-        super().__init__()
-        self.split: str = split
-        self.tokenizer: PreTrainedTokenizerBase = tokenizer
-        self.max_seq_length: int = max_seq_length
+        super().__init__("JNLI", split, tokenizer, max_seq_length, limit_examples)
 
-        # NOTE: JGLUE does not provide test set.
-        if self.split == "test":
-            self.split = "validation"
-        dataset = load_dataset("shunk031/JGLUE", name="JNLI", split=self.split)
-        if limit_examples > 0:
-            dataset = dataset.select(range(limit_examples))
-        self.hf_dataset: HFDataset = dataset.map(
+        self.hf_dataset = self.hf_dataset.map(
             lambda x: {"segmented1": batch_segment(x["sentence1"]), "segmented2": batch_segment(x["sentence2"])},
             batched=True,
             batch_size=100,
@@ -53,6 +42,3 @@ class JNLIDataset(Dataset[SequenceClassificationFeatures]):
             token_type_ids=example["token_type_ids"],
             labels=example["label"],  # 0: entailment, 1: contradiction, 2: neutral
         )
-
-    def __len__(self) -> int:
-        return len(self.hf_dataset)
