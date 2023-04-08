@@ -1,6 +1,7 @@
 import os
 from typing import Any, Optional
 
+from omegaconf import DictConfig
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
@@ -14,6 +15,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
         split: str,
         tokenizer: PreTrainedTokenizerBase,
         max_seq_length: int,
+        segmenter_kwargs: DictConfig,
         limit_examples: int = -1,
     ) -> None:
         super().__init__("JSQuAD", split, tokenizer, max_seq_length, limit_examples)
@@ -22,6 +24,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
             preprocess,
             batched=True,
             batch_size=100,
+            fn_kwargs=dict(segmenter_kwargs=segmenter_kwargs),
             num_proc=os.cpu_count(),
         ).map(
             lambda x: self.tokenizer(
@@ -90,14 +93,14 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
         return token_start_index, token_end_index
 
 
-def preprocess(examples):
+def preprocess(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
     titles: list[str]
     bodies: list[str]
     titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])
-    segmented_titles = batch_segment(titles)
-    segmented_bodies = batch_segment(bodies)
+    segmented_titles = batch_segment(titles, **segmenter_kwargs)
+    segmented_bodies = batch_segment(bodies, **segmenter_kwargs)
     segmented_contexts = [f"{title} [SEP] {body}" for title, body in zip(segmented_titles, segmented_bodies)]
-    segmented_questions = batch_segment(examples["question"])
+    segmented_questions = batch_segment(examples["question"], **segmenter_kwargs)
     batch_answers: list[list[dict]] = []
     for answers, segmented_context, title in zip(examples["answers"], segmented_contexts, titles):
         processed_answers: list[dict] = []

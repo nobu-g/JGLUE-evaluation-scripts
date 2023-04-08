@@ -2,6 +2,7 @@ import os
 from itertools import chain
 from typing import Any
 
+from omegaconf import DictConfig
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
@@ -18,6 +19,7 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
         split: str,
         tokenizer: PreTrainedTokenizerBase,
         max_seq_length: int,
+        segmenter_kwargs: DictConfig,
         limit_examples: int = -1,
     ) -> None:
         super().__init__("JCommonsenseQA", split, tokenizer, max_seq_length, limit_examples)
@@ -44,12 +46,12 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
 
         self.hf_dataset = self.hf_dataset.map(
             lambda x: {
-                "question": batch_segment(x["question"]),
-                "choice0": batch_segment(x["choice0"]),
-                "choice1": batch_segment(x["choice1"]),
-                "choice2": batch_segment(x["choice2"]),
-                "choice3": batch_segment(x["choice3"]),
-                "choice4": batch_segment(x["choice4"]),
+                "question": batch_segment(x["question"], **segmenter_kwargs),
+                "choice0": batch_segment(x["choice0"], **segmenter_kwargs),
+                "choice1": batch_segment(x["choice1"], **segmenter_kwargs),
+                "choice2": batch_segment(x["choice2"], **segmenter_kwargs),
+                "choice3": batch_segment(x["choice3"], **segmenter_kwargs),
+                "choice4": batch_segment(x["choice4"], **segmenter_kwargs),
             },
             batched=True,
             batch_size=100,

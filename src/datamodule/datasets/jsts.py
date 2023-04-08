@@ -1,6 +1,7 @@
 import os
 from typing import Any
 
+from omegaconf import DictConfig
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
@@ -14,12 +15,16 @@ class JSTSDataset(BaseDataset[SequenceClassificationFeatures]):
         split: str,
         tokenizer: PreTrainedTokenizerBase,
         max_seq_length: int,
+        segmenter_kwargs: DictConfig,
         limit_examples: int = -1,
     ) -> None:
         super().__init__("JSTS", split, tokenizer, max_seq_length, limit_examples)
 
         self.hf_dataset = self.hf_dataset.map(
-            lambda x: {"segmented1": batch_segment(x["sentence1"]), "segmented2": batch_segment(x["sentence2"])},
+            lambda x: {
+                "segmented1": batch_segment(x["sentence1"], **segmenter_kwargs),
+                "segmented2": batch_segment(x["sentence2"], **segmenter_kwargs),
+            },
             batched=True,
             batch_size=100,
             num_proc=os.cpu_count(),

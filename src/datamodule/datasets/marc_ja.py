@@ -1,6 +1,7 @@
 import os
 from typing import Any
 
+from omegaconf import DictConfig
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
@@ -14,12 +15,13 @@ class MARCJaDataset(BaseDataset[SequenceClassificationFeatures]):
         split: str,
         tokenizer: PreTrainedTokenizerBase,
         max_seq_length: int,
+        segmenter_kwargs: DictConfig,
         limit_examples: int = -1,
     ) -> None:
         super().__init__("MARC-ja", split, tokenizer, max_seq_length, limit_examples)
 
         self.hf_dataset = self.hf_dataset.map(
-            lambda x: {"segmented": batch_segment(x["sentence"])},
+            lambda x: {"segmented": batch_segment(x["sentence"], **segmenter_kwargs)},
             batched=True,
             batch_size=100,
             num_proc=os.cpu_count(),
