@@ -10,7 +10,7 @@ from transformers.utils import PaddingStrategy
 from datamodule.util import SequenceClassificationFeatures, batch_segment
 
 
-class JnliDataset(Dataset[SequenceClassificationFeatures]):
+class JNLIDataset(Dataset[SequenceClassificationFeatures]):
     def __init__(
         self,
         split: str,

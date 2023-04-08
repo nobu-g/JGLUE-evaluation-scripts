@@ -10,7 +10,7 @@ from transformers.utils import PaddingStrategy
 from datamodule.util import SequenceClassificationFeatures, batch_segment
 
 
-class JstsDataset(Dataset[SequenceClassificationFeatures]):
+class JSTSDataset(Dataset[SequenceClassificationFeatures]):
     def __init__(
         self,
         split: str,

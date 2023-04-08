@@ -1,7 +1,7 @@
-from .jcqa import JcqaDataset
-from .jnli import JnliDataset
+from .jcqa import JCommonsenseQADataset
+from .jnli import JNLIDataset
 from .jsquad import JSQuADDataset
-from .jsts import JstsDataset
-from .marc_ja import MarkJaDataset
+from .jsts import JSTSDataset
+from .marc_ja import MARCJaDataset
 
-__all__ = ["MarkJaDataset", "JstsDataset", "JnliDataset", "JSQuADDataset", "JcqaDataset"]
+__all__ = ["MARCJaDataset", "JSTSDataset", "JNLIDataset", "JSQuADDataset", "JCommonsenseQADataset"]

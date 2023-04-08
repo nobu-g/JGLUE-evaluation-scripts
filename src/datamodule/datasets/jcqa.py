@@ -14,7 +14,7 @@ CHOICE_NAMES = ["choice0", "choice1", "choice2", "choice3", "choice4"]
 NUM_CHOICES = len(CHOICE_NAMES)
 
 
-class JcqaDataset(Dataset[MultipleChoiceFeatures]):
+class JCommonsenseQADataset(Dataset[MultipleChoiceFeatures]):
     def __init__(
         self,
         split: str,
