@@ -106,7 +106,7 @@ def preprocess(examples):
                 segmented_context, answer_text, answer_start, len(title)
             )
             if answer_start is None:
-                processed_answers.append(dict(text=batch_segment([answer_text])[0], answer_start=-1))
+                processed_answers.append(dict(text=answer_text, answer_start=-1))
                 continue
             assert segmented_answer_text is not None
             processed_answers.append(dict(text=segmented_answer_text, answer_start=answer_start))
