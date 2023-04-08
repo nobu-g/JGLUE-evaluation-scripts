@@ -51,3 +51,5 @@ poetry run python scripts/train.py -cn char_module.debug devices=[0]
 ## Reference
 
 - [yahoojapan/JGLUE: JGLUE: Japanese General Language Understanding Evaluation](https://github.com/yahoojapan/JGLUE)
+- [JGLUE: Japanese General Language Understanding Evaluation](https://aclanthology.org/2022.lrec-1.317) (Kurihara et al., LREC 2022)
+- 栗原 健太郎, 河原 大輔, 柴田 知秀, JGLUE: 日本語言語理解ベンチマーク, 自然言語処理, 2023, 30 巻, 1 号, p. 63-87, 公開日 2023/03/15, Online ISSN 2185-8314, Print ISSN 1340-7619, https://doi.org/10.5715/jnlp.30.63, https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63/_article/-char/ja
