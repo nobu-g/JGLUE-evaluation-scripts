@@ -1,5 +1,5 @@
 cls:
-  _target_: modules.JnliModule
+  _target_: modules.JNLIModule
 
 load_from_checkpoint:
   _target_: ${module.cls._target_}.load_from_checkpoint

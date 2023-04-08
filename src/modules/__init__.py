@@ -1,7 +1,7 @@
-from .jcqa import JcqaModule
-from .jnli import JnliModule
-from .jsquad import JsquadModule
-from .jsts import JstsModule
-from .marc_ja import MarcJaModule
+from .jcqa import JCommonsenseQAModule
+from .jnli import JNLIModule
+from .jsquad import JSQuADModule
+from .jsts import JSTSModule
+from .marc_ja import MARCJaModule
 
-__all__ = ["MarcJaModule", "JstsModule", "JnliModule", "JsquadModule", "JcqaModule"]
+__all__ = ["MARCJaModule", "JSTSModule", "JNLIModule", "JSQuADModule", "JCommonsenseQAModule"]

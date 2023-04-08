@@ -9,7 +9,7 @@ from transformers.modeling_outputs import MultipleChoiceModelOutput
 from modules.base import BaseModule
 
 
-class JcqaModule(BaseModule):
+class JCommonsenseQAModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         config = AutoConfig.from_pretrained(

@@ -1,5 +1,5 @@
 cls:
-  _target_: modules.JcqaModule
+  _target_: modules.JCommonsenseQAModule
 
 load_from_checkpoint:
   _target_: ${module.cls._target_}.load_from_checkpoint

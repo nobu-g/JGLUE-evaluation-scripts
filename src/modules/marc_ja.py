@@ -9,7 +9,7 @@ from transformers.modeling_outputs import SequenceClassifierOutput
 from modules.base import BaseModule
 
 
-class MarcJaModule(BaseModule):
+class MARCJaModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         config = AutoConfig.from_pretrained(

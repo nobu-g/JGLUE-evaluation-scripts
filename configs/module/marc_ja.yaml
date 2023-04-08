@@ -1,5 +1,5 @@
 cls:
-  _target_: modules.MarcJaModule
+  _target_: modules.MARCJaModule
 
 load_from_checkpoint:
   _target_: ${module.cls._target_}.load_from_checkpoint

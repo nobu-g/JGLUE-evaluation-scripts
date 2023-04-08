@@ -8,7 +8,7 @@ from metrics import JSQuADMetric
 from modules.base import BaseModule
 
 
-class JsquadModule(BaseModule):
+class JSQuADModule(BaseModule):
     MODEL_ARGS = ["input_ids", "attention_mask", "token_type_ids", "start_positions", "end_positions"]
 
     def __init__(self, hparams: DictConfig) -> None:
