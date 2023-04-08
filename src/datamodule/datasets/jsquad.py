@@ -4,7 +4,7 @@ from typing import Any, Optional
 from datasets import Dataset as HFDataset
 from datasets import load_dataset
 from torch.utils.data import Dataset
-from transformers import BatchEncoding, PreTrainedTokenizerBase
+from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
 from datamodule.util import QuestionAnsweringFeatures, batch_segment
@@ -36,6 +36,16 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
             batched=True,
             batch_size=100,
             num_proc=os.cpu_count(),
+        ).map(
+            lambda x: self.tokenizer(
+                x["question"],
+                x["context"],
+                padding=PaddingStrategy.MAX_LENGTH,
+                truncation="only_second",
+                max_length=self.max_seq_length,
+                return_offsets_mapping=True,
+            ),
+            batched=True,
         )
 
         # skip invalid examples for training
@@ -46,27 +56,17 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
 
     def __getitem__(self, index: int) -> QuestionAnsweringFeatures:
         example: dict[str, Any] = self.hf_dataset[index]
-        inputs = self.tokenizer(
-            example["question"],
-            example["context"],
-            padding=PaddingStrategy.MAX_LENGTH,
-            truncation="only_second",
-            max_length=self.max_seq_length,
-            return_offsets_mapping=True,
-        )
         start_positions = end_positions = 0
         for answer in example["answers"]:
-            start_positions, end_positions = self._get_token_span(
-                inputs, example["context"], answer["text"], answer["answer_start"]
-            )
+            start_positions, end_positions = self._get_token_span(example, answer["text"], answer["answer_start"])
             if start_positions > 0 or end_positions > 0:
                 break
 
         return QuestionAnsweringFeatures(
             example_ids=index,
-            input_ids=inputs["input_ids"],
-            attention_mask=inputs["attention_mask"],
-            token_type_ids=inputs["token_type_ids"],
+            input_ids=example["input_ids"],
+            attention_mask=example["attention_mask"],
+            token_type_ids=example["token_type_ids"],
             start_positions=start_positions,
             end_positions=end_positions,
         )
@@ -75,29 +75,28 @@ class JsquadDataset(Dataset[QuestionAnsweringFeatures]):
         return len(self.hf_dataset)
 
     @staticmethod
-    def _get_token_span(inputs: BatchEncoding, context: str, answer_text: str, answer_start: int) -> tuple[int, int]:
+    def _get_token_span(example: dict[str, Any], answer_text: str, answer_start: int) -> tuple[int, int]:
         """スパンの位置について、文字単位からトークン単位に変換"""
-        # sequence_ids の内容は
-        #   None ... 特殊トークン
-        #   0 ... 1番目の入力(=`question`)のトークン
-        #   1 ... 2番目の入力(=`context`)のトークン
-        # であることを表す
-        sequence_ids = inputs.sequence_ids()
+        # token_type_ids:
+        #   0: 1番目の入力(=`question`)のトークン or パディング
+        #   1: 2番目の入力(=`context`)のトークン
+        token_type_ids: list[int] = example["token_type_ids"]
         # トークンのインデックスと文字のスパンのマッピングを保持した変数
         # "京都 大学" -> ["[CLS]", "▁京都", "▁大学", "[SEP]"] のように分割された場合、
         #   [(0, 0), (0, 2), (2, 5), (0, 0)]
-        offset_mapping: list[tuple[int, int]] = inputs["offset_mapping"]
-        assert len(offset_mapping) == len(sequence_ids)
+        offset_mapping: list[tuple[int, int]] = example["offset_mapping"]
+        context: str = example["context"]
+        assert len(offset_mapping) == len(token_type_ids)
         token_to_char_start_index = [x[0] for x in offset_mapping]
         token_to_char_end_index = [x[1] for x in offset_mapping]
         answer_end = answer_start + len(answer_text)
         token_start_index = token_end_index = 0
-        for token_index, (sequence_id, char_start_index, char_end_index) in enumerate(
-            zip(sequence_ids, token_to_char_start_index, token_to_char_end_index)
+        for token_index, (token_type_id, char_start_index, char_end_index) in enumerate(
+            zip(token_type_ids, token_to_char_start_index, token_to_char_end_index)
         ):
-            if sequence_id != 1:
+            if token_type_id != 1 or char_start_index == char_end_index == 0:
                 continue
-            # 時折半角スペースが無視されていない時があるため、その場合はマッピングを1つずらす
+            # 半角スペースが無視されていない時があるため、その場合はマッピングを1つずらす
             if context[char_start_index] == " ":
                 char_start_index += 1
             if answer_start == char_start_index:

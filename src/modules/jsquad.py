@@ -1,5 +1,3 @@
-from typing import Any
-
 import torch
 from omegaconf import DictConfig
 from transformers import AutoConfig, AutoModelForQuestionAnswering, PretrainedConfig, PreTrainedModel
@@ -35,12 +33,8 @@ class JsquadModule(BaseModule):
 
     def validation_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
-        pred_starts = torch.argmax(out.start_logits, dim=1)  # (b, seq) -> (b)
-        pred_ends = torch.argmax(out.end_logits, dim=1)  # (b, seq) -> (b)
         dataset: JsquadDataset = self.trainer.val_dataloaders.dataset
-        metric_kwargs: dict[str, Any] = {k: v for k, v in batch.items() if k in ("example_ids", "input_ids")}
-        metric_kwargs.update(pred_starts=pred_starts, pred_ends=pred_ends, dataset=dataset)
-        self.metric.update(**metric_kwargs)
+        self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
     def on_validation_epoch_end(self) -> None:
         self.log_dict({f"valid/{key}": value / 100.0 for key, value in self.metric.compute().items()})
@@ -48,12 +42,8 @@ class JsquadModule(BaseModule):
 
     def test_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
-        pred_starts = torch.argmax(out.start_logits, dim=1)  # (b, seq) -> (b)
-        pred_ends = torch.argmax(out.end_logits, dim=1)  # (b, seq) -> (b)
         dataset: JsquadDataset = self.trainer.test_dataloaders.dataset
-        metric_kwargs: dict[str, Any] = {k: v for k, v in batch.items() if k in ("example_ids", "input_ids")}
-        metric_kwargs.update(pred_starts=pred_starts, pred_ends=pred_ends, dataset=dataset)
-        self.metric.update(**metric_kwargs)
+        self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
     def on_test_epoch_end(self) -> None:
         self.log_dict({f"test/{key}": value / 100.0 for key, value in self.metric.compute().items()})
