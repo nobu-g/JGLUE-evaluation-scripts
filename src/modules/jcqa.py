@@ -6,6 +6,7 @@ from torchmetrics.classification import MulticlassAccuracy
 from transformers import AutoConfig, AutoModelForMultipleChoice
 from transformers.modeling_outputs import MultipleChoiceModelOutput
 
+from datamodule.datasets.jcqa import NUM_CHOICES
 from modules.base import BaseModule
 
 
@@ -14,14 +15,14 @@ class JCommonsenseQAModule(BaseModule):
         super().__init__(hparams)
         config = AutoConfig.from_pretrained(
             hparams.model_name_or_path,
-            num_labels=5,
+            num_labels=NUM_CHOICES,
             finetuning_task="JCommonsenseQA",
         )
         self.model = AutoModelForMultipleChoice.from_pretrained(
             hparams.model_name_or_path,
             config=config,
         )
-        self.metric = MulticlassAccuracy(num_classes=5, average="micro")
+        self.metric = MulticlassAccuracy(num_classes=NUM_CHOICES, average="micro")
 
     def forward(self, batch: dict[str, Any]) -> MultipleChoiceModelOutput:
         return self.model(**batch)
