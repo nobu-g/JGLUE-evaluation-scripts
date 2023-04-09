@@ -6,7 +6,7 @@ from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
 from datamodule.datasets.base import BaseDataset
-from datamodule.util import QuestionAnsweringFeatures, batch_segment
+from datamodule.datasets.util import QuestionAnsweringFeatures, batch_segment
 
 
 class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):

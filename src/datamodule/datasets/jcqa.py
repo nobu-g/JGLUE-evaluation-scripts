@@ -7,7 +7,7 @@ from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
 from datamodule.datasets.base import BaseDataset
-from datamodule.util import MultipleChoiceFeatures, batch_segment
+from datamodule.datasets.util import MultipleChoiceFeatures, batch_segment
 
 CHOICE_NAMES = ["choice0", "choice1", "choice2", "choice3", "choice4"]
 NUM_CHOICES = len(CHOICE_NAMES)

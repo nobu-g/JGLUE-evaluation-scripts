@@ -6,7 +6,7 @@ from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
 from datamodule.datasets.base import BaseDataset
-from datamodule.util import SequenceClassificationFeatures, batch_segment
+from datamodule.datasets.util import SequenceClassificationFeatures, batch_segment
 
 
 class MARCJaDataset(BaseDataset[SequenceClassificationFeatures]):
