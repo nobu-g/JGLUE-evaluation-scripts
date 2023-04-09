@@ -20,17 +20,23 @@ def main():
         for task in TASKS:
             task, metric_name = task.split("/")
             sweep: Sweep = api.sweep(name_to_sweep_path[f"{task}-{model}"])
-            run: Optional[Run] = sweep.best_run()
-            if run is None:
-                items.append("-")
+            if sweep.state == "FINISHED":
+                run: Optional[Run] = sweep.best_run()
+                assert run is not None
+                metric_name = "valid/" + metric_name
+                items.append(f"{run.summary[metric_name]:.3f}")
             else:
-                try:
-                    metric_name = "valid/" + metric_name
-                    items.append(str(run.summary[metric_name]))
-                except KeyError:
-                    items.append("-")
+                items.append("-")
         table.append(items)
-    print(tabulate(table, headers=["model"] + TASKS, tablefmt="github", floatfmt=".3f"))
+    print(
+        tabulate(
+            table,
+            headers=["model"] + TASKS,
+            tablefmt="github",
+            floatfmt=".3f",
+            colalign=["left"] + ["right"] * len(TASKS),
+        )
+    )
 
 
 if __name__ == "__main__":
