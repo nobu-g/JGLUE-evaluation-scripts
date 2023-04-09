@@ -53,7 +53,7 @@ class JSQuADMetric(Metric):
         self.squad.update(preds, target)
 
     def compute(self) -> dict[str, torch.Tensor]:
-        return self.squad.compute()
+        return {k: v / 100.0 for k, v in self.squad.compute().items()}
 
     @staticmethod
     def _postprocess_text(text: str) -> str:

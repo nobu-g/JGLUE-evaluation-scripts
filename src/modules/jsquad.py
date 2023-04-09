@@ -37,7 +37,7 @@ class JSQuADModule(BaseModule):
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
     def on_validation_epoch_end(self) -> None:
-        self.log_dict({f"valid/{key}": value / 100.0 for key, value in self.metric.compute().items()})
+        self.log_dict({f"valid/{key}": value for key, value in self.metric.compute().items()})
         self.metric.reset()
 
     def test_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
@@ -46,5 +46,5 @@ class JSQuADModule(BaseModule):
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
     def on_test_epoch_end(self) -> None:
-        self.log_dict({f"test/{key}": value / 100.0 for key, value in self.metric.compute().items()})
+        self.log_dict({f"test/{key}": value for key, value in self.metric.compute().items()})
         self.metric.reset()
