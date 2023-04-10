@@ -1,6 +1,8 @@
 # JGLUE Benchmark
 
+[![test](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/test.yml/badge.svg)](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/test.yml)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/nobu-g/JGLUE-benchmark)](https://www.codefactor.io/repository/github/nobu-g/JGLUE-benchmark)
+[![lint](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/lint.yml/badge.svg)](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/lint.yml)
 
 ## Requirements
 
