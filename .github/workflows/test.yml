@@ -29,6 +29,6 @@ jobs:
           poetry install --no-interaction --without dev
       - name: Run tests
         run: |
-          poetry run pytest --cov=./ --cov-report=xml
+          poetry run pytest
         env:
           XDG_CACHE_HOME: ${{ github.workspace }}/.cache
