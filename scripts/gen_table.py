@@ -6,8 +6,20 @@ import wandb
 from tabulate import tabulate
 from wandb.apis.public import Run, Sweep
 
-TASKS = ["marc_ja/accuracy", "jsts/spearman", "jnli/accuracy", "jsquad/exact_match", "jsquad/f1", "jcqa/accuracy"]
-MODELS = ["roberta_base", "roberta_large", "deberta_base", "deberta_large"]
+TASKS = {
+    "marc_ja/accuracy": "MARC-ja/acc",
+    "jsts/spearman": "JSTS/spearman",
+    "jnli/accuracy": "JNLI/acc",
+    "jsquad/exact_match": "JSQuAD/EM",
+    "jsquad/f1": "JSQuAD/F1",
+    "jcqa/accuracy": "JComQA/acc",
+}
+MODELS = {
+    "roberta_base": "nlp-waseda/roberta-base-japanese",
+    "roberta_large": "nlp-waseda/roberta-large-japanese-seq512",
+    "deberta_base": "ku-nlp/deberta-v2-base-japanese",
+    "deberta_large": "ku-nlp/deberta-v2-large-japanese",
+}
 
 
 @dataclass(frozen=True)
@@ -24,9 +36,9 @@ def main():
         line.split()[0]: line.split()[1] for line in Path("sweep_status.txt").read_text().splitlines()
     }
     table: list[list[Optional[RunSummary]]] = []
-    for model in MODELS:
+    for model in MODELS.keys():
         items: list[Optional[RunSummary]] = []
-        for task in TASKS:
+        for task in TASKS.keys():
             task, metric_name = task.split("/")
             sweep: Sweep = api.sweep(name_to_sweep_path[f"{task}-{model}"])
             if sweep.state == "FINISHED":
@@ -47,27 +59,35 @@ def main():
     print("Scores of best runs:")
     print(
         tabulate(
-            [[model] + [item.metric if item else "-" for item in items] for model, items in zip(MODELS, table)],
-            headers=["model"] + TASKS,
+            [
+                [model] + [item.metric if item else "-" for item in items]
+                for model, items in zip(MODELS.values(), table)
+            ],
+            headers=["Model"] + list(TASKS.values()),
             tablefmt="github",
             floatfmt=".3f",
             colalign=["left"] + ["right"] * len(TASKS),
         )
     )
+    print()
     print("Learning rates of best runs:")
     print(
         tabulate(
-            [[model] + [item.lr if item else "-" for item in items] for model, items in zip(MODELS, table)],
-            headers=["model"] + TASKS,
+            [[model] + [item.lr if item else "-" for item in items] for model, items in zip(MODELS.values(), table)],
+            headers=["Model"] + list(TASKS.values()),
             tablefmt="github",
             colalign=["left"] + ["right"] * len(TASKS),
         )
     )
+    print()
     print("Training epochs of best runs:")
     print(
         tabulate(
-            [[model] + [item.max_epochs if item else "-" for item in items] for model, items in zip(MODELS, table)],
-            headers=["model"] + TASKS,
+            [
+                [model] + [item.max_epochs if item else "-" for item in items]
+                for model, items in zip(MODELS.values(), table)
+            ],
+            headers=["Model"] + list(TASKS.values()),
             tablefmt="github",
             colalign=["left"] + ["right"] * len(TASKS),
         )
