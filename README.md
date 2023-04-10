@@ -7,7 +7,7 @@
 - Python: 3.9+
 - Dependencies: See [pyproject.toml](./pyproject.toml).
 
-## Getting Started
+## Getting started
 
 - Create a virtual environment and install dependencies.
     ```shell
@@ -73,6 +73,39 @@ wandb: View sweep at: https://wandb.ai/<wandb-user>/JGLUE-benchmark/sweeps/xxxxx
 wandb: Run sweep agent with: wandb agent <wandb-user>/JGLUE-benchmark/xxxxxxxx
 $ DEVICES=0,1 MAX_BATCHES_PER_DEVICE=16 COMPILE=true wandb agent <wandb-user>/JGLUE-benchmark/xxxxxxxx
 ```
+
+## Results
+
+We fine-tuned the following models and evaluated them on the dev set of JGLUE.
+We tuned learning rate and training epochs for each model and task following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63/_pdf/-char/ja).
+
+| Model                                    |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/EM |   JSQuAD/F1 |   JComQA/acc |
+|------------------------------------------|---------------|-----------------|------------|-------------|-------------|--------------|
+| nlp-waseda/roberta-base-japanese         |         0.965 |           0.876 |      0.905 |       0.853 |       0.916 |        0.853 |
+| nlp-waseda/roberta-large-japanese-seq512 |         0.969 |           0.890 |      0.928 |       0.910 |       0.955 |        0.900 |
+| ku-nlp/deberta-v2-base-japanese          |         0.970 |           0.886 |      0.922 |       0.899 |       0.951 |        0.873 |
+| ku-nlp/deberta-v2-large-japanese         |         0.968 |           0.892 |      0.919 |       0.912 |       0.959 |        0.890 |
+
+## Selected hyper-parameters
+
+- Learning rate: {2e-05, 3e-05, 5e-05}
+
+| Model                                    |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/F1 |   JComQA/acc |
+|------------------------------------------|---------------|-----------------|------------|-------------|--------------|
+| nlp-waseda/roberta-base-japanese         |         2e-05 |           2e-05 |      3e-05 |       3e-05 |        5e-05 |
+| nlp-waseda/roberta-large-japanese-seq512 |         2e-05 |           3e-05 |      2e-05 |       2e-05 |        3e-05 |
+| ku-nlp/deberta-v2-base-japanese          |         2e-05 |           5e-05 |      3e-05 |       2e-05 |        5e-05 |
+| ku-nlp/deberta-v2-large-japanese         |         5e-05 |           5e-05 |      2e-05 |       2e-05 |        3e-05 |
+
+- Training epochs: {3, 4}
+
+| Model                                    |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/F1 |   JComQA/acc |
+|------------------------------------------|---------------|-----------------|------------|-------------|--------------|
+| nlp-waseda/roberta-base-japanese         |             4 |               4 |          3 |           4 |            3 |
+| nlp-waseda/roberta-large-japanese-seq512 |             4 |               4 |          3 |           3 |            3 |
+| ku-nlp/deberta-v2-base-japanese          |             3 |               3 |          3 |           4 |            4 |
+| ku-nlp/deberta-v2-large-japanese         |             3 |               4 |          3 |           4 |            3 |
+
 
 ## Reference
 
