@@ -6,5 +6,5 @@ tokenizer:
   _convert_: all
 segmenter_kwargs:
   analyzer: jumanpp
-  h2z: true
+  h2z: false
 limit_examples: ${limit_examples}
