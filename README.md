@@ -82,33 +82,45 @@ $ DEVICES=0,1 MAX_BATCHES_PER_DEVICE=16 COMPILE=true wandb agent <wandb-user>/JG
 We fine-tuned the following models and evaluated them on the dev set of JGLUE.
 We tuned learning rate and training epochs for each model and task following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63/_pdf/-char/ja).
 
-| Model                                    |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/EM |   JSQuAD/F1 |   JComQA/acc |
-|------------------------------------------|---------------|-----------------|------------|-------------|-------------|--------------|
-| nlp-waseda/roberta-base-japanese         |         0.965 |           0.876 |      0.905 |       0.853 |       0.916 |        0.853 |
-| nlp-waseda/roberta-large-japanese-seq512 |         0.969 |           0.890 |      0.928 |       0.910 |       0.955 |        0.900 |
-| ku-nlp/deberta-v2-base-japanese          |         0.970 |           0.886 |      0.922 |       0.899 |       0.951 |        0.873 |
-| ku-nlp/deberta-v2-large-japanese         |         0.968 |           0.892 |      0.924 |       0.912 |       0.959 |        0.890 |
+| Model                         | MARC-ja/acc | JSTS/spearman | JNLI/acc | JSQuAD/EM | JSQuAD/F1 | JComQA/acc |
+|-------------------------------|-------------|---------------|----------|-----------|-----------|------------|
+| Waseda RoBERTa base           | 0.965       | 0.876         | 0.905    | 0.853     | 0.916     | 0.853      |
+| Waseda RoBERTa large (seq512) | 0.969       | 0.890         | 0.928    | 0.910     | 0.955     | 0.900      |
+| LUKE Japanese base*           | 0.965       | 0.877         | 0.912    | -         | -         | 0.842      |
+| LUKE Japanese large*          | 0.965       | 0.902         | 0.927    | -         | -         | 0.893      |
+| DeBERTaV2 base                | 0.970       | 0.886         | 0.922    | 0.899     | 0.951     | 0.873      |
+| DeBERTaV2 large               | 0.968       | 0.892         | 0.924    | 0.912     | 0.959     | 0.890      |
+
+*The scores of LUKE are from [the official repository](https://github.com/studio-ousia/luke).
 
 ## Selected hyper-parameters
 
 - Learning rate: {2e-05, 3e-05, 5e-05}
 
-| Model                                    |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/F1 |   JComQA/acc |
-|------------------------------------------|---------------|-----------------|------------|-------------|--------------|
-| nlp-waseda/roberta-base-japanese         |         2e-05 |           2e-05 |      3e-05 |       3e-05 |        5e-05 |
-| nlp-waseda/roberta-large-japanese-seq512 |         2e-05 |           3e-05 |      2e-05 |       2e-05 |        3e-05 |
-| ku-nlp/deberta-v2-base-japanese          |         2e-05 |           5e-05 |      3e-05 |       2e-05 |        5e-05 |
-| ku-nlp/deberta-v2-large-japanese         |         5e-05 |           5e-05 |      2e-05 |       2e-05 |        3e-05 |
+| Model                         |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/F1 |   JComQA/acc |
+|-------------------------------|---------------|-----------------|------------|-------------|--------------|
+| Waseda RoBERTa base           |         2e-05 |           2e-05 |      3e-05 |       3e-05 |        5e-05 |
+| Waseda RoBERTa large (seq512) |         2e-05 |           3e-05 |      2e-05 |       2e-05 |        3e-05 |
+| DeBERTaV2 base                |         2e-05 |           5e-05 |      3e-05 |       2e-05 |        5e-05 |
+| DeBERTaV2 large               |         5e-05 |           5e-05 |      2e-05 |       2e-05 |        3e-05 |
 
 - Training epochs: {3, 4}
 
-| Model                                    |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/F1 |   JComQA/acc |
-|------------------------------------------|---------------|-----------------|------------|-------------|--------------|
-| nlp-waseda/roberta-base-japanese         |             4 |               4 |          3 |           4 |            3 |
-| nlp-waseda/roberta-large-japanese-seq512 |             4 |               4 |          3 |           3 |            3 |
-| ku-nlp/deberta-v2-base-japanese          |             3 |               3 |          3 |           4 |            4 |
-| ku-nlp/deberta-v2-large-japanese         |             3 |               4 |          3 |           4 |            3 |
+| Model                         |   MARC-ja/acc |   JSTS/spearman |   JNLI/acc |   JSQuAD/F1 |   JComQA/acc |
+|-------------------------------|---------------|-----------------|------------|-------------|--------------|
+| Waseda RoBERTa base           |             4 |               4 |          3 |           4 |            3 |
+| Waseda RoBERTa large (seq512) |             4 |               4 |          3 |           3 |            3 |
+| DeBERTaV2 base                |             3 |               3 |          3 |           4 |            4 |
+| DeBERTaV2 large               |             3 |               4 |          3 |           4 |            3 |
 
+## Huggingface hub links
+
+- Waseda RoBERTa base: [nlp-waseda/roberta-base-japanese](https://huggingface.co/nlp-waseda/roberta-base-japanese)
+- Waseda RoBERTa large (seq512): [nlp-waseda/roberta-large-japanese-seq512](https://huggingface.co/nlp-waseda/roberta-large-japanese-seq512)
+- LUKE Japanese base: [studio-ousia/luke-base-japanese](https://huggingface.co/studio-ousia/luke-japanese-base-lite)
+- LUKE Japanese large: [studio-ousia/luke-large-japanese](https://huggingface.co/studio-ousia/luke-japanese-large-lite)
+- DeBERTaV2 base: [ku-nlp/deberta-v2-base-japanese](https://huggingface.co/ku-nlp/deberta-v2-base-japanese)
+- DeBERTaV2 large: [ku-nlp/deberta-v2-large-japanese](https://huggingface.co/ku-nlp/deberta-v2-large-japanese)
 
 ## Reference
 
