@@ -87,7 +87,7 @@ We tuned learning rate and training epochs for each model and task following [th
 | nlp-waseda/roberta-base-japanese         |         0.965 |           0.876 |      0.905 |       0.853 |       0.916 |        0.853 |
 | nlp-waseda/roberta-large-japanese-seq512 |         0.969 |           0.890 |      0.928 |       0.910 |       0.955 |        0.900 |
 | ku-nlp/deberta-v2-base-japanese          |         0.970 |           0.886 |      0.922 |       0.899 |       0.951 |        0.873 |
-| ku-nlp/deberta-v2-large-japanese         |         0.968 |           0.892 |      0.919 |       0.912 |       0.959 |        0.890 |
+| ku-nlp/deberta-v2-large-japanese         |         0.968 |           0.892 |      0.924 |       0.912 |       0.959 |        0.890 |
 
 ## Selected hyper-parameters
 
