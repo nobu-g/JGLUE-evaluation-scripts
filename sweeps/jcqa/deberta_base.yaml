@@ -1,5 +1,5 @@
 project: JGLUE-benchmark
-entity: ueda
+entity: your-name
 program: src/train.py
 method: grid
 metric:
