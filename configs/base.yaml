@@ -50,3 +50,4 @@ hydra:
           - checkpoint_path
           - logger
           - max_batches_per_device
+          - compile
