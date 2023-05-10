@@ -2,7 +2,7 @@
 defaults:
   - _self_
 
-project: JGLUE-benchmark
+project: JGLUE-evaluation-scripts
 
 # path to original working directory
 # hydra hijacks working directory by changing it to the current log directory,

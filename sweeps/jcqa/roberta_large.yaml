@@ -1,4 +1,4 @@
-project: JGLUE-benchmark
+project: JGLUE-evaluation-scripts
 entity: your-name
 program: src/train.py
 method: grid

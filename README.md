@@ -1,9 +1,9 @@
 # JGLUE Benchmark
 
-[![test](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/test.yml/badge.svg)](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/test.yml)
-[![lint](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/lint.yml/badge.svg)](https://github.com/nobu-g/JGLUE-benchmark/actions/workflows/lint.yml)
-[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/nobu-g/JGLUE-benchmark)](https://www.codefactor.io/repository/github/nobu-g/JGLUE-benchmark)
-[![license](https://img.shields.io/github/license/nobu-g/JGLUE-benchmark?color=blue)](https://github.com/nobu-g/JGLUE-benchmark/blob/main/LICENSE)
+[![test](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/test.yml/badge.svg)](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/test.yml)
+[![lint](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/lint.yml/badge.svg)](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/lint.yml)
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/nobu-g/JGLUE-evaluation-scripts)](https://www.codefactor.io/repository/github/nobu-g/JGLUE-evaluation-scripts)
+[![license](https://img.shields.io/github/license/nobu-g/JGLUE-evaluation-scripts?color=blue)](https://github.com/nobu-g/JGLUE-evaluation-scripts/blob/main/LICENSE)
 
 ## Requirements
 
@@ -72,9 +72,9 @@ poetry run python scripts/train.py -cn marc_ja.debug devices=[0]
 $ wandb sweep sweeps/marc_ja/deberta_base.yaml
 wandb: Creating sweep from: sweeps/marc_ja/deberta_base.yaml
 wandb: Created sweep with ID: xxxxxxxx
-wandb: View sweep at: https://wandb.ai/<wandb-user>/JGLUE-benchmark/sweeps/xxxxxxxx
-wandb: Run sweep agent with: wandb agent <wandb-user>/JGLUE-benchmark/xxxxxxxx
-$ DEVICES=0,1 MAX_BATCHES_PER_DEVICE=16 COMPILE=true wandb agent <wandb-user>/JGLUE-benchmark/xxxxxxxx
+wandb: View sweep at: https://wandb.ai/<wandb-user>/JGLUE-evaluation-scripts/sweeps/xxxxxxxx
+wandb: Run sweep agent with: wandb agent <wandb-user>/JGLUE-evaluation-scripts/xxxxxxxx
+$ DEVICES=0,1 MAX_BATCHES_PER_DEVICE=16 COMPILE=true wandb agent <wandb-user>/JGLUE-evaluation-scripts/xxxxxxxx
 ```
 
 ## Results
