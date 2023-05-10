@@ -1,4 +1,4 @@
-# JGLUE Benchmark
+# JGLUE Evaluation Scripts
 
 [![test](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/test.yml/badge.svg)](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/test.yml)
 [![lint](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/lint.yml/badge.svg)](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/lint.yml)
@@ -93,7 +93,7 @@ We tuned learning rate and training epochs for each model and task following [th
 
 *The scores of LUKE are from [the official repository](https://github.com/studio-ousia/luke).
 
-## Selected hyper-parameters
+## Tuned hyper-parameters
 
 - Learning rate: {2e-05, 3e-05, 5e-05}
 
