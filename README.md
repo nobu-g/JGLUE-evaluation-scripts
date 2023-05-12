@@ -82,14 +82,14 @@ $ DEVICES=0,1 MAX_BATCHES_PER_DEVICE=16 COMPILE=true wandb agent <wandb-user>/JG
 We fine-tuned the following models and evaluated them on the dev set of JGLUE.
 We tuned learning rate and training epochs for each model and task following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63/_pdf/-char/ja).
 
-| Model                         | MARC-ja/acc | JSTS/spearman | JNLI/acc | JSQuAD/EM | JSQuAD/F1 | JComQA/acc |
-|-------------------------------|-------------|---------------|----------|-----------|-----------|------------|
-| Waseda RoBERTa base           | 0.965       | 0.876         | 0.905    | 0.853     | 0.916     | 0.853      |
-| Waseda RoBERTa large (seq512) | 0.969       | 0.890         | 0.928    | 0.910     | 0.955     | 0.900      |
-| LUKE Japanese base*           | 0.965       | 0.877         | 0.912    | -         | -         | 0.842      |
-| LUKE Japanese large*          | 0.965       | 0.902         | 0.927    | -         | -         | 0.893      |
-| DeBERTaV2 base                | 0.970       | 0.886         | 0.922    | 0.899     | 0.951     | 0.873      |
-| DeBERTaV2 large               | 0.968       | 0.892         | 0.924    | 0.912     | 0.959     | 0.890      |
+| Model                         | MARC-ja/acc | JSTS/pearson | JSTS/spearman | JNLI/acc | JSQuAD/EM | JSQuAD/F1 | JComQA/acc |
+|-------------------------------|-------------|--------------|---------------|----------|-----------|-----------|------------|
+| Waseda RoBERTa base           | 0.965       | 0.913        | 0.876         | 0.905    | 0.853     | 0.916     | 0.853      |
+| Waseda RoBERTa large (seq512) | 0.969       | 0.925        | 0.890         | 0.928    | 0.910     | 0.955     | 0.900      |
+| LUKE Japanese base*           | 0.965       | 0.916        | 0.877         | 0.912    | -         | -         | 0.842      |
+| LUKE Japanese large*          | 0.965       | 0.932        | 0.902         | 0.927    | -         | -         | 0.893      |
+| DeBERTaV2 base                | 0.970       | 0.922        | 0.886         | 0.922    | 0.899     | 0.951     | 0.873      |
+| DeBERTaV2 large               | 0.968       | 0.925        | 0.892         | 0.924    | 0.912     | 0.959     | 0.890      |
 
 *The scores of LUKE are from [the official repository](https://github.com/studio-ousia/luke).
 

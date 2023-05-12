@@ -8,6 +8,7 @@ from wandb.apis.public import Run, Sweep
 
 TASKS = {
     "marc_ja/accuracy": "MARC-ja/acc",
+    "jsts/pearson": "JSTS/pearson",
     "jsts/spearman": "JSTS/spearman",
     "jnli/accuracy": "JNLI/acc",
     "jsquad/exact_match": "JSQuAD/EM",
