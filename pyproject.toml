@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "jglue-benchmark"
+name = "JGLUE-evaluation-scripts"
 version = "0.1.0"
 description = ""
 authors = ["nobu-g <ueda-n127@hotmail.co.jp>"]
