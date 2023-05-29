@@ -20,7 +20,7 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.2.0
+    rev: v1.3.0
     hooks:
       - id: mypy
         additional_dependencies:
@@ -30,5 +30,5 @@ repos:
           - transformers==4.28.1
           - datasets==2.11.0
           - tokenizers==0.13.3
-          - wandb==0.15.0
+          - wandb==0.15.3
           - types-tabulate==0.9.0.1
