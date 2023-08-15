@@ -1,5 +1,5 @@
 import copy
-from typing import Any, Dict
+from typing import Any
 
 import hydra
 from lightning import LightningModule
@@ -42,7 +42,7 @@ class BaseModule(LightningModule):
         lr_scheduler = hydra.utils.instantiate(self.hparams.scheduler, optimizer=optimizer)
         return {"optimizer": optimizer, "lr_scheduler": {"scheduler": lr_scheduler, "interval": "step", "frequency": 1}}
 
-    def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
+    def on_save_checkpoint(self, checkpoint: dict[str, Any]) -> None:
         hparams: DictConfig = copy.deepcopy(checkpoint["hyper_parameters"])
         OmegaConf.set_struct(hparams, False)
         checkpoint["hyper_parameters"] = hparams

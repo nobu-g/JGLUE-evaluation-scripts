@@ -1,5 +1,5 @@
 from dataclasses import fields, is_dataclass
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import hydra
 import lightning
@@ -55,10 +55,10 @@ class DataModule(lightning.LightningDataModule):
         )
 
 
-def dataclass_data_collator(features: List[Any]) -> Dict[str, Union[Tensor, List[str]]]:
+def dataclass_data_collator(features: list[Any]) -> dict[str, Union[Tensor, list[str]]]:
     first: Any = features[0]
     assert is_dataclass(first), "Data must be a dataclass"
-    batch: Dict[str, Union[Tensor, List[str]]] = {}
+    batch: dict[str, Union[Tensor, list[str]]] = {}
     for field in fields(first):
         feats = [getattr(f, field.name) for f in features]
         if "text" in field.name:
