@@ -2446,17 +2446,17 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "rhoknp"
-version = "1.3.2"
+version = "1.4.1"
 description = "Yet another Python binding for Juman++/KNP/KWJA"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "rhoknp-1.3.2-py3-none-any.whl", hash = "sha256:4767a91d6efc9a2f8d6805845eb246fd0fe878b31628e57b236a1eb0543c8125"},
-    {file = "rhoknp-1.3.2.tar.gz", hash = "sha256:c5c4441462b7eded852de337a9dd3df1a2a4400d6ed02b5acba3cbf06fa0dc83"},
+    {file = "rhoknp-1.4.1-py3-none-any.whl", hash = "sha256:0d23cfdd0c273e54ec6bb7639be0a8fd1a1068cead8a30db4d6f71ae81935283"},
+    {file = "rhoknp-1.4.1.tar.gz", hash = "sha256:46f31d32db410ae126f22dabe8f1bce4ff8dd8b842012d8c1b0cc3167778b6fa"},
 ]
 
 [package.extras]
-cli = ["PyYAML (>=6.0,<7.0)", "fastapi (>=0.92.0,<1)", "jinja2 (>=3.1,<4.0)", "rich (>=12.6)", "typer (>=0.7)", "typer (>=0.7,<0.9)", "uvicorn (>=0.21.0,<1)"]
+cli = ["PyYAML (>=6.0,<7.0)", "fastapi (>=0.92.0,<1)", "jinja2 (>=3.1,<4.0)", "rich (>=12.6)", "typer (>=0.7)", "typer (>=0.7,<0.9)", "uvicorn (>=0.21.0)", "uvicorn (>=0.21.0,<0.23.0)"]
 
 [[package]]
 name = "rich"
@@ -3568,4 +3568,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "a65c152843226e879d915fe4b57d74ac92a6a4fafa20236e7e05bd4c3942a585"
+content-hash = "70b9a65a68aa8540be43240755f33ea82e10d1b26c15d1100020cdb52f0fd9ee"
