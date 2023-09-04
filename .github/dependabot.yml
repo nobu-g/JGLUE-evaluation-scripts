@@ -10,10 +10,12 @@ updates:
     schedule:
       interval: "weekly" # TODO: Change to "monthly"
       timezone: "Asia/Tokyo"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
     target-branch: "main"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+    versioning-strategy: lockfile-only
 
   - package-ecosystem: "github-actions"
     # Workflow files stored in the
