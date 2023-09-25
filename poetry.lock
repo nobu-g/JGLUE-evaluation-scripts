@@ -1268,34 +1268,40 @@ files = [
 
 [[package]]
 name = "mecab-python3"
-version = "1.0.7"
+version = "1.0.8"
 description = "Python wrapper for the MeCab morphological analyzer for Japanese"
 optional = false
 python-versions = "*"
 files = [
-    {file = "mecab-python3-1.0.7.tar.gz", hash = "sha256:d9933bf4fd944260f58b421f8639bbc1120413d1f3fcde8c55097221dc13d51d"},
-    {file = "mecab_python3-1.0.7-cp310-cp310-macosx_11_0_x86_64.whl", hash = "sha256:c3d12983f07e0051d2ff0e3edb870fcb764d473e014561ced8d6d89034635d94"},
-    {file = "mecab_python3-1.0.7-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:992db8baaa05c50233ff9d1166b7df052a8f0d559f69394fda629293552ddfa4"},
-    {file = "mecab_python3-1.0.7-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b468d08d519d46af98d545c36031a93f4f22187bd4fb45ef8b44d907497cae52"},
-    {file = "mecab_python3-1.0.7-cp310-cp310-win_amd64.whl", hash = "sha256:3486e3f08e534feb7f56063522fd55ee7caacf9ee42d5bce9a9e1926df5999b4"},
-    {file = "mecab_python3-1.0.7-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:b7ad53cd8c063c171ef7fd09e6e3fddf6fe30c57625ae223ae6e058eb33add2e"},
-    {file = "mecab_python3-1.0.7-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e515440e33eedec3ba0f461a21d52d8ecb7a8f0fe2fb130ae67efa8aab8a01c0"},
-    {file = "mecab_python3-1.0.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b3d5d2bb375c40a10f8b13b80d2c3b2f02acda3392cf5157c53b3132ef1ac053"},
-    {file = "mecab_python3-1.0.7-cp311-cp311-win_amd64.whl", hash = "sha256:1c365678f4b9dbddf82571042fd0c825f87ff06b575f2ae336092510a1676adf"},
-    {file = "mecab_python3-1.0.7-cp36-cp36m-macosx_10_14_x86_64.whl", hash = "sha256:2eb5427474956b9212bbc9a761188f89acdcc60ee903d80f8767a6a810083ab6"},
-    {file = "mecab_python3-1.0.7-cp36-cp36m-win_amd64.whl", hash = "sha256:74e923a763260a0337b9c316cc9ba58428b8cf9810c703e1418a020ace63a2b1"},
-    {file = "mecab_python3-1.0.7-cp37-cp37m-macosx_11_0_x86_64.whl", hash = "sha256:9ebd7050b4584a9db9d822befbb02a92225650c2a533b606f6712171be4da344"},
-    {file = "mecab_python3-1.0.7-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:79733196b1fb769bbc43449f8a87f57cab3be92f0ce37549ddd6c3cc2aef92e2"},
-    {file = "mecab_python3-1.0.7-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:92e63b2cdd81a342e260d10a18d16fe025c289682208d26a656517cdd1dd0f25"},
-    {file = "mecab_python3-1.0.7-cp37-cp37m-win_amd64.whl", hash = "sha256:7fbc0e0a8d52f3ea62933b4e39dbda87b84306977e3e4a2d5e08ee978d535d72"},
-    {file = "mecab_python3-1.0.7-cp38-cp38-macosx_11_0_x86_64.whl", hash = "sha256:e92bd03328f4f9520360bd50d82885884752558eedeb23da460bd1905b5d9332"},
-    {file = "mecab_python3-1.0.7-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f180fc227ecff1274529a0650c182266ea422c05f7616075cd6b491377065aef"},
-    {file = "mecab_python3-1.0.7-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9e56748b11fb8d831680880a061374d423859ba8d4ea1757d9bd1429be268da1"},
-    {file = "mecab_python3-1.0.7-cp38-cp38-win_amd64.whl", hash = "sha256:ad17e6fc0ecd6d2912a64bcbc3c0972749b7ed0a7d71ba98d82d7226554d7d94"},
-    {file = "mecab_python3-1.0.7-cp39-cp39-macosx_11_0_x86_64.whl", hash = "sha256:017836d98e1cbd881e64e028947f0f7f89804a8b3cbb4f1d2a6a73925c834c71"},
-    {file = "mecab_python3-1.0.7-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:218b6194db4a785a1a7bacd9c3df09712ffaaa442f7442482dd64fbb6078a8c0"},
-    {file = "mecab_python3-1.0.7-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7977872cd52ca8256b7e10fff8198d3a9c325e1d62ee98f3481cee40340f3ebf"},
-    {file = "mecab_python3-1.0.7-cp39-cp39-win_amd64.whl", hash = "sha256:97ecdf2fe7084e0da994bc8d196efb934ba0d3719a5fbc93f5971858b3a602a5"},
+    {file = "mecab-python3-1.0.8.tar.gz", hash = "sha256:70988bab263696456f75d3d8910c75aea477a9d08054ad7ef85be5470dd3f65b"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:65866d0fa9214afaddca538311d38a6e8dc71d7fa892139eabfaca9866d7d68e"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:98a8716d66df9c4689ba99674a8b6bbe9ac189df2c39c75f59592e83af8ab927"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:6289053be84250efcddcc637d2fb8089b58a74bb2c6fbe09d3c003019e59c41a"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5cccf6853a4a2f1c39db404917b429040b327326d3f9930b11ba11b1f182efc0"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a77786f6afaa25f6ecf27634e2db2d1cc7e549a9a2aa9099f929ec14ddd835c1"},
+    {file = "mecab_python3-1.0.8-cp310-cp310-win_amd64.whl", hash = "sha256:bac38af07623b01422a58829d3087fc97f76bca529250146309ca64dba90aaa0"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:3d67b142997a4dbcfcfa27c50d0796d665ba67b8185311a43364840f7f7f87ba"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:3384150a96cc723b9b110eb253d363270a2a97071e2511c8c35d3bbb6b5f821d"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:56652649b3948fffa253a2619f12c7c6b02e484c172770595d430a68dfbb1b9d"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f538ebdd2381b7ff02f0023154783c6558df284879547628c500bee0db7f300f"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8df17cb9acf601770c81cd2cde19fdffdce638dbfe14b83c9274358a04a752f6"},
+    {file = "mecab_python3-1.0.8-cp311-cp311-win_amd64.whl", hash = "sha256:d6df291b4e05194aebc4aca5d3bf83f5d6cbf0c2fb6fa135835c938c107d7632"},
+    {file = "mecab_python3-1.0.8-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:e0b8490b3c4e4f1434175b76f6599ce1b0144e5982720c9140bb6b2b9f57efa1"},
+    {file = "mecab_python3-1.0.8-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:32edc45b307ece212a9507a229d5fcf3cc2d8a59b6d6c9f322430e72e4a520a5"},
+    {file = "mecab_python3-1.0.8-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:dd244b414fcc0afaf2a278610d3a5d9b575c50279724b8340c3871c14e619400"},
+    {file = "mecab_python3-1.0.8-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2ec8c7a95fd7138019103663d6dd8edb5d48217e8c1a1120ca59400eb704d429"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:b02f184b5c300d10a7b0a19e9c99684d1b9453709205421008e743347cb4a484"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:77f566a0431a8cb15f540f87d44575085d9800e3ad28143ce5085db6dfbdc600"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:64eb2ad8b3d77fe2c6c745f4f39ba412e7aa4fcc1affa89861064ce30aaf5eeb"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9fe0c0e106829724c5b9c46c999353280c7924103302ea01b6fdfedc7d644986"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4a48982540b9113275c2a0154271b685e304092f340de795652d6146e8f7707f"},
+    {file = "mecab_python3-1.0.8-cp38-cp38-win_amd64.whl", hash = "sha256:613da4a8e6c5c0a0569950eba445fe336181cee05905b6f26806bdda5b884131"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:35b5d9f097c00317d99c066f976b4cd690e37428136f37fabd5adcd2b4897b78"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:d4c8fc9954101f9b6bf63eb98e2c7b429ef1b78550d70d0d46b840c6ddf8fe15"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:c55d224fd3a7813683aadb8f72d375195d68f3720b0652c396c1012469b81be9"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4ccbcb3418f6218a0e8d9e15bb526a5d84ee1b3d014e8543247f3ea64a4c99b8"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4339373325702856e623e9a06435b47f0adbc1eaed8b0c5437f3e78e67ebc2ef"},
+    {file = "mecab_python3-1.0.8-cp39-cp39-win_amd64.whl", hash = "sha256:f55fbf887f750475ea526c0cb62089384882f4217a58de7cf7e65727e025e07d"},
 ]
 
 [package.extras]
@@ -2394,13 +2400,13 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "rhoknp"
-version = "1.5.0"
+version = "1.5.1"
 description = "Yet another Python binding for Juman++/KNP/KWJA"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "rhoknp-1.5.0-py3-none-any.whl", hash = "sha256:9a39bce3d652959f69d2c9ae9d226318c679f30f515b5b10aa1364a880ea9128"},
-    {file = "rhoknp-1.5.0.tar.gz", hash = "sha256:bbc7f9824818a6b8df875d966c8a305ccce7a99188035dd3b485ee2328d41db2"},
+    {file = "rhoknp-1.5.1-py3-none-any.whl", hash = "sha256:2135e85829747867dfe4b6fe0d20ce7870b4df0a00b1affa64286abac1c383c1"},
+    {file = "rhoknp-1.5.1.tar.gz", hash = "sha256:1e4d417a6014b0f30c1d192cedae6eace1d196cbaa6cf92c4950923d73fb1eb8"},
 ]
 
 [package.extras]
@@ -2949,13 +2955,13 @@ opt-einsum = ["opt-einsum (>=3.3)"]
 
 [[package]]
 name = "torchmetrics"
-version = "1.1.2"
+version = "1.2.0"
 description = "PyTorch native Metrics"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "torchmetrics-1.1.2-py3-none-any.whl", hash = "sha256:19538ccf2a8556233ffc29ca288bd65a3532c49dc9b66feb8c201198b34f9504"},
-    {file = "torchmetrics-1.1.2.tar.gz", hash = "sha256:44b01d3c7ca6aa925ac888adff0b0b7c2b2194ff662cf58eb6e05e0e8eb51b00"},
+    {file = "torchmetrics-1.2.0-py3-none-any.whl", hash = "sha256:da2cb18822b285786d082c40efb9e1d861aac425f58230234fe6ce233cf002f8"},
+    {file = "torchmetrics-1.2.0.tar.gz", hash = "sha256:7eb28340bde45e13187a9ad54a4a7010a50417815d8181a5df6131f116ffe1b7"},
 ]
 
 [package.dependencies]
@@ -2967,10 +2973,10 @@ torch = ">=1.8.1"
 all = ["SciencePlots (>=2.0.0)", "lpips (<=0.1.4)", "matplotlib (>=3.2.0)", "mypy (==1.5.1)", "nltk (>=3.6)", "piq (<=0.8.0)", "pycocotools (>2.0.0)", "pystoi (>=0.3.0)", "regex (>=2021.9.24)", "scipy (>1.0.0)", "torch-fidelity (<=0.4.0)", "torchaudio (>=0.10.0)", "torchvision (>=0.8)", "tqdm (>=4.41.0)", "transformers (>4.4.0)", "transformers (>=4.10.0)", "types-PyYAML", "types-emoji", "types-protobuf", "types-requests", "types-setuptools", "types-six", "types-tabulate"]
 audio = ["pystoi (>=0.3.0)", "torchaudio (>=0.10.0)"]
 detection = ["pycocotools (>2.0.0)", "torchvision (>=0.8)"]
-dev = ["SciencePlots (>=2.0.0)", "bert-score (==0.3.13)", "cloudpickle (>1.3)", "coverage (==7.3.0)", "dython (<=0.7.4)", "fairlearn", "fast-bss-eval (>=0.1.0)", "fire (<=0.5.0)", "huggingface-hub (<0.16)", "jiwer (>=2.3.0)", "kornia (>=0.6.7)", "lpips (<=0.1.4)", "matplotlib (>=3.2.0)", "mir-eval (>=0.6)", "mypy (==1.5.1)", "netcal (>1.0.0)", "nltk (>=3.6)", "numpy (<1.25.0)", "pandas (>1.0.0)", "pandas (>=1.4.0)", "phmdoctest (==1.4.0)", "piq (<=0.8.0)", "psutil (<=5.9.5)", "pycocotools (>2.0.0)", "pystoi (>=0.3.0)", "pytest (==7.4.1)", "pytest-cov (==4.1.0)", "pytest-doctestplus (==1.0.0)", "pytest-rerunfailures (==12.0)", "pytest-timeout (==2.1.0)", "pytorch-msssim (==1.0.0)", "regex (>=2021.9.24)", "requests (<=2.31.0)", "rouge-score (>0.1.0)", "sacrebleu (>=2.0.0)", "scikit-image (>=0.19.0)", "scikit-learn (>=1.1.1)", "scipy (>1.0.0)", "sewar (>=0.4.4)", "statsmodels (>0.13.5)", "torch-complex (<=0.4.3)", "torch-fidelity (<=0.4.0)", "torchaudio (>=0.10.0)", "torchvision (>=0.8)", "tqdm (>=4.41.0)", "transformers (>4.4.0)", "transformers (>=4.10.0)", "types-PyYAML", "types-emoji", "types-protobuf", "types-requests", "types-setuptools", "types-six", "types-tabulate"]
+dev = ["SciencePlots (>=2.0.0)", "bert-score (==0.3.13)", "cloudpickle (>1.3)", "coverage (==7.3.1)", "dython (<=0.7.4)", "fairlearn", "fast-bss-eval (>=0.1.0)", "faster-coco-eval (>=1.3.3)", "fire (<=0.5.0)", "huggingface-hub (<0.18)", "jiwer (>=2.3.0)", "kornia (>=0.6.7)", "lpips (<=0.1.4)", "matplotlib (>=3.2.0)", "mir-eval (>=0.6)", "mypy (==1.5.1)", "netcal (>1.0.0)", "nltk (>=3.6)", "numpy (<1.25.0)", "pandas (>1.0.0)", "pandas (>=1.4.0)", "phmdoctest (==1.4.0)", "piq (<=0.8.0)", "psutil (<=5.9.5)", "pycocotools (>2.0.0)", "pystoi (>=0.3.0)", "pytest (==7.4.2)", "pytest-cov (==4.1.0)", "pytest-doctestplus (==1.0.0)", "pytest-rerunfailures (==12.0)", "pytest-timeout (==2.1.0)", "pytorch-msssim (==1.0.0)", "regex (>=2021.9.24)", "requests (<=2.31.0)", "rouge-score (>0.1.0)", "sacrebleu (>=2.0.0)", "scikit-image (>=0.19.0)", "scikit-learn (>=1.1.1)", "scipy (>1.0.0)", "sewar (>=0.4.4)", "statsmodels (>0.13.5)", "torch-complex (<=0.4.3)", "torch-fidelity (<=0.4.0)", "torchaudio (>=0.10.0)", "torchvision (>=0.8)", "tqdm (>=4.41.0)", "transformers (>4.4.0)", "transformers (>=4.10.0)", "types-PyYAML", "types-emoji", "types-protobuf", "types-requests", "types-setuptools", "types-six", "types-tabulate"]
 image = ["lpips (<=0.1.4)", "scipy (>1.0.0)", "torch-fidelity (<=0.4.0)", "torchvision (>=0.8)"]
 multimodal = ["piq (<=0.8.0)", "transformers (>=4.10.0)"]
-test = ["bert-score (==0.3.13)", "cloudpickle (>1.3)", "coverage (==7.3.0)", "dython (<=0.7.4)", "fairlearn", "fast-bss-eval (>=0.1.0)", "fire (<=0.5.0)", "huggingface-hub (<0.16)", "jiwer (>=2.3.0)", "kornia (>=0.6.7)", "mir-eval (>=0.6)", "netcal (>1.0.0)", "numpy (<1.25.0)", "pandas (>1.0.0)", "pandas (>=1.4.0)", "phmdoctest (==1.4.0)", "psutil (<=5.9.5)", "pytest (==7.4.1)", "pytest-cov (==4.1.0)", "pytest-doctestplus (==1.0.0)", "pytest-rerunfailures (==12.0)", "pytest-timeout (==2.1.0)", "pytorch-msssim (==1.0.0)", "requests (<=2.31.0)", "rouge-score (>0.1.0)", "sacrebleu (>=2.0.0)", "scikit-image (>=0.19.0)", "scikit-learn (>=1.1.1)", "scipy (>1.0.0)", "sewar (>=0.4.4)", "statsmodels (>0.13.5)", "torch-complex (<=0.4.3)"]
+test = ["bert-score (==0.3.13)", "cloudpickle (>1.3)", "coverage (==7.3.1)", "dython (<=0.7.4)", "fairlearn", "fast-bss-eval (>=0.1.0)", "faster-coco-eval (>=1.3.3)", "fire (<=0.5.0)", "huggingface-hub (<0.18)", "jiwer (>=2.3.0)", "kornia (>=0.6.7)", "mir-eval (>=0.6)", "netcal (>1.0.0)", "numpy (<1.25.0)", "pandas (>1.0.0)", "pandas (>=1.4.0)", "phmdoctest (==1.4.0)", "psutil (<=5.9.5)", "pytest (==7.4.2)", "pytest-cov (==4.1.0)", "pytest-doctestplus (==1.0.0)", "pytest-rerunfailures (==12.0)", "pytest-timeout (==2.1.0)", "pytorch-msssim (==1.0.0)", "requests (<=2.31.0)", "rouge-score (>0.1.0)", "sacrebleu (>=2.0.0)", "scikit-image (>=0.19.0)", "scikit-learn (>=1.1.1)", "scipy (>1.0.0)", "sewar (>=0.4.4)", "statsmodels (>0.13.5)", "torch-complex (<=0.4.3)"]
 text = ["nltk (>=3.6)", "regex (>=2021.9.24)", "tqdm (>=4.41.0)", "transformers (>4.4.0)"]
 typing = ["mypy (==1.5.1)", "types-PyYAML", "types-emoji", "types-protobuf", "types-requests", "types-setuptools", "types-six", "types-tabulate"]
 visual = ["SciencePlots (>=2.0.0)", "matplotlib (>=3.2.0)"]
@@ -3188,13 +3194,13 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 
 [[package]]
 name = "wandb"
-version = "0.15.10"
+version = "0.15.11"
 description = "A CLI and library for interacting with the Weights & Biases API."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "wandb-0.15.10-py3-none-any.whl", hash = "sha256:bc810879fecd1b62ccd498658e55ade3702939090a94b99418630e77e1f43d50"},
-    {file = "wandb-0.15.10.tar.gz", hash = "sha256:5ce6d2d6be904da726b591a19ac22d2e71aa4b6a9ed450d8cd817d1712969b13"},
+    {file = "wandb-0.15.11-py3-none-any.whl", hash = "sha256:d0ea8b683c1416b626de0a57800687fb6c36307b3e1a455b7ed4dee6e342f391"},
+    {file = "wandb-0.15.11.tar.gz", hash = "sha256:d686ddb602891b8c63b5a8fffd7585d43ca441025cea2ee0bb01d06e35bfbdb1"},
 ]
 
 [package.dependencies]
@@ -3221,9 +3227,10 @@ aws = ["boto3"]
 azure = ["azure-identity", "azure-storage-blob"]
 gcp = ["google-cloud-storage"]
 kubeflow = ["google-cloud-storage", "kubernetes", "minio", "sh"]
-launch = ["awscli", "azure-containerregistry", "azure-identity", "azure-storage-blob", "boto3", "botocore", "chardet", "google-auth", "google-cloud-artifact-registry", "google-cloud-compute", "google-cloud-storage", "iso8601", "kubernetes", "nbconvert", "nbformat", "optuna", "typing-extensions"]
+launch = ["PyYAML (>=6.0.0)", "awscli", "azure-containerregistry", "azure-identity", "azure-storage-blob", "boto3", "botocore", "chardet", "google-auth", "google-cloud-artifact-registry", "google-cloud-compute", "google-cloud-storage", "iso8601", "kubernetes", "nbconvert", "nbformat", "optuna", "typing-extensions"]
 media = ["bokeh", "moviepy", "numpy", "pillow", "plotly", "rdkit-pypi", "soundfile"]
 models = ["cloudpickle"]
+nexus = ["wandb-core (>=0.16.0b1)"]
 perf = ["orjson"]
 sweeps = ["sweeps (>=0.2.0)"]
 
