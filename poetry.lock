@@ -620,13 +620,13 @@ tests = ["asttokens", "littleutils", "pytest", "rich"]
 
 [[package]]
 name = "fastapi"
-version = "0.103.1"
+version = "0.103.2"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "fastapi-0.103.1-py3-none-any.whl", hash = "sha256:5e5f17e826dbd9e9b5a5145976c5cd90bcaa61f2bf9a69aca423f2bcebe44d83"},
-    {file = "fastapi-0.103.1.tar.gz", hash = "sha256:345844e6a82062f06a096684196aaf96c1198b25c06b72c1311b882aa2d8a35d"},
+    {file = "fastapi-0.103.2-py3-none-any.whl", hash = "sha256:3270de872f0fe9ec809d4bd3d4d890c6d5cc7b9611d721d6438f9dacc8c4ef2e"},
+    {file = "fastapi-0.103.2.tar.gz", hash = "sha256:75a11f6bfb8fc4d2bec0bd710c2d5f2829659c0e8c0afd5560fdda6ce25ec653"},
 ]
 
 [package.dependencies]
@@ -1019,13 +1019,13 @@ ansicon = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "lightning"
-version = "2.0.9"
+version = "2.0.9.post0"
 description = "The Deep Learning framework to train, deploy, and ship AI products Lightning fast."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "lightning-2.0.9-py3-none-any.whl", hash = "sha256:5866cc500fbe816046dd1ea3bc12512ed570fdcfab413647c68b515a15def62e"},
-    {file = "lightning-2.0.9.tar.gz", hash = "sha256:2395ece6e29e12064718ff16b8edec5685df7f7095d4fee78edb0a654f5cd7eb"},
+    {file = "lightning-2.0.9.post0-py3-none-any.whl", hash = "sha256:6b44697bebb7b59e6f3236d2e1c240381af492b6085ced378724c1f62defd50a"},
+    {file = "lightning-2.0.9.post0.tar.gz", hash = "sha256:93687b65bff28cedfc13c758bdfed982849c34f9bb506937c63275a9647586a0"},
 ]
 
 [package.dependencies]
@@ -2414,13 +2414,13 @@ cli = ["PyYAML (>=6.0,<7.0)", "fastapi (>=0.92.0,<1)", "jinja2 (>=3.1,<4.0)", "r
 
 [[package]]
 name = "rich"
-version = "13.5.3"
+version = "13.6.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "rich-13.5.3-py3-none-any.whl", hash = "sha256:9257b468badc3d347e146a4faa268ff229039d4c2d176ab0cffb4c4fbc73d5d9"},
-    {file = "rich-13.5.3.tar.gz", hash = "sha256:87b43e0543149efa1253f485cd845bb7ee54df16c9617b8a893650ab84b4acb6"},
+    {file = "rich-13.6.0-py3-none-any.whl", hash = "sha256:2b38e2fe9ca72c9a00170a1a2d20c63c790d0e10ef1fe35eba76e1e7b1d7d245"},
+    {file = "rich-13.6.0.tar.gz", hash = "sha256:5c14d22737e6d5084ef4771b62d5d4363165b403455a30a1c8ca39dc7b644bef"},
 ]
 
 [package.dependencies]
