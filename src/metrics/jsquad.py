@@ -7,7 +7,8 @@ from typing import Any
 
 import numpy as np
 import torch
-from torchmetrics import Metric, SQuAD
+from torchmetrics import Metric
+from torchmetrics.text import SQuAD
 
 from datamodule.datasets import JSQuADDataset
 

@@ -1,5 +1,5 @@
 import pytest
-from torchmetrics import SQuAD
+from torchmetrics.text import SQuAD
 
 CASES = [
     {
