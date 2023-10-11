@@ -33,8 +33,8 @@ class JSTSModule(BaseModule):
 
     def validation_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
-        preds = torch.squeeze(out.logits, dim=-1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        predictions = torch.squeeze(out.logits, dim=-1)  # (b)
+        self.metric.update(predictions, batch["labels"])
 
     def on_validation_epoch_end(self) -> None:
         self.log_dict({f"valid/{key}": value for key, value in self.metric.compute().items()})
@@ -42,8 +42,8 @@ class JSTSModule(BaseModule):
 
     def test_step(self, batch: Any, batch_idx: int) -> None:
         out: SequenceClassifierOutput = self(batch)
-        preds = torch.squeeze(out.logits, dim=-1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        predictions = torch.squeeze(out.logits, dim=-1)  # (b)
+        self.metric.update(predictions, batch["labels"])
 
     def on_test_epoch_end(self) -> None:
         self.log_dict({f"test/{key}": value for key, value in self.metric.compute().items()})

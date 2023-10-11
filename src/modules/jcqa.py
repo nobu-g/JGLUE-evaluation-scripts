@@ -34,8 +34,8 @@ class JCommonsenseQAModule(BaseModule):
 
     def validation_step(self, batch: Any, batch_idx: int) -> None:
         out: MultipleChoiceModelOutput = self(batch)
-        preds = torch.argmax(out.logits, dim=1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        predictions = torch.argmax(out.logits, dim=1)  # (b)
+        self.metric.update(predictions, batch["labels"])
 
     def on_validation_epoch_end(self) -> None:
         self.log("valid/accuracy", self.metric.compute())
@@ -43,8 +43,8 @@ class JCommonsenseQAModule(BaseModule):
 
     def test_step(self, batch: Any, batch_idx: int) -> None:
         out: MultipleChoiceModelOutput = self(batch)
-        preds = torch.argmax(out.logits, dim=1)  # (b)
-        self.metric.update(preds, batch["labels"])
+        predictions = torch.argmax(out.logits, dim=1)  # (b)
+        self.metric.update(predictions, batch["labels"])
 
     def on_test_epoch_end(self) -> None:
         self.log("test/accuracy", self.metric.compute())
