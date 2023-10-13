@@ -26,12 +26,12 @@ class JNLIModule(BaseModule):
     def forward(self, batch: dict[str, Any]) -> SequenceClassifierOutput:
         return self.model(**batch)
 
-    def training_step(self, batch: Any, batch_idx: int) -> torch.Tensor:
+    def training_step(self, batch: Any) -> torch.Tensor:
         out: SequenceClassifierOutput = self(batch)
         self.log("train/loss", out.loss)
         return out.loss
 
-    def validation_step(self, batch: Any, batch_idx: int) -> None:
+    def validation_step(self, batch: Any) -> None:
         out: SequenceClassifierOutput = self(batch)
         predictions = torch.argmax(out.logits, dim=1)  # (b)
         self.metric.update(predictions, batch["labels"])
@@ -40,7 +40,7 @@ class JNLIModule(BaseModule):
         self.log("valid/accuracy", self.metric.compute())
         self.metric.reset()
 
-    def test_step(self, batch: Any, batch_idx: int) -> None:
+    def test_step(self, batch: Any) -> None:
         out: SequenceClassifierOutput = self(batch)
         predictions = torch.argmax(out.logits, dim=1)  # (b)
         self.metric.update(predictions, batch["labels"])

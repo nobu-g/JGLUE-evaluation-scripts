@@ -26,12 +26,12 @@ class JSQuADModule(BaseModule):
     def forward(self, batch: dict[str, torch.Tensor]) -> QuestionAnsweringModelOutput:
         return self.model(**{k: v for k, v in batch.items() if k in self.MODEL_ARGS})
 
-    def training_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> torch.Tensor:
+    def training_step(self, batch: dict[str, torch.Tensor]) -> torch.Tensor:
         out: QuestionAnsweringModelOutput = self(batch)
         self.log("train/loss", out.loss)
         return out.loss
 
-    def validation_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
+    def validation_step(self, batch: dict[str, torch.Tensor]) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
         dataset: JSQuADDataset = self.trainer.val_dataloaders.dataset
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
@@ -40,7 +40,7 @@ class JSQuADModule(BaseModule):
         self.log_dict({f"valid/{key}": value for key, value in self.metric.compute().items()})
         self.metric.reset()
 
-    def test_step(self, batch: dict[str, torch.Tensor], batch_idx: int) -> None:
+    def test_step(self, batch: dict[str, torch.Tensor]) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
         dataset: JSQuADDataset = self.trainer.test_dataloaders.dataset
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
