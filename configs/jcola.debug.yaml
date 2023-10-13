@@ -1,0 +1,28 @@
+defaults:
+  - base
+  - callbacks: [early_stopping, model_checkpoint, model_summary, progress_bar]
+  - datamodule: jcola
+  - logger: null
+  - module: jcola
+  - optimizer: adamw
+  - scheduler: constant_schedule_with_warmup
+  - trainer: debug
+  - _self_
+
+model_name_or_path: ku-nlp/deberta-v2-tiny-japanese
+max_seq_length: 128
+checkpoint_path: ""
+limit_examples: 100
+
+monitor: valid/accuracy
+mode: max
+
+# hyper-parameters to be tuned
+lr: 1e-4
+max_epochs: 2
+warmup_steps: null
+warmup_ratio: 0.1
+effective_batch_size: 4
+
+# environment dependent settings
+num_workers: 0

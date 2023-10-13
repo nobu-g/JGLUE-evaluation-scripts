@@ -33,7 +33,7 @@ poetry run python src/train.py -cn marc_ja devices=[0,1] max_batches_per_device=
 ```
 
 Here are commonly used options:
-- `-cn`: Task name. Choose from `marc_ja`, `jsts`, `jnli`, `jsquad`, and `jcqa`.
+- `-cn`: Task name. Choose from `marc_ja`, `jcola`, `jsts`, `jnli`, `jsquad`, and `jcqa`.
 - `devices`: GPUs to use.
 - `max_batches_per_device`: Maximum number of batches to process per device (default: `4`).
 - `compile`: JIT-compile the model with [torch.compile](https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html) for faster training (default: `false`).
