@@ -61,8 +61,5 @@ def dataclass_data_collator(features: list[Any]) -> dict[str, Union[Tensor, list
     batch: dict[str, Union[Tensor, list[str]]] = {}
     for field in fields(first):
         feats = [getattr(f, field.name) for f in features]
-        if "text" in field.name:
-            batch[field.name] = feats
-        else:
-            batch[field.name] = torch.as_tensor(feats)
+        batch[field.name] = torch.as_tensor(feats)
     return batch
