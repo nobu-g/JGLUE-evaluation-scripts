@@ -5,8 +5,8 @@ on: [ push, pull_request ]
 jobs:
   test:
     name: Run tests with pytest
-    container: kunlp/jumanpp:ubuntu20.04
-    runs-on: ubuntu-20.04
+    container: kunlp/jumanpp:ubuntu22.04
+    runs-on: ubuntu-22.04
     strategy:
       max-parallel: 3
       fail-fast: false
@@ -17,21 +17,26 @@ jobs:
         uses: actions/checkout@v4
       - name: Install required apt packages
         run: |
-          apt update -y
-          DEBIAN_FRONTEND=noninteractive apt install -y curl build-essential libsqlite3-dev libffi-dev
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -yq
+          apt-get install -yq curl build-essential libsqlite3-dev libffi-dev
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Poetry
-        run: curl -sSL https://install.python-poetry.org | python3 -
+        run: |
+          python3 -m pip install --user pipx
+          python3 -m pipx ensurepath
+          python3 -m pipx install poetry
       - name: Add path for Python packages
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          poetry config virtualenvs.create false
           poetry install --no-interaction --without dev
       - name: Run tests
-        run: poetry run pytest
+        run: |
+          poetry run pytest -v ./tests
         env:
           XDG_CACHE_HOME: ${{ github.workspace }}/.cache
