@@ -38,5 +38,3 @@ jobs:
       - name: Run tests
         run: |
           poetry run pytest -v ./tests
-        env:
-          XDG_CACHE_HOME: ${{ github.workspace }}/.cache
