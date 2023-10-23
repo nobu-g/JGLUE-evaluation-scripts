@@ -8,6 +8,7 @@ from wandb.apis.public import Run, Sweep
 
 TASKS = {
     "marc_ja/accuracy": "MARC-ja/acc",
+    "jcola/accuracy": "JCoLA/acc",
     "jsts/pearson": "JSTS/pearson",
     "jsts/spearman": "JSTS/spearman",
     "jnli/accuracy": "JNLI/acc",
@@ -16,10 +17,10 @@ TASKS = {
     "jcqa/accuracy": "JComQA/acc",
 }
 MODELS = {
-    "roberta_base": "nlp-waseda/roberta-base-japanese",
-    "roberta_large": "nlp-waseda/roberta-large-japanese-seq512",
-    "deberta_base": "ku-nlp/deberta-v2-base-japanese",
-    "deberta_large": "ku-nlp/deberta-v2-large-japanese",
+    "roberta_base": "Waseda RoBERTa base",  # nlp-waseda/roberta-base-japanese
+    "roberta_large": "Waseda RoBERTa large (seq512)",  # nlp-waseda/roberta-large-japanese-seq512
+    "deberta_base": "DeBERTaV2 base",  # ku-nlp/deberta-v2-base-japanese
+    "deberta_large": "DeBERTaV2 large",  # ku-nlp/deberta-v2-large-japanese
 }
 
 
