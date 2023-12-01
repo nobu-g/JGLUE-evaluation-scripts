@@ -1,8 +1,8 @@
-from .jcola import JCoLADataset
-from .jcqa import JCommonsenseQADataset
-from .jnli import JNLIDataset
-from .jsquad import JSQuADDataset
-from .jsts import JSTSDataset
-from .marc_ja import MARCJaDataset
+from datamodule.datasets.jcola import JCoLADataset
+from datamodule.datasets.jcqa import JCommonsenseQADataset
+from datamodule.datasets.jnli import JNLIDataset
+from datamodule.datasets.jsquad import JSQuADDataset
+from datamodule.datasets.jsts import JSTSDataset
+from datamodule.datasets.marc_ja import MARCJaDataset
 
 __all__ = ["MARCJaDataset", "JCoLADataset", "JSTSDataset", "JNLIDataset", "JSQuADDataset", "JCommonsenseQADataset"]

@@ -67,9 +67,7 @@ def test_features_0(tokenizer: PreTrainedTokenizerBase):
     features = dataset[0]
     question_tokens: list[str] = tokenizer.tokenize(example["question"])
     context_tokens: list[str] = tokenizer.tokenize(example["context"])
-    input_tokens = (
-        [tokenizer.cls_token] + question_tokens + [tokenizer.sep_token] + context_tokens + [tokenizer.sep_token]
-    )
+    input_tokens = [tokenizer.cls_token, *question_tokens, tokenizer.sep_token, *context_tokens, tokenizer.sep_token]
     padded_input_tokens = input_tokens + [tokenizer.pad_token] * (max_seq_length - len(input_tokens))
     assert features.input_ids == tokenizer.convert_tokens_to_ids(padded_input_tokens)
     assert features.attention_mask == [1] * len(input_tokens) + [0] * (max_seq_length - len(input_tokens))

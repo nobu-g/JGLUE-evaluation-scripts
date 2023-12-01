@@ -1,3 +1,3 @@
-from .jsquad import JSQuADMetric
+from metrics.jsquad import JSQuADMetric
 
 __all__ = ["JSQuADMetric"]

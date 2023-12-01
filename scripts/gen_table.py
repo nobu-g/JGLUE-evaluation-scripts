@@ -40,8 +40,8 @@ def main():
     table: list[list[Optional[RunSummary]]] = []
     for model in MODELS.keys():
         items: list[Optional[RunSummary]] = []
-        for task in TASKS.keys():
-            task, metric_name = task.split("/")
+        for task_and_metric in TASKS.keys():
+            task, metric_name = task_and_metric.split("/")
             sweep: Sweep = api.sweep(name_to_sweep_path[f"{task}-{model}"])
             if sweep.state == "FINISHED":
                 run: Optional[Run] = sweep.best_run()
@@ -65,7 +65,7 @@ def main():
                 [model] + [item.metric if item else "-" for item in items]
                 for model, items in zip(MODELS.values(), table)
             ],
-            headers=["Model"] + list(TASKS.values()),
+            headers=["Model", *TASKS.values()],
             tablefmt="github",
             floatfmt=".3f",
             colalign=["left"] + ["right"] * len(TASKS),
@@ -76,7 +76,7 @@ def main():
     print(
         tabulate(
             [[model] + [item.lr if item else "-" for item in items] for model, items in zip(MODELS.values(), table)],
-            headers=["Model"] + list(TASKS.values()),
+            headers=["Model", *TASKS.values()],
             tablefmt="github",
             colalign=["left"] + ["right"] * len(TASKS),
         )
@@ -89,7 +89,7 @@ def main():
                 [model] + [item.max_epochs if item else "-" for item in items]
                 for model, items in zip(MODELS.values(), table)
             ],
-            headers=["Model"] + list(TASKS.values()),
+            headers=["Model", *TASKS.values()],
             tablefmt="github",
             colalign=["left"] + ["right"] * len(TASKS),
         )

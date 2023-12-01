@@ -84,9 +84,8 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
             if token_type_id != 1 or char_start_index == char_end_index == 0:
                 continue
             # 半角スペースが無視されていない時があるため、その場合はマッピングを1つずらす
-            if context[char_start_index] == " ":
-                char_start_index += 1
-            if answer_start == char_start_index:
+            char_start_offset = 1 if context[char_start_index] == " " else 0
+            if answer_start == char_start_index + char_start_offset:
                 token_start_index = token_index
             if answer_end == char_end_index:
                 token_end_index = token_index
@@ -96,7 +95,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
 def preprocess(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
     titles: list[str]
     bodies: list[str]
-    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])
+    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore
     segmented_titles = batch_segment(titles, **segmenter_kwargs)
     segmented_bodies = batch_segment(bodies, **segmenter_kwargs)
     segmented_contexts = [f"{title} [SEP] {body}" for title, body in zip(segmented_titles, segmented_bodies)]
@@ -105,14 +104,14 @@ def preprocess(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
     for answers, segmented_context, title in zip(examples["answers"], segmented_contexts, titles):
         processed_answers: list[dict] = []
         for answer_text, answer_start in zip(answers["text"], answers["answer_start"]):
-            segmented_answer_text, answer_start = find_segmented_answer(
+            segmented_answer_text, segmented_answer_start = find_segmented_answer(
                 segmented_context, answer_text, answer_start, len(title)
             )
-            if answer_start is None:
+            if segmented_answer_start is None:
                 processed_answers.append(dict(text=answer_text, answer_start=-1))
                 continue
             assert segmented_answer_text is not None
-            processed_answers.append(dict(text=segmented_answer_text, answer_start=answer_start))
+            processed_answers.append(dict(text=segmented_answer_text, answer_start=segmented_answer_start))
         batch_answers.append(processed_answers)
     return {"context": segmented_contexts, "question": segmented_questions, "answers": batch_answers}
 
