@@ -2,6 +2,8 @@
 
 [![test](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/test.yml/badge.svg)](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/test.yml)
 [![lint](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/lint.yml/badge.svg)](https://github.com/nobu-g/JGLUE-evaluation-scripts/actions/workflows/lint.yml)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/nobu-g/JGLUE-evaluation-scripts/main.svg)](https://results.pre-commit.ci/latest/github/nobu-g/JGLUE-evaluation-scripts/main)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/nobu-g/JGLUE-evaluation-scripts)](https://www.codefactor.io/repository/github/nobu-g/JGLUE-evaluation-scripts)
 [![license](https://img.shields.io/github/license/nobu-g/JGLUE-evaluation-scripts?color=blue)](https://github.com/nobu-g/JGLUE-evaluation-scripts/blob/main/LICENSE)
 
