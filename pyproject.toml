@@ -9,8 +9,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 torch = ">=2.1.1"
-transformers = { version = "~4.34.1", extras = ["sentencepiece"] }
-tokenizers = "^0.14.1"
+transformers = { version = "~4.36.2", extras = ["sentencepiece"] }
+tokenizers = "^0.15.0"
 lightning = "~2.1.0"
 torchmetrics = "^1.1"
 omegaconf = "^2.3"
