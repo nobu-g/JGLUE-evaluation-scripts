@@ -1,5 +1,6 @@
 ci:
   autofix_prs: false
+  skip: [mypy]
 
 default_language_version:
   python: python3.10
