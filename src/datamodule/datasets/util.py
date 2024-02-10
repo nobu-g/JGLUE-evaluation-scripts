@@ -33,8 +33,10 @@ class QuestionAnsweringFeatures:
 
 
 def batch_segment(
-    texts: list[str], analyzer: str = "jumanpp", h2z: bool = True, mecab_dic_dir: Optional[str] = None
+    texts: list[str], analyzer: Optional[str] = "jumanpp", h2z: bool = True, mecab_dic_dir: Optional[str] = None
 ) -> list[str]:
+    if analyzer is None:
+        return texts
     segmenter = WordSegmenter(analyzer, h2z, mecab_dic_dir)
     return [segmenter.get_segmented_string(text) for text in texts]
 
