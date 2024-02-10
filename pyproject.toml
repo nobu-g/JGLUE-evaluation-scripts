@@ -11,7 +11,7 @@ python = "^3.9"
 torch = ">=2.1.1"
 transformers = { version = "~4.36.2", extras = ["sentencepiece"] }
 tokenizers = "^0.15.0"
-lightning = "~2.1.0"
+lightning = "~2.2.0"
 torchmetrics = "^1.1"
 omegaconf = "^2.3"
 hydra-core = "^1.3"
@@ -28,13 +28,16 @@ wandb = "^0.16.0"
 tabulate = "^0.9.0"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4"
+pytest = "^8.0"
 
 [tool.ruff]
 line-length = 120
 indent-width = 4
 target-version = "py39"  # The minimum Python version to target
 src = ["src"]
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "I", "B", "PL", "PD", "NPY", "RUF", "UP", "TID", "COM", "PT", "ARG", "PYI"]
 ignore = [
     "PLR0912",  # Too many branches
     "PLR0913",  # Too many arguments in function definition
@@ -49,15 +52,14 @@ ignore = [
     "ANN102",  # Missing type annotation for `cls` in classmethod
     "PLR2004",  # Magic value used in comparison
 ]
-select = ["F", "E", "W", "I", "B", "PL", "PD", "NPY", "RUF", "UP", "TID", "COM", "PT", "ARG", "PYI"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ANN"]
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.black]
