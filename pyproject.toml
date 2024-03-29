@@ -64,7 +64,7 @@ convention = "google"
 
 [tool.black]
 line-length = 120
-target-version = ["py39", "py310", "py311"]
+target-version = ["py39", "py310", "py311", "py312"]
 
 [tool.mypy]
 python_version = 3.9
