@@ -45,6 +45,7 @@ Here are commonly used options:
 - `model_name_or_path`: Path to a pre-trained model or model identifier from
   the [Huggingface Hub](https://huggingface.co/models) (default: `ku-nlp/deberta-v2-large-japanese`).
 
+To evaluate on the out-of-domain split of the JCoLA dataset, specify `datamodule/valid=jcola_ood` (or `datamodule/valid=jcola_ood_annotated`).
 For more options, see YAML config files under [configs](./configs).
 
 <!--

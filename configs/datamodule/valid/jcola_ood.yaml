@@ -1,0 +1,4 @@
+defaults:
+  - /datamodule/base/valid@
+_target_: datamodule.datasets.JCoLADataset
+split: validation_out_of_domain

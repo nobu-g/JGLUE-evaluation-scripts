@@ -1,6 +1,6 @@
 defaults:
   - train: jcola.yaml
-  - valid: jcola.yaml
+  - valid: jcola.yaml  # or jcola_ood.yaml, jcola_ood_annotated.yaml
   - test: jcola.yaml
 
 batch_size: ${max_batches_per_device}
