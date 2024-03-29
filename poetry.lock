@@ -970,7 +970,7 @@ files = [
 name = "mecab-python3"
 version = "1.0.8"
 description = "Python wrapper for the MeCab morphological analyzer for Japanese"
-optional = false
+optional = true
 python-versions = "*"
 files = [
     {file = "mecab-python3-1.0.8.tar.gz", hash = "sha256:70988bab263696456f75d3d8910c75aea477a9d08054ad7ef85be5470dd3f65b"},
@@ -3053,7 +3053,10 @@ files = [
 idna = ">=2.0"
 multidict = ">=4.0"
 
+[extras]
+mecab = ["mecab-python3"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "474c4689d4d95054434447fad686c8837d4c72aadd2582a50373a63a9f29bcae"
+content-hash = "f03af1ff463564f9fbc9cc124c461fa6ce6608d5fc4eb0bbbce396072a743388"
