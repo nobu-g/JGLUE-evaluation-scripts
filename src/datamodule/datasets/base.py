@@ -26,7 +26,9 @@ class BaseDataset(Dataset[FeatureType], Generic[FeatureType], ABC):
         if self.split == "test":
             self.split = "validation"
         # columns: id, title, context, question, answers, is_impossible
-        self.hf_dataset: HFDataset = load_dataset("shunk031/JGLUE", name=dataset_name, split=self.split)
+        self.hf_dataset: HFDataset = load_dataset(
+            "shunk031/JGLUE", name=dataset_name, split=self.split, trust_remote_code=True
+        )
         if limit_examples > 0:
             self.hf_dataset = self.hf_dataset.select(range(limit_examples))
 
