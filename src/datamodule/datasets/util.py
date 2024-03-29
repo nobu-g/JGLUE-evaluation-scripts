@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from typing import Optional
 
 import jaconv
-import MeCab
 from rhoknp import Jumanpp
 
 
@@ -52,6 +51,8 @@ class WordSegmenter:
             tagger_options = []
             if mecab_dic_dir is not None:
                 tagger_options += f"-d {mecab_dic_dir}".split()
+            import MeCab
+
             self._mecab = MeCab.Tagger(" ".join(tagger_options))
 
     def get_words(self, string: str) -> list[str]:
