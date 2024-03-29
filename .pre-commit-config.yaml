@@ -26,10 +26,10 @@ repos:
       - id: mypy
         additional_dependencies:
           - hydra-core
-          - torch==2.2.0
+          - torch
           - torchmetrics
-          - transformers==4.36.2
+          - transformers==4.38.2
           - datasets
-          - tokenizers==0.15.1
+          - tokenizers==0.15.2
           - wandb
           - types-tabulate==0.9.0.1
