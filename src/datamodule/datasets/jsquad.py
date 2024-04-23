@@ -26,6 +26,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
             batch_size=100,
             fn_kwargs=dict(segmenter_kwargs=segmenter_kwargs),
             num_proc=os.cpu_count(),
+            # load_from_cache_file=False,  # for debugging
         ).map(
             lambda x: self.tokenizer(
                 x["question"],
@@ -36,6 +37,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
                 return_offsets_mapping=True,
             ),
             batched=True,
+            # load_from_cache_file=False,  # for debugging
         )
 
         # skip invalid examples for training
@@ -93,6 +95,12 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
 
 
 def preprocess(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
+    if segmenter_kwargs["analyzer"] is None:
+        return preprocess_no_segmentation(examples)
+    return preprocess_with_segmentation(examples, segmenter_kwargs)
+
+
+def preprocess_with_segmentation(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
     titles: list[str]
     bodies: list[str]
     titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore
@@ -114,6 +122,22 @@ def preprocess(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
             processed_answers.append(dict(text=segmented_answer_text, answer_start=segmented_answer_start))
         batch_answers.append(processed_answers)
     return {"context": segmented_contexts, "question": segmented_questions, "answers": batch_answers}
+
+
+def preprocess_no_segmentation(examples) -> dict[str, Any]:
+    titles: list[str]
+    bodies: list[str]
+    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore
+    contexts = [f"{title}[SEP]{body}" for title, body in zip(titles, bodies)]
+    batch_answers: list[list[dict]] = []
+    for answers, orig_context in zip(examples["answers"], examples["context"]):
+        processed_answers: list[dict] = []
+        for answer_text, answer_start in zip(answers["text"], answers["answer_start"]):
+            # two whitespaces are stripped in the preprocessing
+            offset = -2 if " [SEP] " in orig_context[:answer_start] else 0
+            processed_answers.append(dict(text=answer_text, answer_start=answer_start + offset))
+        batch_answers.append(processed_answers)
+    return {"context": contexts, "question": examples["question"], "answers": batch_answers}
 
 
 def find_segmented_answer(

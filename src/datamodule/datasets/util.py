@@ -32,7 +32,7 @@ class QuestionAnsweringFeatures:
 
 
 def batch_segment(
-    texts: list[str], analyzer: Optional[str] = "jumanpp", h2z: bool = True, mecab_dic_dir: Optional[str] = None
+    texts: list[str], analyzer: Optional[str], h2z: bool = True, mecab_dic_dir: Optional[str] = None
 ) -> list[str]:
     if analyzer is None:
         return texts
