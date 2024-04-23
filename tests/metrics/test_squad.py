@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 from torchmetrics.text import SQuAD
 
@@ -46,7 +48,7 @@ CASES = [
 
 
 @pytest.mark.parametrize("case", CASES)
-def test_jsquad(case: dict):
+def test_jsquad(case: dict[str, Any]):
     metric = SQuAD()
     metrics = metric(case["preds"], case["target"])
     assert metrics["exact_match"].item() / 100.0 == pytest.approx(case["exact_match"])
