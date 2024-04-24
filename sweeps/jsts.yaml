@@ -1,9 +1,10 @@
 project: JGLUE-evaluation-scripts
 entity: your-name
+name: jsts-MODEL_NAME
 program: src/train.py
 method: grid
 metric:
-  name: valid/accuracy
+  name: valid/spearman
   goal: maximize
 parameters:
   lr:
@@ -15,6 +16,6 @@ command:
   - ${interpreter}
   - ${program}
   - "-cn"
-  - "jcqa"
-  - "model=deberta_v2_base"
+  - "jsts"
+  - "model=MODEL_NAME"
   - ${args_no_hyphens}

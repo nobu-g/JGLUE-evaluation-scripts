@@ -1,5 +1,6 @@
 project: JGLUE-evaluation-scripts
 entity: your-name
+name: jcola-MODEL_NAME
 program: src/train.py
 method: grid
 metric:
@@ -15,6 +16,6 @@ command:
   - ${interpreter}
   - ${program}
   - "-cn"
-  - "jnli"
-  - "model=deberta_v2_large"
+  - "jcola"
+  - "model=MODEL_NAME"
   - ${args_no_hyphens}

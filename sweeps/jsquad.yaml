@@ -1,5 +1,6 @@
 project: JGLUE-evaluation-scripts
 entity: your-name
+name: jsquad-MODEL_NAME
 program: src/train.py
 method: grid
 metric:
@@ -16,5 +17,5 @@ command:
   - ${program}
   - "-cn"
   - "jsquad"
-  - "model=deberta_v2_large"
+  - "model=MODEL_NAME"
   - ${args_no_hyphens}

@@ -1,9 +1,10 @@
 project: JGLUE-evaluation-scripts
 entity: your-name
+name: jnli-MODEL_NAME
 program: src/train.py
 method: grid
 metric:
-  name: valid/spearman
+  name: valid/accuracy
   goal: maximize
 parameters:
   lr:
@@ -15,6 +16,6 @@ command:
   - ${interpreter}
   - ${program}
   - "-cn"
-  - "jsts"
-  - "model=roberta_large"
+  - "jnli"
+  - "model=MODEL_NAME"
   - ${args_no_hyphens}
