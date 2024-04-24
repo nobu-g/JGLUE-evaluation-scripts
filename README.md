@@ -42,8 +42,7 @@ Here are commonly used options:
 - `compile`: JIT-compile the model
   with [torch.compile](https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html) for faster training (
   default: `false`).
-- `model_name_or_path`: Path to a pre-trained model or model identifier from
-  the [Huggingface Hub](https://huggingface.co/models) (default: `ku-nlp/deberta-v2-large-japanese`).
+- `model`: Pre-trained model name. see YAML config files under [configs/model](./configs/model).
 
 To evaluate on the out-of-domain split of the JCoLA dataset, specify `datamodule/valid=jcola_ood` (or `datamodule/valid=jcola_ood_annotated`).
 For more options, see YAML config files under [configs](./configs).
@@ -78,8 +77,8 @@ poetry run python scripts/train.py -cn marc_ja.debug devices=[0]
 ## Tuning hyper-parameters
 
 ```shell
-$ wandb sweep sweeps/marc_ja/deberta_base.yaml
-wandb: Creating sweep from: sweeps/marc_ja/deberta_base.yaml
+$ wandb sweep <(sed 's/MODEL_NAME/deberta_base/' sweeps/jcola.yaml)
+wandb: Creating sweep from: /dev/fd/xx
 wandb: Created sweep with ID: xxxxxxxx
 wandb: View sweep at: https://wandb.ai/<wandb-user>/JGLUE-evaluation-scripts/sweeps/xxxxxxxx
 wandb: Run sweep agent with: wandb agent <wandb-user>/JGLUE-evaluation-scripts/xxxxxxxx
@@ -100,6 +99,7 @@ following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63
 | LUKE Japanese large*          | 0.965       | -         | 0.932        | 0.902         | 0.927    | -         | -         | 0.893      |
 | DeBERTaV2 base                | 0.970       | 0.879     | 0.922        | 0.886         | 0.922    | 0.899     | 0.951     | 0.873      |
 | DeBERTaV2 large               | 0.968       | 0.882     | 0.925        | 0.892         | 0.924    | 0.912     | 0.959     | 0.890      |
+| DeBERTaV3 base                | 0.967       | 0.839     | 0.919        | 0.881         | 0.918    |           |           | 0.855      |
 
 *The scores of LUKE are from [the official repository](https://github.com/studio-ousia/luke).
 
