@@ -16,5 +16,5 @@ command:
   - ${program}
   - "-cn"
   - "jcola"
-  - "model_name_or_path=ku-nlp/deberta-v2-large-japanese"
+  - "model=deberta_v2_large"
   - ${args_no_hyphens}

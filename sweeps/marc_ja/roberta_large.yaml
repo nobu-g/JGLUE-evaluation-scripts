@@ -16,5 +16,5 @@ command:
   - ${program}
   - "-cn"
   - "marc_ja"
-  - "model_name_or_path=nlp-waseda/roberta-large-japanese-seq512"
+  - "model=roberta_large"
   - ${args_no_hyphens}
