@@ -1,5 +1,4 @@
 project: JGLUE-evaluation-scripts
-entity: your-name
 name: jsts-MODEL_NAME
 program: src/train.py
 method: grid

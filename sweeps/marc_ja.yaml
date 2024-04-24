@@ -1,5 +1,4 @@
 project: JGLUE-evaluation-scripts
-entity: your-name
 name: marc_ja-MODEL_NAME
 program: src/train.py
 method: grid
