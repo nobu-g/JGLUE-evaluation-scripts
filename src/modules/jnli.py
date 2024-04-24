@@ -13,12 +13,12 @@ class JNLIModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         config: PretrainedConfig = AutoConfig.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             num_labels=3,
             finetuning_task="JNLI",
         )
         self.model: PreTrainedModel = AutoModelForSequenceClassification.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             config=config,
         )
         self.metric = MulticlassAccuracy(num_classes=3, average="micro")

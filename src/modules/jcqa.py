@@ -14,12 +14,12 @@ class JCommonsenseQAModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         config = AutoConfig.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             num_labels=NUM_CHOICES,
             finetuning_task="JCommonsenseQA",
         )
         self.model = AutoModelForMultipleChoice.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             config=config,
         )
         self.metric = MulticlassAccuracy(num_classes=NUM_CHOICES, average="micro")

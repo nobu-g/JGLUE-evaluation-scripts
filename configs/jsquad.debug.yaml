@@ -3,13 +3,13 @@ defaults:
   - callbacks: [early_stopping, model_checkpoint, model_summary, progress_bar]
   - datamodule: jsquad
   - logger: null
+  - model: deberta_v2_tiny
   - module: jsquad
   - optimizer: adamw
   - scheduler: constant_schedule_with_warmup
   - trainer: debug
   - _self_
 
-model_name_or_path: ku-nlp/deberta-v2-tiny-japanese
 max_seq_length: 128
 checkpoint_path: ""
 limit_examples: 3

@@ -13,12 +13,12 @@ class JSTSModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         config = AutoConfig.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             num_labels=1,
             finetuning_task="JSTS",
         )
         self.model = AutoModelForSequenceClassification.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             config=config,
         )
         self.metric = MetricCollection({"spearman": SpearmanCorrCoef(), "pearson": PearsonCorrCoef()})

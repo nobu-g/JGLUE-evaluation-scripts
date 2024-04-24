@@ -13,12 +13,12 @@ class MARCJaModule(BaseModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__(hparams)
         config = AutoConfig.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             num_labels=2,
             finetuning_task="MARC-ja",
         )
         self.model = AutoModelForSequenceClassification.from_pretrained(
-            hparams.model_name_or_path,
+            hparams.model.model_name_or_path,
             config=config,
         )
         self.metric = MulticlassAccuracy(num_classes=2, average="micro")

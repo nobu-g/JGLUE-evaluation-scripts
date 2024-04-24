@@ -1,10 +1,5 @@
 max_seq_length: ${max_seq_length}
 split: train
-tokenizer:
-  _target_: transformers.AutoTokenizer.from_pretrained
-  pretrained_model_name_or_path: ${model_name_or_path}
-  _convert_: all
-segmenter_kwargs:
-  analyzer: jumanpp
-  h2z: false
+tokenizer: ${model.tokenizer}
+segmenter_kwargs: ${model.segmenter_kwargs}
 limit_examples: ${limit_examples}
