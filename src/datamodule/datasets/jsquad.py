@@ -1,4 +1,3 @@
-import os
 from typing import Any, Optional
 
 from omegaconf import DictConfig
@@ -25,8 +24,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
             batched=True,
             batch_size=100,
             fn_kwargs=dict(segmenter_kwargs=segmenter_kwargs),
-            num_proc=os.cpu_count(),
-            # load_from_cache_file=False,  # for debugging
+            load_from_cache_file=False,
         ).map(
             lambda x: self.tokenizer(
                 x["question"],
@@ -37,13 +35,14 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
                 return_offsets_mapping=True,
             ),
             batched=True,
-            # load_from_cache_file=False,  # for debugging
+            load_from_cache_file=False,
         )
 
         # skip invalid examples for training
         if self.split == "train":
             self.hf_dataset = self.hf_dataset.filter(
-                lambda example: any(answer["answer_start"] >= 0 for answer in example["answers"])
+                lambda example: any(answer["answer_start"] >= 0 for answer in example["answers"]),
+                load_from_cache_file=False,
             )
 
     def __getitem__(self, index: int) -> QuestionAnsweringFeatures:
