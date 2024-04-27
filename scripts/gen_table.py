@@ -21,6 +21,7 @@ MODELS = {
     "roberta_large": "Waseda RoBERTa large (seq512)",  # nlp-waseda/roberta-large-japanese-seq512
     "deberta_base": "DeBERTaV2 base",  # ku-nlp/deberta-v2-base-japanese
     "deberta_large": "DeBERTaV2 large",  # ku-nlp/deberta-v2-large-japanese
+    "deberta_v3_base": "DeBERTaV3 base",  # ku-nlp/deberta-v3-base-japanese
 }
 
 
