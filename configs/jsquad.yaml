@@ -10,7 +10,7 @@ defaults:
   - trainer: default
   - _self_
 
-max_seq_length: 384
+max_seq_length: 384  # Max sequence length is 606 for ku-nlp/deberta-v3-base-japanese
 checkpoint_path: ""
 limit_examples: -1
 
