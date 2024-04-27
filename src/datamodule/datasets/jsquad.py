@@ -129,12 +129,14 @@ def preprocess_no_segmentation(examples) -> dict[str, Any]:
     titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore
     contexts = [f"{title}[SEP]{body}" for title, body in zip(titles, bodies)]
     batch_answers: list[list[dict]] = []
-    for answers, orig_context in zip(examples["answers"], examples["context"]):
+    assert len(examples["answers"]) == len(examples["context"]) == len(contexts)
+    for answers, orig_context, context in zip(examples["answers"], examples["context"], contexts):
         processed_answers: list[dict] = []
         for answer_text, answer_start in zip(answers["text"], answers["answer_start"]):
             # two whitespaces are stripped in the preprocessing
             offset = -2 if " [SEP] " in orig_context[:answer_start] else 0
-            processed_answers.append(dict(text=answer_text, answer_start=answer_start + offset))
+            if context[answer_start + offset :].startswith(answer_text):
+                processed_answers.append(dict(text=answer_text, answer_start=answer_start + offset))
         batch_answers.append(processed_answers)
     return {"context": contexts, "question": examples["question"], "answers": batch_answers}
 
