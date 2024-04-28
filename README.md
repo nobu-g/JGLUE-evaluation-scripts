@@ -44,7 +44,8 @@ Here are commonly used options:
   default: `false`).
 - `model`: Pre-trained model name. see YAML config files under [configs/model](./configs/model).
 
-To evaluate on the out-of-domain split of the JCoLA dataset, specify `datamodule/valid=jcola_ood` (or `datamodule/valid=jcola_ood_annotated`).
+To evaluate on the out-of-domain split of the JCoLA dataset, specify `datamodule/valid=jcola_ood` (
+or `datamodule/valid=jcola_ood_annotated`).
 For more options, see YAML config files under [configs](./configs).
 
 <!--
@@ -99,7 +100,7 @@ following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63
 | LUKE Japanese large*          | 0.965       | -         | 0.932        | 0.902         | 0.927    | -         | -         | 0.893      |
 | DeBERTaV2 base                | 0.970       | 0.879     | 0.922        | 0.886         | 0.922    | 0.899     | 0.951     | 0.873      |
 | DeBERTaV2 large               | 0.968       | 0.882     | 0.925        | 0.892         | 0.924    | 0.912     | 0.959     | 0.890      |
-| DeBERTaV3 base                | 0.967       | 0.839     | 0.919        | 0.881         | 0.918    |           |           | 0.855      |
+| DeBERTaV3 base                | 0.960       | 0.878     | 0.927        | 0.891         | 0.927    | 0.896     | 0.947     | 0.875      |
 
 *The scores of LUKE are from [the official repository](https://github.com/studio-ousia/luke).
 
@@ -113,6 +114,7 @@ following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63
 | Waseda RoBERTa large (seq512) | 2e-05       | 2e-05     | 3e-05        | 3e-05         | 2e-05    | 2e-05     | 2e-05     | 3e-05      |
 | DeBERTaV2 base                | 2e-05       | 3e-05     | 5e-05        | 5e-05         | 3e-05    | 2e-05     | 2e-05     | 5e-05      |
 | DeBERTaV2 large               | 5e-05       | 2e-05     | 5e-05        | 5e-05         | 2e-05    | 2e-05     | 2e-05     | 3e-05      |
+| DeBERTaV3 base                | 5e-05       | 2e-05     | 3e-05        | 3e-05         | 2e-05    | 5e-05     | 5e-05     | 2e-05      |
 
 - Training epochs: {3, 4}
 
@@ -122,6 +124,7 @@ following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63
 | Waseda RoBERTa large (seq512) | 4           | 4         | 4            | 4             | 3        | 3         | 3         | 3          |
 | DeBERTaV2 base                | 3           | 4         | 3            | 3             | 3        | 4         | 4         | 4          |
 | DeBERTaV2 large               | 3           | 3         | 4            | 4             | 3        | 4         | 4         | 3          |
+| DeBERTaV3 base                | 4           | 4         | 4            | 4             | 4        | 4         | 4         | 4          |
 
 ## Huggingface hub links
 
