@@ -135,6 +135,11 @@ following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63
 - LUKE Japanese large: [studio-ousia/luke-large-japanese](https://huggingface.co/studio-ousia/luke-japanese-large-lite)
 - DeBERTaV2 base: [ku-nlp/deberta-v2-base-japanese](https://huggingface.co/ku-nlp/deberta-v2-base-japanese)
 - DeBERTaV2 large: [ku-nlp/deberta-v2-large-japanese](https://huggingface.co/ku-nlp/deberta-v2-large-japanese)
+- DeBERTaV3 base: [ku-nlp/deberta-v3-base-japanese](https://huggingface.co/ku-nlp/deberta-v3-base-japanese)
+
+## Author
+
+Nobuhiro Ueda (ueda **at** nlp.ist.i.kyoto-u.ac.jp)
 
 ## Reference
 
