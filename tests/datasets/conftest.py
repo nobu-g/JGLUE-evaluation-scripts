@@ -14,5 +14,4 @@ def tokenizer() -> PreTrainedTokenizerBase:
 
 @pytest.fixture()
 def deberta_v3_tokenizer() -> PreTrainedTokenizerBase:
-    # TODO: remove `use_auth_token=True` when the model is public
-    return AutoTokenizer.from_pretrained("ku-nlp/deberta-v3-base-japanese", use_auth_token=True)
+    return AutoTokenizer.from_pretrained("ku-nlp/deberta-v3-base-japanese")
