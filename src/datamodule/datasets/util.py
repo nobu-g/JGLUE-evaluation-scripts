@@ -75,7 +75,7 @@ class WordSegmenter:
             for char in string:
                 words.append(char)
         else:
-            NotImplementedError(f"unknown analyzer: {self._analyzer}")
+            raise NotImplementedError(f"unknown analyzer: {self._analyzer}")
 
         return words
 
