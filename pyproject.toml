@@ -41,7 +41,7 @@ target-version = "py39"  # The minimum Python version to target
 src = ["src"]
 
 [tool.ruff.lint]
-select = ["F", "E", "W", "I", "B", "PL", "PD", "NPY", "RUF", "UP", "TID", "COM", "PT", "ARG", "PYI"]
+select = ["ALL"]
 ignore = [
     "PLR0912", # Too many branches
     "PLR0913", # Too many arguments in function definition
@@ -55,10 +55,27 @@ ignore = [
     "ANN101", # Missing type annotation for `self` in method
     "ANN102", # Missing type annotation for `cls` in classmethod
     "PLR2004", # Magic value used in comparison
+    "D",  # pydocstyle
+    "FA100",  # Missing `from __future__ import annotations`, but uses `...`
+    "S101",  # Use of `assert` detected
+    "TRY003",  # Avoid specifying long messages outside the exception class
+    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed in `...`
+    "C408",  # Unnecessary `dict` call (rewrite as a literal)
+    "FBT001",  # Boolean-typed positional argument in function definition
+    "FBT002",  # Boolean default positional argument in function definition
+    "ERA001",  # Found commented-out code
+    "EM102",  # Exception must not use an f-string literal, assign to variable first
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["ANN"]
+"tests/*" = [
+    "ANN",  # flake8-annotations
+    "INP001",  # File `...` is part of an implicit namespace package. Add an `__init__.py`.
+]
+"scripts/gen_table.py" = [
+    "T201",  # `print` found
+    "INP001",  # File `...` is part of an implicit namespace package. Add an `__init__.py`.
+]
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"

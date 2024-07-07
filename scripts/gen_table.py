@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import wandb
 from tabulate import tabulate
-from wandb.apis.public import Run, Sweep
+
+if TYPE_CHECKING:
+    from wandb.apis.public import Run, Sweep
 
 TASKS = {
     "marc_ja/accuracy": "MARC-ja/acc",
@@ -33,15 +35,15 @@ class RunSummary:
     batch_size: int
 
 
-def main():
+def main() -> None:
     api = wandb.Api()
     name_to_sweep_path: dict[str, str] = {
         line.split()[0]: line.split()[1] for line in Path("sweep_status.txt").read_text().splitlines()
     }
     table: list[list[Optional[RunSummary]]] = []
-    for model in MODELS.keys():
+    for model in MODELS:
         items: list[Optional[RunSummary]] = []
-        for task_and_metric in TASKS.keys():
+        for task_and_metric in TASKS:
             task, metric_name = task_and_metric.split("/")
             sweep: Sweep = api.sweep(name_to_sweep_path[f"{task}-{model}"])
             if sweep.state == "FINISHED":

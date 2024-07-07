@@ -21,7 +21,7 @@ class JCoLADataset(BaseDataset[SequenceClassificationFeatures]):
         super().__init__("JCoLA", split, tokenizer, max_seq_length, limit_examples)
 
         self.hf_dataset = self.hf_dataset.map(
-            lambda x: {"segmented": batch_segment(x["sentence"], **segmenter_kwargs)},  # type: ignore
+            lambda x: {"segmented": batch_segment(x["sentence"], **segmenter_kwargs)},  # type: ignore[misc]
             batched=True,
             batch_size=100,
             num_proc=os.cpu_count(),

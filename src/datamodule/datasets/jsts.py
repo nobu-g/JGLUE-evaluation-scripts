@@ -22,8 +22,8 @@ class JSTSDataset(BaseDataset[SequenceClassificationFeatures]):
 
         self.hf_dataset = self.hf_dataset.map(
             lambda x: {
-                "segmented1": batch_segment(x["sentence1"], **segmenter_kwargs),  # type: ignore
-                "segmented2": batch_segment(x["sentence2"], **segmenter_kwargs),  # type: ignore
+                "segmented1": batch_segment(x["sentence1"], **segmenter_kwargs),  # type: ignore[misc]
+                "segmented2": batch_segment(x["sentence2"], **segmenter_kwargs),  # type: ignore[misc]
             },
             batched=True,
             batch_size=100,

@@ -21,7 +21,7 @@ class DataModule(lightning.LightningDataModule):
         self.valid_dataset: Optional[Dataset] = None
         self.test_dataset: Optional[Dataset] = None
 
-    def prepare_data(self):
+    def prepare_data(self) -> None:
         pass
 
     def setup(self, stage: Optional[str] = None) -> None:

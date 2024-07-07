@@ -1,17 +1,19 @@
 import logging
 import warnings
-from typing import Union
+from typing import TYPE_CHECKING, Union
 
 import hydra
 import torch
 import transformers.utils.logging as hf_logging
-from lightning import Callback, LightningModule, Trainer
-from lightning.pytorch.loggers import Logger
 from lightning.pytorch.trainer.states import TrainerFn
 from lightning.pytorch.utilities.warnings import PossibleUserWarning
 from omegaconf import DictConfig, ListConfig, OmegaConf
 
 from datamodule.datamodule import DataModule
+
+if TYPE_CHECKING:
+    from lightning import Callback, LightningModule, Trainer
+    from lightning.pytorch.loggers import Logger
 
 hf_logging.set_verbosity(hf_logging.ERROR)
 warnings.filterwarnings(
@@ -24,7 +26,7 @@ logging.getLogger("torch").setLevel(logging.WARNING)
 
 
 @hydra.main(version_base=None, config_path="../configs", config_name="eval")
-def main(eval_cfg: DictConfig):
+def main(eval_cfg: DictConfig) -> None:
     if isinstance(eval_cfg.devices, str):
         eval_cfg.devices = (
             list(map(int, eval_cfg.devices.split(","))) if "," in eval_cfg.devices else int(eval_cfg.devices)
@@ -40,7 +42,7 @@ def main(eval_cfg: DictConfig):
         model = torch.compile(model)
 
     train_cfg: DictConfig = model.hparams
-    OmegaConf.set_struct(train_cfg, False)  # enable to add new key-value pairs
+    OmegaConf.set_struct(train_cfg, value=False)  # enable to add new key-value pairs
     cfg = OmegaConf.merge(train_cfg, eval_cfg)
     assert isinstance(cfg, DictConfig)
 

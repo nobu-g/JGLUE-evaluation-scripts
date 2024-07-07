@@ -3,6 +3,7 @@ from typing import Any
 
 import hydra
 from lightning import LightningModule
+from lightning.pytorch.utilities.types import OptimizerLRScheduler
 from omegaconf import DictConfig, OmegaConf
 
 
@@ -11,7 +12,7 @@ class BaseModule(LightningModule):
         super().__init__()
         self.save_hyperparameters(hparams)
 
-    def configure_optimizers(self):
+    def configure_optimizers(self) -> OptimizerLRScheduler:
         # Split weights in two groups, one with weight decay and the other not.
         no_decay = ("bias", "LayerNorm.weight")
         optimizer_grouped_parameters = [
@@ -44,5 +45,5 @@ class BaseModule(LightningModule):
 
     def on_save_checkpoint(self, checkpoint: dict[str, Any]) -> None:
         hparams: DictConfig = copy.deepcopy(checkpoint["hyper_parameters"])
-        OmegaConf.set_struct(hparams, False)
+        OmegaConf.set_struct(hparams, value=False)
         checkpoint["hyper_parameters"] = hparams

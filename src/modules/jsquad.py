@@ -1,13 +1,15 @@
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 import torch
 from omegaconf import DictConfig
 from transformers import AutoConfig, AutoModelForQuestionAnswering, PretrainedConfig, PreTrainedModel
 from transformers.modeling_outputs import QuestionAnsweringModelOutput
 
-from datamodule.datasets.jsquad import JSQuADDataset
 from metrics import JSQuADMetric
 from modules.base import BaseModule
+
+if TYPE_CHECKING:
+    from datamodule.datasets.jsquad import JSQuADDataset
 
 
 class JSQuADModule(BaseModule):

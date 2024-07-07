@@ -41,7 +41,7 @@ def batch_segment(
 
 
 class WordSegmenter:
-    def __init__(self, analyzer: str, h2z: bool, mecab_dic_dir: Optional[str] = None):
+    def __init__(self, analyzer: str, h2z: bool, mecab_dic_dir: Optional[str] = None) -> None:
         self._analyzer: str = analyzer
         self._h2z: bool = h2z
 
@@ -60,9 +60,7 @@ class WordSegmenter:
 
         if self._analyzer == "jumanpp":
             sentence = self._jumanpp.apply_to_sentence(string)
-
-            for morpheme in sentence.morphemes:
-                words.append(morpheme.text)
+            words += [morpheme.text for morpheme in sentence.morphemes]
         elif self._analyzer == "mecab":
             self._mecab.parse("")
             node = self._mecab.parseToNode(string)

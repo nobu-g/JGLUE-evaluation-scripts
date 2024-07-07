@@ -1,18 +1,20 @@
 import logging
 import math
 import warnings
-from typing import Union
+from typing import TYPE_CHECKING, Union
 
 import hydra
 import torch
 import transformers.utils.logging as hf_logging
 import wandb
 from lightning import Callback, LightningModule, Trainer, seed_everything
-from lightning.pytorch.loggers import Logger
 from lightning.pytorch.utilities.warnings import PossibleUserWarning
 from omegaconf import DictConfig, ListConfig
 
 from datamodule.datamodule import DataModule
+
+if TYPE_CHECKING:
+    from lightning.pytorch.loggers import Logger
 
 hf_logging.set_verbosity(hf_logging.ERROR)
 warnings.filterwarnings(
@@ -25,7 +27,7 @@ logging.getLogger("torch").setLevel(logging.WARNING)
 
 
 @hydra.main(version_base=None, config_path="../configs")
-def main(cfg: DictConfig):
+def main(cfg: DictConfig) -> None:
     if isinstance(cfg.devices, str):
         cfg.devices = list(map(int, cfg.devices.split(","))) if "," in cfg.devices else int(cfg.devices)
     if isinstance(cfg.max_batches_per_device, str):

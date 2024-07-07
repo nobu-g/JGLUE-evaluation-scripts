@@ -93,16 +93,16 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
         return token_start_index, token_end_index
 
 
-def preprocess(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
+def preprocess(examples: dict[str, list], segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
     if segmenter_kwargs["analyzer"] is None:
         return preprocess_no_segmentation(examples)
     return preprocess_with_segmentation(examples, segmenter_kwargs)
 
 
-def preprocess_with_segmentation(examples, segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
+def preprocess_with_segmentation(examples: dict[str, list], segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
     titles: list[str]
     bodies: list[str]
-    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore
+    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore[assignment]
     segmented_titles = batch_segment(titles, **segmenter_kwargs)
     segmented_bodies = batch_segment(bodies, **segmenter_kwargs)
     segmented_contexts = [f"{title} [SEP] {body}" for title, body in zip(segmented_titles, segmented_bodies)]
@@ -123,10 +123,10 @@ def preprocess_with_segmentation(examples, segmenter_kwargs: dict[str, Any]) -> 
     return {"context": segmented_contexts, "question": segmented_questions, "answers": batch_answers}
 
 
-def preprocess_no_segmentation(examples) -> dict[str, Any]:
+def preprocess_no_segmentation(examples: dict[str, list]) -> dict[str, Any]:
     titles: list[str]
     bodies: list[str]
-    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore
+    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore[assignment]
     contexts = [f"{title}[SEP]{body}" for title, body in zip(titles, bodies)]
     batch_answers: list[list[dict]] = []
     assert len(examples["answers"]) == len(examples["context"]) == len(contexts)

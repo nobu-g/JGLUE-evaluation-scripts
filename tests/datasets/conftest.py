@@ -1,10 +1,10 @@
-import os
 import sys
+from pathlib import Path
 
 import pytest
 from transformers import AutoTokenizer, PreTrainedTokenizerBase
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../src"))
+sys.path.append(str(Path(__file__).parent.parent.parent / "src"))
 
 
 @pytest.fixture()

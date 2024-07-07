@@ -24,7 +24,7 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
     ) -> None:
         super().__init__("JCommonsenseQA", split, tokenizer, max_seq_length, limit_examples)
 
-        def preprocess_function(examples) -> dict[str, list[list[Any]]]:
+        def preprocess_function(examples: dict[str, list]) -> dict[str, list[list[Any]]]:
             # (example, 5)
             first_sentences: list[list[str]] = [[question] * NUM_CHOICES for question in examples["question"]]
             second_sentences: list[list[str]] = [
@@ -46,7 +46,7 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
 
         self.hf_dataset = self.hf_dataset.map(
             lambda x: {
-                key: batch_segment(x[key], **segmenter_kwargs) for key in ["question", *CHOICE_NAMES]  # type: ignore
+                key: batch_segment(x[key], **segmenter_kwargs) for key in ["question", *CHOICE_NAMES]  # type: ignore[misc]
             },
             batched=True,
             batch_size=100,
