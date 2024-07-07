@@ -5,7 +5,7 @@ on: [ push, pull_request ]
 jobs:
   test:
     name: Run tests with pytest
-    container: kunlp/jumanpp:ubuntu22.04
+    container: kunlp/jumanpp:ubuntu24.04
     runs-on: ubuntu-22.04
     strategy:
       max-parallel: 4
