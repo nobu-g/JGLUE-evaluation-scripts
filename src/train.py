@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Union
 import hydra
 import torch
 import transformers.utils.logging as hf_logging
-import wandb
 from lightning import Callback, LightningModule, Trainer, seed_everything
 from lightning.pytorch.utilities.warnings import PossibleUserWarning
 from omegaconf import DictConfig, ListConfig
@@ -70,8 +69,6 @@ def main(cfg: DictConfig) -> None:
 
     trainer.fit(model=model, datamodule=datamodule)
     trainer.test(model=model, datamodule=datamodule, ckpt_path="best" if not trainer.fast_dev_run else None)
-
-    wandb.finish()
 
 
 if __name__ == "__main__":
