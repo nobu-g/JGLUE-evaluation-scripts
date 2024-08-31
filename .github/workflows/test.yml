@@ -6,7 +6,7 @@ jobs:
   test:
     name: Run tests with pytest
     container: kunlp/jumanpp:ubuntu24.04
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       max-parallel: 4
       fail-fast: false
@@ -24,17 +24,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install Poetry
-        run: |
-          python3 -m pip install --user pipx
-          python3 -m pipx ensurepath
-          python3 -m pipx install poetry
-      - name: Add path for Python packages
-        run: |
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install dependencies
-        run: |
-          poetry install --no-interaction --without dev --no-cache
+        run: uv sync --all-extras --no-dev
       - name: Run tests
-        run: |
-          poetry run pytest -v ./tests
+        run: uv run pytest -v ./tests

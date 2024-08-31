@@ -16,8 +16,8 @@
 
 - Create a virtual environment and install dependencies.
     ```shell
-    $ poetry env use /path/to/python
-    $ poetry install
+    $ uv venv -p /path/to/python
+    $ uv sync
     ```
 
 - Log in to [wandb](https://wandb.ai/site).
@@ -31,7 +31,7 @@ You can train and test a model with the following command:
 
 ```shell
 # For training and evaluating MARC-ja
-poetry run python src/train.py -cn marc_ja devices=[0,1] max_batches_per_device=16
+uv run python src/train.py -cn marc_ja devices=[0,1] max_batches_per_device=16
 ```
 
 Here are commonly used options:
@@ -53,26 +53,26 @@ If you only want to do evaluation after training, use the following command:
 
 ```shell
 # For evaluating word segmenter
-poetry run python scripts/test.py module=char checkpoint_path="/path/to/checkpoint" devices=[0]
+uv run python scripts/test.py module=char checkpoint_path="/path/to/checkpoint" devices=[0]
 ```
 -->
 
 ## Debugging
 
 ```shell
-poetry run python scripts/train.py -cn marc_ja.debug
+uv run python scripts/train.py -cn marc_ja.debug
 ```
 
 You can specify `trainer=cpu.debug` to use CPU.
 
 ```shell
-poetry run python scripts/train.py -cn marc_ja.debug trainer=cpu.debug
+uv run python scripts/train.py -cn marc_ja.debug trainer=cpu.debug
 ```
 
 If you are on a machine with GPUs, you can specify the GPUs to use with the `devices` option.
 
 ```shell
-poetry run python scripts/train.py -cn marc_ja.debug devices=[0]
+uv run python scripts/train.py -cn marc_ja.debug devices=[0]
 ```
 
 ## Tuning hyper-parameters
