@@ -5,4 +5,4 @@ from modules.jsquad import JSQuADModule
 from modules.jsts import JSTSModule
 from modules.marc_ja import MARCJaModule
 
-__all__ = ["MARCJaModule", "JCoLAModule", "JSTSModule", "JNLIModule", "JSQuADModule", "JCommonsenseQAModule"]
+__all__ = ["JCoLAModule", "JCommonsenseQAModule", "JNLIModule", "JSQuADModule", "JSTSModule", "MARCJaModule"]
