@@ -5,4 +5,4 @@ from datamodule.datasets.jsquad import JSQuADDataset
 from datamodule.datasets.jsts import JSTSDataset
 from datamodule.datasets.marc_ja import MARCJaDataset
 
-__all__ = ["MARCJaDataset", "JCoLADataset", "JSTSDataset", "JNLIDataset", "JSQuADDataset", "JCommonsenseQADataset"]
+__all__ = ["JCoLADataset", "JCommonsenseQADataset", "JNLIDataset", "JSQuADDataset", "JSTSDataset", "MARCJaDataset"]
