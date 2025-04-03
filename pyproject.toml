@@ -11,7 +11,7 @@ maintainers = [
 readme = "README.md"
 requires-python = ">=3.9,<3.14"
 dependencies = [
-    'torch>=2.2.0; python_version < "3.13"',
+    'torch>=2.4.0; python_version < "3.13"',
     'torch>=2.6.0; python_version >= "3.13"',
     "transformers>=4.48.0",
     'sentencepiece>=0.2.0; python_version < "3.13"',
