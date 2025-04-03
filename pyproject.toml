@@ -24,7 +24,7 @@ dependencies = [
     "datasets>=3.0.0",
     "rhoknp>=1.4.0",
     "jaconv>=0.4.0",
-    "mecab-python3>=1.0.0",
+    "mecab-python3>=1.0.10",
 ]
 
 [project.optional-dependencies]
