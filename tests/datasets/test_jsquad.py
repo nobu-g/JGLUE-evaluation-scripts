@@ -8,13 +8,13 @@ from transformers import DebertaV2TokenizerFast, PreTrainedTokenizerBase
 from datamodule.datasets.jsquad import JSQuADDataset
 
 
-def test_init(tokenizer: PreTrainedTokenizerBase):
+def test_init(tokenizer: PreTrainedTokenizerBase) -> None:
     _ = JSQuADDataset(
         "train", tokenizer, max_seq_length=128, segmenter_kwargs=DictConfig({"analyzer": None}), limit_examples=3
     )
 
 
-def test_raw_examples():
+def test_raw_examples() -> None:
     dataset: HFDataset = load_dataset("shunk031/JGLUE", name="JSQuAD", split="validation", trust_remote_code=True)
     for example in dataset:
         assert isinstance(example["id"], str)
@@ -29,7 +29,7 @@ def test_raw_examples():
         assert example["is_impossible"] is False
 
 
-def test_examples(tokenizer: PreTrainedTokenizerBase):
+def test_examples(tokenizer: PreTrainedTokenizerBase) -> None:
     max_seq_length = 128
     dataset = JSQuADDataset(
         "validation", tokenizer, max_seq_length, segmenter_kwargs=DictConfig({"analyzer": "jumanpp"}), limit_examples=10
@@ -41,7 +41,7 @@ def test_examples(tokenizer: PreTrainedTokenizerBase):
             assert example["context"][answer["answer_start"] :].startswith(answer["text"])
 
 
-def test_getitem(tokenizer: PreTrainedTokenizerBase):
+def test_getitem(tokenizer: PreTrainedTokenizerBase) -> None:
     max_seq_length = 128
     dataset = JSQuADDataset(
         "train", tokenizer, max_seq_length, segmenter_kwargs=DictConfig({"analyzer": "jumanpp"}), limit_examples=3
@@ -55,7 +55,7 @@ def test_getitem(tokenizer: PreTrainedTokenizerBase):
         assert isinstance(feature.end_positions, int)
 
 
-def test_features_0_pretokenized(tokenizer: PreTrainedTokenizerBase):
+def test_features_0_pretokenized(tokenizer: PreTrainedTokenizerBase) -> None:
     max_seq_length = 128
     dataset = JSQuADDataset(
         "validation", tokenizer, max_seq_length, segmenter_kwargs=DictConfig({"analyzer": "jumanpp"}), limit_examples=1
@@ -90,7 +90,7 @@ def test_features_0_pretokenized(tokenizer: PreTrainedTokenizerBase):
     assert tokenized_answer_text == answers[0]["text"]
 
 
-def test_features_0(deberta_v3_tokenizer: PreTrainedTokenizerBase):
+def test_features_0(deberta_v3_tokenizer: PreTrainedTokenizerBase) -> None:
     assert isinstance(deberta_v3_tokenizer, DebertaV2TokenizerFast)
     tokenizer: DebertaV2TokenizerFast = deberta_v3_tokenizer
     max_seq_length = 128

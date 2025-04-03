@@ -47,7 +47,8 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
 
         self.hf_dataset = self.hf_dataset.map(
             lambda x: {
-                key: batch_segment(x[key], **segmenter_kwargs) for key in ["question", *CHOICE_NAMES]  # type: ignore[misc]
+                key: batch_segment(x[key], **segmenter_kwargs)  # type: ignore[misc]
+                for key in ["question", *CHOICE_NAMES]
             },
             batched=True,
             batch_size=100,
