@@ -3,10 +3,10 @@ name = "JGLUE-evaluation-scripts"
 version = "0.1.0"
 description = ""
 authors = [
-  {name = "Nobuhiro Ueda", email = "ueda-n127@hotmail.co.jp"},
+    {name = "Nobuhiro Ueda", email = "ueda-n127@hotmail.co.jp"},
 ]
 maintainers = [
-  {name = "Nobuhiro Ueda", email = "ueda-n127@hotmail.co.jp"},
+    {name = "Nobuhiro Ueda", email = "ueda-n127@hotmail.co.jp"},
 ]
 readme = "README.md"
 requires-python = ">=3.9,<3.14"
@@ -94,7 +94,7 @@ line-length = 120
 target-version = ["py39", "py310", "py311", "py312", "py313"]
 
 [tool.mypy]
-python_version = 3.9
+python_version = "3.9"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
