@@ -1,0 +1,7 @@
+model_name_or_path: sbintuitions/modernbert-ja-30m
+tokenizer:
+  _target_: transformers.AutoTokenizer.from_pretrained
+  pretrained_model_name_or_path: ${..model_name_or_path}
+  _convert_: all
+segmenter_kwargs:
+  analyzer: null
