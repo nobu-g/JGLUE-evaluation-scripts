@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 
 import wandb
-from tabulate import tabulate
+from prettytable import PrettyTable
 
 if TYPE_CHECKING:
     from wandb.apis.public import Run, Sweep
@@ -35,12 +35,20 @@ class RunSummary:
     batch_size: int
 
 
+def create_table(headers: list[str], align: list[str]) -> PrettyTable:
+    table = PrettyTable()
+    table.field_names = headers
+    for header, a in zip(headers, align):
+        table.align[header] = a
+    return table
+
+
 def main() -> None:
     api = wandb.Api()
     name_to_sweep_path: dict[str, str] = {
         line.split()[0]: line.split()[1] for line in Path("sweep_status.txt").read_text().splitlines()
     }
-    table: list[list[Optional[RunSummary]]] = []
+    results: list[list[Optional[RunSummary]]] = []
     for model in MODELS:
         items: list[Optional[RunSummary]] = []
         for task_and_metric in TASKS:
@@ -60,43 +68,36 @@ def main() -> None:
                 )
             else:
                 items.append(None)
-        table.append(items)
+        results.append(items)
+
+    headers = ["Model", *TASKS.values()]
+    align = ["l"] + ["r"] * len(TASKS)
+
+    # スコアのテーブル
     print("Scores of best runs:")
-    print(
-        tabulate(
-            [
-                [model] + [item.metric if item else "-" for item in items]
-                for model, items in zip(MODELS.values(), table)
-            ],
-            headers=["Model", *TASKS.values()],
-            tablefmt="github",
-            floatfmt=".3f",
-            colalign=["left"] + ["right"] * len(TASKS),
-        )
-    )
+    score_table = create_table(headers, align)
+    for model, items in zip(MODELS.values(), results):
+        row = [model] + [f"{item.metric:.3f}" if item else "-" for item in items]
+        score_table.add_row(row)
+    print(score_table)
     print()
+
+    # 学習率のテーブル
     print("Learning rates of best runs:")
-    print(
-        tabulate(
-            [[model] + [item.lr if item else "-" for item in items] for model, items in zip(MODELS.values(), table)],
-            headers=["Model", *TASKS.values()],
-            tablefmt="github",
-            colalign=["left"] + ["right"] * len(TASKS),
-        )
-    )
+    lr_table = create_table(headers, align)
+    for model, items in zip(MODELS.values(), results):
+        row = [model] + [str(item.lr) if item else "-" for item in items]
+        lr_table.add_row(row)
+    print(lr_table)
     print()
+
+    # エポック数のテーブル
     print("Training epochs of best runs:")
-    print(
-        tabulate(
-            [
-                [model] + [item.max_epochs if item else "-" for item in items]
-                for model, items in zip(MODELS.values(), table)
-            ],
-            headers=["Model", *TASKS.values()],
-            tablefmt="github",
-            colalign=["left"] + ["right"] * len(TASKS),
-        )
-    )
+    epoch_table = create_table(headers, align)
+    for model, items in zip(MODELS.values(), results):
+        row = [model] + [str(item.max_epochs) if item else "-" for item in items]
+        epoch_table.add_row(row)
+    print(epoch_table)
 
 
 if __name__ == "__main__":

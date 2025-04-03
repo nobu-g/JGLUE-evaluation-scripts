@@ -39,7 +39,7 @@ dev-dependencies = [
     "pip>=25.0",
     "types-attrs>=19.1.0",
     "wandb>=0.18.0",
-    "tabulate>=0.9.0",
+    "prettytable>=3.16.0",
 ]
 
 [tool.ruff]
@@ -60,8 +60,6 @@ ignore = [
     "COM812", # Trailing comma missing
     "ANN002", # Missing type annotation for `*args`
     "ANN003", # Missing type annotation for `**kwargs`
-    "ANN101", # Missing type annotation for `self` in method
-    "ANN102", # Missing type annotation for `cls` in classmethod
     "PLR2004", # Magic value used in comparison
     "D",  # pydocstyle
     "FA100",  # Missing `from __future__ import annotations`, but uses `...`
