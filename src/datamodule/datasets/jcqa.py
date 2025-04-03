@@ -37,6 +37,7 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
                 truncation=True,
                 max_length=self.max_seq_length,
                 padding=PaddingStrategy.MAX_LENGTH,
+                return_token_type_ids=True,
             )
             # Un-flatten
             return {

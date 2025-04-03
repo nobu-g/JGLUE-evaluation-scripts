@@ -33,6 +33,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
                 truncation="only_second",
                 max_length=self.max_seq_length,
                 return_offsets_mapping=True,
+                return_token_type_ids=True,
             ),
             batched=True,
             load_from_cache_file=False,

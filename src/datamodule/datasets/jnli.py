@@ -35,6 +35,7 @@ class JNLIDataset(BaseDataset[SequenceClassificationFeatures]):
                 padding=PaddingStrategy.MAX_LENGTH,
                 truncation=True,
                 max_length=self.max_seq_length,
+                return_token_type_ids=True,
             ),
             batched=True,
         )
