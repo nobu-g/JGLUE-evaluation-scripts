@@ -642,10 +642,11 @@ dependencies = [
     { name = "omegaconf" },
     { name = "rhoknp" },
     { name = "rich" },
+    { name = "sentencepiece", marker = "python_full_version < '3.13'" },
     { name = "tokenizers" },
     { name = "torch" },
     { name = "torchmetrics" },
-    { name = "transformers", extra = ["sentencepiece"] },
+    { name = "transformers" },
 ]
 
 [package.optional-dependencies]
@@ -679,11 +680,12 @@ requires-dist = [
     { name = "omegaconf", specifier = ">=2.3.0" },
     { name = "rhoknp", specifier = ">=1.4.0" },
     { name = "rich", specifier = ">=13.3.0" },
+    { name = "sentencepiece", marker = "python_full_version < '3.13'", specifier = ">=0.2.0" },
     { name = "tokenizers", specifier = ">=0.21.0" },
     { name = "torch", marker = "python_full_version < '3.13'", specifier = ">=2.2.0" },
     { name = "torch", marker = "python_full_version >= '3.13'", specifier = ">=2.6.0" },
     { name = "torchmetrics", specifier = ">=1.1.0" },
-    { name = "transformers", extras = ["sentencepiece"], specifier = ">=4.48.0" },
+    { name = "transformers", specifier = ">=4.48.0" },
 ]
 provides-extras = ["mecab"]
 
@@ -2101,12 +2103,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c0/29/37877123d6633a188997d75dc17d6f526745d63361794348ce748db23d49/transformers-4.50.3.tar.gz", hash = "sha256:1d795d24925e615a8e63687d077e4f7348c2702eb87032286eaa76d83cdc684f", size = 8774363 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/aa/22/733a6fc4a6445d835242f64c490fdd30f4a08d58f2b788613de3f9170692/transformers-4.50.3-py3-none-any.whl", hash = "sha256:6111610a43dec24ef32c3df0632c6b25b07d9711c01d9e1077bdd2ff6b14a38c", size = 10180411 },
-]
-
-[package.optional-dependencies]
-sentencepiece = [
-    { name = "protobuf" },
-    { name = "sentencepiece" },
 ]
 
 [[package]]

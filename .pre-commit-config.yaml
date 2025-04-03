@@ -3,8 +3,6 @@ ci:
   autoupdate_schedule: monthly
   skip: [mypy]
 
-default_language_version:
-  python: python3.10
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
