@@ -3,10 +3,10 @@ name = "JGLUE-evaluation-scripts"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Nobuhiro Ueda", email = "ueda-n127@hotmail.co.jp"},
+    {name = "Nobuhiro Ueda", email = "ueda@nlp.ist.i.kyoto-u.ac.jp"},
 ]
 maintainers = [
-    {name = "Nobuhiro Ueda", email = "ueda-n127@hotmail.co.jp"},
+    {name = "Nobuhiro Ueda", email = "ueda@nlp.ist.i.kyoto-u.ac.jp"},
 ]
 readme = "README.md"
 requires-python = ">=3.9,<3.14"
@@ -101,10 +101,6 @@ ban-relative-imports = "all"
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
-
-[tool.black]
-line-length = 120
-target-version = ["py39", "py310", "py311", "py312", "py313"]
 
 [tool.mypy]
 python_version = "3.9"

@@ -130,8 +130,7 @@ following [the JGLUE paper](https://www.jstage.jst.go.jp/article/jnlp/30/1/30_63
 ## Huggingface hub links
 
 - Waseda RoBERTa base: [nlp-waseda/roberta-base-japanese](https://huggingface.co/nlp-waseda/roberta-base-japanese)
-- Waseda RoBERTa large (
-  seq512): [nlp-waseda/roberta-large-japanese-seq512](https://huggingface.co/nlp-waseda/roberta-large-japanese-seq512)
+- Waseda RoBERTa large (seq512): [nlp-waseda/roberta-large-japanese-seq512](https://huggingface.co/nlp-waseda/roberta-large-japanese-seq512)
 - LUKE Japanese base: [studio-ousia/luke-base-japanese](https://huggingface.co/studio-ousia/luke-japanese-base-lite)
 - LUKE Japanese large: [studio-ousia/luke-large-japanese](https://huggingface.co/studio-ousia/luke-japanese-large-lite)
 - DeBERTaV2 base: [ku-nlp/deberta-v2-base-japanese](https://huggingface.co/ku-nlp/deberta-v2-base-japanese)
