@@ -51,7 +51,7 @@ class WordSegmenter:
             tagger_options = []
             if mecab_dic_dir is not None:
                 tagger_options += f"-d {mecab_dic_dir}".split()
-            import MeCab
+            import MeCab  # noqa: PLC0415
 
             self._mecab = MeCab.Tagger(" ".join(tagger_options))
 
