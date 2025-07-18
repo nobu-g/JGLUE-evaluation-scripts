@@ -47,10 +47,6 @@ flash-attn = [
     "flash-attn>=2.6.3,<3",
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [tool.uv]
 package = false
 no-build-isolation-package = ["flash-attn"]
