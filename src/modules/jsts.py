@@ -28,11 +28,13 @@ class JSTSModule(BaseModule):
 
     def training_step(self, batch: Any) -> torch.Tensor:
         out: SequenceClassifierOutput = self(batch)
+        assert out.loss is not None
         self.log("train/loss", out.loss)
         return out.loss
 
     def validation_step(self, batch: Any) -> None:
         out: SequenceClassifierOutput = self(batch)
+        assert out.logits is not None
         predictions = torch.squeeze(out.logits, dim=-1)  # (b)
         self.metric.update(predictions, batch["labels"])
 
@@ -42,6 +44,7 @@ class JSTSModule(BaseModule):
 
     def test_step(self, batch: Any) -> None:
         out: SequenceClassifierOutput = self(batch)
+        assert out.logits is not None
         predictions = torch.squeeze(out.logits, dim=-1)  # (b)
         self.metric.update(predictions, batch["labels"])
 

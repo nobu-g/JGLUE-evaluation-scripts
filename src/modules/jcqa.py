@@ -29,11 +29,13 @@ class JCommonsenseQAModule(BaseModule):
 
     def training_step(self, batch: Any) -> torch.Tensor:
         out: MultipleChoiceModelOutput = self(batch)
+        assert out.loss is not None
         self.log("train/loss", out.loss)
         return out.loss
 
     def validation_step(self, batch: Any) -> None:
         out: MultipleChoiceModelOutput = self(batch)
+        assert out.logits is not None
         predictions = torch.argmax(out.logits, dim=1)  # (b)
         self.metric.update(predictions, batch["labels"])
 
@@ -43,6 +45,7 @@ class JCommonsenseQAModule(BaseModule):
 
     def test_step(self, batch: Any) -> None:
         out: MultipleChoiceModelOutput = self(batch)
+        assert out.logits is not None
         predictions = torch.argmax(out.logits, dim=1)  # (b)
         self.metric.update(predictions, batch["labels"])
 

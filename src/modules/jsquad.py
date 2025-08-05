@@ -38,11 +38,14 @@ class JSQuADModule(BaseModule):
 
     def training_step(self, batch: dict[str, torch.Tensor]) -> torch.Tensor:
         out: QuestionAnsweringModelOutput = self(batch)
+        assert out.loss is not None
         self.log("train/loss", out.loss)
         return out.loss
 
     def validation_step(self, batch: dict[str, torch.Tensor]) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
+        assert out.start_logits is not None
+        assert out.end_logits is not None
         dataset: JSQuADDataset = self.trainer.val_dataloaders.dataset
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
@@ -52,6 +55,8 @@ class JSQuADModule(BaseModule):
 
     def test_step(self, batch: dict[str, torch.Tensor]) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
+        assert out.start_logits is not None
+        assert out.end_logits is not None
         dataset: JSQuADDataset = self.trainer.test_dataloaders.dataset
         self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
 
