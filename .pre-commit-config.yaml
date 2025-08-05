@@ -24,7 +24,7 @@ repos:
           - hydra-core
           - torch
           - torchmetrics
-          - transformers==4.50.3
-          - datasets
+          - transformers==4.54.1
+          - datasets==3.6.0
           - tokenizers==0.21.1
           - wandb
