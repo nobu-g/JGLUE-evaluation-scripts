@@ -28,3 +28,7 @@ repos:
           - datasets==3.6.0
           - tokenizers==0.21.1
           - wandb
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint
