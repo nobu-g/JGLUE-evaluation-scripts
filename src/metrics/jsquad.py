@@ -32,7 +32,7 @@ class JSQuADMetric(Metric):
         preds = []
         target = []
         for example_id, start_logits, end_logits in zip(
-            example_ids.tolist(), batch_start_logits.tolist(), batch_end_logits.tolist()
+            example_ids.tolist(), batch_start_logits.tolist(), batch_end_logits.tolist(), strict=True
         ):
             example = dataset.hf_dataset[example_id]
             prediction_text: str = _postprocess_predictions(start_logits, end_logits, example)
@@ -144,7 +144,7 @@ def _postprocess_predictions(
     exp_scores = np.exp(scores - np.max(scores))
     probs = exp_scores / exp_scores.sum()
     # Include the probabilities in our predictions.
-    for prob, pred in zip(probs, predictions):
+    for prob, pred in zip(probs, predictions, strict=True):
         pred["probability"] = prob
 
     return predictions[0]["text"]  # return top 1 prediction

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 import wandb
 from prettytable import PrettyTable
@@ -38,7 +38,7 @@ class RunSummary:
 def create_table(headers: list[str], align: list[str]) -> PrettyTable:
     table = PrettyTable()
     table.field_names = headers
-    for header, a in zip(headers, align):
+    for header, a in zip(headers, align, strict=True):
         table.align[header] = a
     return table
 
@@ -48,14 +48,14 @@ def main() -> None:
     name_to_sweep_path: dict[str, str] = {
         line.split()[0]: line.split()[1] for line in Path("sweep_status.txt").read_text().splitlines()
     }
-    results: list[list[Optional[RunSummary]]] = []
+    results: list[list[RunSummary | None]] = []
     for model in MODELS:
-        items: list[Optional[RunSummary]] = []
+        items: list[RunSummary | None] = []
         for task_and_metric in TASKS:
             task, metric_name = task_and_metric.split("/")
             sweep: Sweep = api.sweep(name_to_sweep_path[f"{task}-{model}"])
             if sweep.state == "FINISHED":
-                run: Optional[Run] = sweep.best_run()
+                run: Run | None = sweep.best_run()
                 assert run is not None
                 metric_name = "valid/" + metric_name
                 items.append(
@@ -76,7 +76,7 @@ def main() -> None:
     # スコアのテーブル
     print("Scores of best runs:")
     score_table = create_table(headers, align)
-    for model, items in zip(MODELS.values(), results):
+    for model, items in zip(MODELS.values(), results, strict=True):
         row = [model] + [f"{item.metric:.3f}" if item else "-" for item in items]
         score_table.add_row(row)
     print(score_table)
@@ -85,7 +85,7 @@ def main() -> None:
     # 学習率のテーブル
     print("Learning rates of best runs:")
     lr_table = create_table(headers, align)
-    for model, items in zip(MODELS.values(), results):
+    for model, items in zip(MODELS.values(), results, strict=True):
         row = [model] + [str(item.lr) if item else "-" for item in items]
         lr_table.add_row(row)
     print(lr_table)
@@ -94,7 +94,7 @@ def main() -> None:
     # エポック数のテーブル
     print("Training epochs of best runs:")
     epoch_table = create_table(headers, align)
-    for model, items in zip(MODELS.values(), results):
+    for model, items in zip(MODELS.values(), results, strict=True):
         row = [model] + [str(item.max_epochs) if item else "-" for item in items]
         epoch_table.add_row(row)
     print(epoch_table)

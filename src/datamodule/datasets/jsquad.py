@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 from omegaconf import DictConfig
 from transformers import PreTrainedTokenizerBase
@@ -81,7 +81,7 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
         answer_end = answer_start + len(answer_text)
         token_start_index = token_end_index = 0
         for token_index, (token_type_id, char_start_index, char_end_index) in enumerate(
-            zip(token_type_ids, token_to_char_start_index, token_to_char_end_index)
+            zip(token_type_ids, token_to_char_start_index, token_to_char_end_index, strict=True)
         ):
             if token_type_id != 1 or char_start_index == char_end_index == 0:
                 continue
@@ -103,15 +103,17 @@ def preprocess(examples: dict[str, list], segmenter_kwargs: dict[str, Any]) -> d
 def preprocess_with_segmentation(examples: dict[str, list], segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
     titles: list[str]
     bodies: list[str]
-    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore[assignment]
+    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]], strict=True)  # type: ignore[assignment]
     segmented_titles = batch_segment(titles, **segmenter_kwargs)
     segmented_bodies = batch_segment(bodies, **segmenter_kwargs)
-    segmented_contexts = [f"{title} [SEP] {body}" for title, body in zip(segmented_titles, segmented_bodies)]
+    segmented_contexts = [
+        f"{title} [SEP] {body}" for title, body in zip(segmented_titles, segmented_bodies, strict=True)
+    ]
     segmented_questions = batch_segment(examples["question"], **segmenter_kwargs)
     batch_answers: list[list[dict]] = []
-    for answers, segmented_context, title in zip(examples["answers"], segmented_contexts, titles):
+    for answers, segmented_context, title in zip(examples["answers"], segmented_contexts, titles, strict=True):
         processed_answers: list[dict] = []
-        for answer_text, answer_start in zip(answers["text"], answers["answer_start"]):
+        for answer_text, answer_start in zip(answers["text"], answers["answer_start"], strict=True):
             segmented_answer_text, segmented_answer_start = find_segmented_answer(
                 segmented_context, answer_text, answer_start, len(title)
             )
@@ -127,13 +129,13 @@ def preprocess_with_segmentation(examples: dict[str, list], segmenter_kwargs: di
 def preprocess_no_segmentation(examples: dict[str, list]) -> dict[str, Any]:
     titles: list[str]
     bodies: list[str]
-    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]])  # type: ignore[assignment]
-    contexts = [f"{title}[SEP]{body}" for title, body in zip(titles, bodies)]
+    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]], strict=True)  # type: ignore[assignment]
+    contexts = [f"{title}[SEP]{body}" for title, body in zip(titles, bodies, strict=True)]
     batch_answers: list[list[dict]] = []
     assert len(examples["answers"]) == len(examples["context"]) == len(contexts)
-    for answers, orig_context, context in zip(examples["answers"], examples["context"], contexts):
+    for answers, orig_context, context in zip(examples["answers"], examples["context"], contexts, strict=True):
         processed_answers: list[dict] = []
-        for answer_text, answer_start in zip(answers["text"], answers["answer_start"]):
+        for answer_text, answer_start in zip(answers["text"], answers["answer_start"], strict=True):
             # two whitespaces are stripped in the preprocessing
             offset = -2 if " [SEP] " in orig_context[:answer_start] else 0
             if context[answer_start + offset :].startswith(answer_text):
@@ -144,7 +146,7 @@ def preprocess_no_segmentation(examples: dict[str, list]) -> dict[str, Any]:
 
 def find_segmented_answer(
     segmented_context: str, answer_text: str, answer_start: int, sep_index: int
-) -> tuple[Optional[str], Optional[int]]:
+) -> tuple[str | None, int | None]:
     """単語区切りされた context から単語区切りされた answer のスパンを探索
 
     Args:

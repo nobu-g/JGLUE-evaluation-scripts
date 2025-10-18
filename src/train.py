@@ -1,7 +1,7 @@
 import logging
 import math
 import warnings
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 import hydra
 import torch
@@ -35,7 +35,7 @@ def main(cfg: DictConfig) -> None:
         cfg.num_workers = int(cfg.num_workers)
     cfg.seed = seed_everything(seed=cfg.seed, workers=True)
 
-    logger: Union[Logger, bool] = cfg.get("logger", False) and hydra.utils.instantiate(cfg.get("logger"))
+    logger: Logger | bool = cfg.get("logger", False) and hydra.utils.instantiate(cfg.get("logger"))
     callbacks: list[Callback] = list(map(hydra.utils.instantiate, cfg.get("callbacks", {}).values()))
 
     # Calculate gradient_accumulation_steps assuming DDP

@@ -24,7 +24,7 @@ def test_raw_examples() -> None:
         assert isinstance(example["answers"], dict)
         texts = example["answers"]["text"]
         answer_starts = example["answers"]["answer_start"]
-        for text, answer_start in zip(texts, answer_starts):
+        for text, answer_start in zip(texts, answer_starts, strict=True):
             assert example["context"][answer_start:].startswith(text)
         assert example["is_impossible"] is False
 

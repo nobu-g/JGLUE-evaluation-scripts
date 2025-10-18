@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 
 import jaconv
 from rhoknp import Jumanpp
@@ -32,7 +31,7 @@ class QuestionAnsweringFeatures:
 
 
 def batch_segment(
-    texts: list[str], analyzer: Optional[str], h2z: bool = True, mecab_dic_dir: Optional[str] = None
+    texts: list[str], analyzer: str | None, h2z: bool = True, mecab_dic_dir: str | None = None
 ) -> list[str]:
     if analyzer is None:
         return texts
@@ -41,7 +40,7 @@ def batch_segment(
 
 
 class WordSegmenter:
-    def __init__(self, analyzer: str, h2z: bool, mecab_dic_dir: Optional[str] = None) -> None:
+    def __init__(self, analyzer: str, h2z: bool, mecab_dic_dir: str | None = None) -> None:
         self._analyzer: str = analyzer
         self._h2z: bool = h2z
 

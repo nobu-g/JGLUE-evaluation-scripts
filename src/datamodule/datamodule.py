@@ -1,5 +1,5 @@
 from dataclasses import fields, is_dataclass
-from typing import Any, Optional, Union
+from typing import Any
 
 import hydra
 import lightning
@@ -17,14 +17,14 @@ class DataModule(lightning.LightningDataModule):
         self.batch_size: int = cfg.batch_size
         self.num_workers: int = cfg.num_workers
 
-        self.train_dataset: Optional[Dataset] = None
-        self.valid_dataset: Optional[Dataset] = None
-        self.test_dataset: Optional[Dataset] = None
+        self.train_dataset: Dataset | None = None
+        self.valid_dataset: Dataset | None = None
+        self.test_dataset: Dataset | None = None
 
     def prepare_data(self) -> None:
         pass
 
-    def setup(self, stage: Optional[str] = None) -> None:
+    def setup(self, stage: str | None = None) -> None:
         if stage == TrainerFn.FITTING:
             self.train_dataset = hydra.utils.instantiate(self.cfg.train)
         if stage in (TrainerFn.FITTING, TrainerFn.VALIDATING, TrainerFn.TESTING):
@@ -55,10 +55,10 @@ class DataModule(lightning.LightningDataModule):
         )
 
 
-def dataclass_data_collator(features: list[Any]) -> dict[str, Union[Tensor, list[str]]]:
+def dataclass_data_collator(features: list[Any]) -> dict[str, Tensor | list[str]]:
     first: Any = features[0]
     assert is_dataclass(first), "Data must be a dataclass"
-    batch: dict[str, Union[Tensor, list[str]]] = {}
+    batch: dict[str, Tensor | list[str]] = {}
     for field in fields(first):
         feats = [getattr(f, field.name) for f in features]
         batch[field.name] = torch.as_tensor(feats)

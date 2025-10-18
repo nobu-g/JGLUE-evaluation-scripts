@@ -9,7 +9,7 @@ maintainers = [
     {name = "Nobuhiro Ueda", email = "ueda@nlp.ist.i.kyoto-u.ac.jp"},
 ]
 readme = "README.md"
-requires-python = ">=3.9,<3.14"
+requires-python = ">=3.10,<3.14"
 dependencies = [
     'torch>=2.4.0; python_version < "3.13"',
     'torch>=2.6.0; python_version >= "3.13"',
@@ -34,8 +34,8 @@ mecab = [
 
 [dependency-groups]
 dev = [
-    'ipython>=8.13.1,<8.19.0; python_version == "3.9"',
-    'ipython>=8.19.0; python_version >= "3.10"',
+    'ipython>=8.19.0; python_version < "3.11"',
+    'ipython>=9.6.0; python_version >= "3.11"',
     "ipdb>=0.13.13",
     "pytest>=8.0.0",
     "pip>=25.0",
@@ -54,7 +54,7 @@ no-build-isolation-package = ["flash-attn"]
 [tool.ruff]
 line-length = 120
 indent-width = 4
-target-version = "py39"  # The minimum Python version to target
+target-version = "py310"  # The minimum Python version to target
 src = ["src"]
 
 [tool.ruff.lint]
@@ -99,7 +99,7 @@ ban-relative-imports = "all"
 convention = "google"
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
