@@ -9,7 +9,7 @@ from transformers import PreTrainedTokenizerBase
 FeatureType = TypeVar("FeatureType")
 
 
-class BaseDataset(Dataset[FeatureType], Generic[FeatureType], ABC):
+class BaseDataset(Dataset[FeatureType], ABC, Generic[FeatureType]):
     def __init__(
         self,
         dataset_name: str,
