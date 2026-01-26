@@ -29,8 +29,8 @@ class JSQuADMetric(Metric):
         batch_end_logits: torch.Tensor,  # (b, seq)
         dataset: JSQuADDataset,
     ) -> None:
-        preds = []
-        target = []
+        preds: list[dict[str, str]] = []
+        target: list[dict] = []
         for example_id, start_logits, end_logits in zip(
             example_ids.tolist(), batch_start_logits.tolist(), batch_end_logits.tolist(), strict=True
         ):
