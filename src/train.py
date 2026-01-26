@@ -68,7 +68,9 @@ def main(cfg: DictConfig) -> None:
         model = torch.compile(model)
 
     trainer.fit(model=model, datamodule=datamodule)
-    trainer.test(model=model, datamodule=datamodule, ckpt_path="best" if not trainer.fast_dev_run else None)
+    trainer.test(
+        model=model, datamodule=datamodule, weights_only=False, ckpt_path="best" if not trainer.fast_dev_run else None
+    )
 
 
 if __name__ == "__main__":

@@ -24,9 +24,9 @@ repos:
           - hydra-core
           - torch
           - torchmetrics
-          - transformers==4.54.1
+          - transformers==5.0.0
           - datasets==3.6.0
-          - tokenizers==0.21.1
+          - tokenizers==0.22.2
           - wandb
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.10

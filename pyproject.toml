@@ -12,10 +12,10 @@ readme = "README.md"
 requires-python = ">=3.10,<3.14"
 dependencies = [
     'torch>=2.4.0; python_version < "3.13"',
-    'torch>=2.6.0; python_version >= "3.13"',
-    "transformers>=4.48.0",
-    "sentencepiece>=0.2.0",
-    "tokenizers>=0.21.0",
+    'torch>=2.9.0; python_version >= "3.13"',
+    "transformers>=5.0.0",
+    "sentencepiece>=0.2.1",
+    "tokenizers>=0.22.0",
     "lightning>=2.4.0",
     "torchmetrics>=1.1.0",
     "omegaconf>=2.3.0",

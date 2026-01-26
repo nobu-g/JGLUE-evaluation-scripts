@@ -3,7 +3,7 @@ from typing import Any
 from datasets import Dataset as HFDataset  # type: ignore[attr-defined]
 from datasets import load_dataset  # type: ignore[attr-defined]
 from omegaconf import DictConfig
-from transformers import DebertaV2TokenizerFast, PreTrainedTokenizerBase
+from transformers import DebertaV2Tokenizer, PreTrainedTokenizerBase
 
 from datamodule.datasets.jsquad import JSQuADDataset
 
@@ -85,14 +85,15 @@ def test_features_0_pretokenized(tokenizer: PreTrainedTokenizerBase) -> None:
 
     assert 0 <= features.start_positions <= features.end_positions < max_seq_length
     answer_span = slice(features.start_positions, features.end_positions + 1)
-    tokenized_answer_text: str = tokenizer.decode(features.input_ids[answer_span])
+    tokenized_answer_text = tokenizer.decode(features.input_ids[answer_span])
+    assert isinstance(tokenized_answer_text, str)
     answers: list[dict[str, Any]] = example["answers"]
     assert tokenized_answer_text == answers[0]["text"]
 
 
 def test_features_0(deberta_v3_tokenizer: PreTrainedTokenizerBase) -> None:
-    assert isinstance(deberta_v3_tokenizer, DebertaV2TokenizerFast)
-    tokenizer: DebertaV2TokenizerFast = deberta_v3_tokenizer
+    assert isinstance(deberta_v3_tokenizer, DebertaV2Tokenizer)
+    tokenizer: DebertaV2Tokenizer = deberta_v3_tokenizer
     max_seq_length = 128
     dataset = JSQuADDataset(
         "validation", tokenizer, max_seq_length, segmenter_kwargs=DictConfig({"analyzer": None}), limit_examples=1
@@ -122,6 +123,7 @@ def test_features_0(deberta_v3_tokenizer: PreTrainedTokenizerBase) -> None:
 
     assert 0 <= features.start_positions <= features.end_positions < max_seq_length
     answer_span = slice(features.start_positions, features.end_positions + 1)
-    tokenized_answer_text: str = tokenizer.decode(features.input_ids[answer_span])
+    tokenized_answer_text = tokenizer.decode(features.input_ids[answer_span])
+    assert isinstance(tokenized_answer_text, str)
     answers: list[dict[str, Any]] = example["answers"]
     assert tokenized_answer_text == answers[0]["text"]
