@@ -1,7 +1,7 @@
 from typing import Any
 
-from datasets import Dataset as HFDataset  # type: ignore[attr-defined]
-from datasets import load_dataset  # type: ignore[attr-defined]
+from datasets import Dataset as HFDataset
+from datasets import load_dataset
 from omegaconf import DictConfig
 from transformers import DebertaV2Tokenizer, PreTrainedTokenizerBase
 

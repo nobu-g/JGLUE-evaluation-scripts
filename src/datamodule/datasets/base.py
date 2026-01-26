@@ -1,8 +1,8 @@
 from abc import ABC
 from typing import Generic, TypeVar
 
-from datasets import Dataset as HFDataset  # type: ignore[attr-defined]
-from datasets import load_dataset  # type: ignore[attr-defined]
+from datasets import Dataset as HFDataset
+from datasets import load_dataset
 from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
 
