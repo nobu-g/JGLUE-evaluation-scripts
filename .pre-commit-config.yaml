@@ -11,7 +11,7 @@ repos:
       - id: trailing-whitespace
       - id: check-yaml
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
+    rev: v0.15.4
     hooks:
       - id: ruff-check
         args: [ --fix ]
@@ -29,6 +29,6 @@ repos:
           - tokenizers==0.22.2
           - wandb
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.10
+    rev: v1.7.11
     hooks:
       - id: actionlint
