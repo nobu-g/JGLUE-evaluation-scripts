@@ -37,7 +37,7 @@ dev = [
     'ipython>=8.19.0; python_version < "3.11"',
     'ipython>=9.6.0; python_version >= "3.11"',
     "ipdb>=0.13.13",
-    "pytest>=8.0.0",
+    "pytest>=9.0.3",
     "pip>=25.0",
     "types-attrs>=19.1.0",
     "wandb>=0.18.0",
