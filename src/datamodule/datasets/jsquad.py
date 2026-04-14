@@ -1,6 +1,6 @@
-from typing import Any
+from typing import Any, cast
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
@@ -18,12 +18,13 @@ class JSQuADDataset(BaseDataset[QuestionAnsweringFeatures]):
         limit_examples: int = -1,
     ) -> None:
         super().__init__("JSQuAD", split, tokenizer, max_seq_length, limit_examples)
+        segmenter_kwargs_dict = cast("dict[str, Any]", OmegaConf.to_container(segmenter_kwargs, resolve=True))
 
         self.hf_dataset = self.hf_dataset.map(
             preprocess,
             batched=True,
             batch_size=100,
-            fn_kwargs=dict(segmenter_kwargs=segmenter_kwargs),
+            fn_kwargs=dict(segmenter_kwargs=segmenter_kwargs_dict),
             load_from_cache_file=False,
         ).map(
             lambda x: self.tokenizer(

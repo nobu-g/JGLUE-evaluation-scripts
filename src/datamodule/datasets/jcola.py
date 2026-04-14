@@ -1,7 +1,7 @@
 import os
-from typing import Any
+from typing import Any, cast
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
@@ -19,9 +19,10 @@ class JCoLADataset(BaseDataset[SequenceClassificationFeatures]):
         limit_examples: int = -1,
     ) -> None:
         super().__init__("JCoLA", split, tokenizer, max_seq_length, limit_examples)
+        segmenter_kwargs_dict = cast("dict[str, Any]", OmegaConf.to_container(segmenter_kwargs, resolve=True))
 
         self.hf_dataset = self.hf_dataset.map(
-            lambda x: {"segmented": batch_segment(x["sentence"], **segmenter_kwargs)},  # type: ignore[misc]
+            lambda x: {"segmented": batch_segment(x["sentence"], **segmenter_kwargs_dict)},
             batched=True,
             batch_size=100,
             num_proc=os.cpu_count(),

@@ -1,8 +1,8 @@
 import os
 from itertools import chain
-from typing import Any
+from typing import Any, cast
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 from transformers import PreTrainedTokenizerBase
 from transformers.utils import PaddingStrategy
 
@@ -23,6 +23,7 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
         limit_examples: int = -1,
     ) -> None:
         super().__init__("JCommonsenseQA", split, tokenizer, max_seq_length, limit_examples)
+        segmenter_kwargs_dict = cast("dict[str, Any]", OmegaConf.to_container(segmenter_kwargs, resolve=True))
 
         def preprocess_function(examples: dict[str, list]) -> dict[str, list[list[Any]]]:
             # (example, 5)
@@ -46,10 +47,7 @@ class JCommonsenseQADataset(BaseDataset[MultipleChoiceFeatures]):
             }
 
         self.hf_dataset = self.hf_dataset.map(
-            lambda x: {
-                key: batch_segment(x[key], **segmenter_kwargs)  # type: ignore[misc]
-                for key in ["question", *CHOICE_NAMES]
-            },
+            lambda x: {key: batch_segment(x[key], **segmenter_kwargs_dict) for key in ["question", *CHOICE_NAMES]},
             batched=True,
             batch_size=100,
             num_proc=os.cpu_count(),
