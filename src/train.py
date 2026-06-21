@@ -1,7 +1,7 @@
 import logging
 import math
 import warnings
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import hydra
 import torch
@@ -65,12 +65,11 @@ def main(cfg: DictConfig) -> None:
 
     model: LightningModule = hydra.utils.instantiate(cfg.module.cls, hparams=cfg, _recursive_=False)
     if cfg.compile is True:
-        model = torch.compile(model)
+        model = cast("LightningModule", torch.compile(model))
 
     trainer.fit(model=model, datamodule=datamodule)
-    trainer.test(
-        model=model, datamodule=datamodule, weights_only=False, ckpt_path="best" if not trainer.fast_dev_run else None
-    )
+    fast_dev_run = cfg.trainer.get("fast_dev_run", False)
+    trainer.test(model=model, datamodule=datamodule, weights_only=False, ckpt_path=None if fast_dev_run else "best")
 
 
 if __name__ == "__main__":

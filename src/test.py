@@ -1,6 +1,6 @@
 import logging
 import warnings
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import hydra
 import torch
@@ -39,9 +39,9 @@ def main(eval_cfg: DictConfig) -> None:
     # Load saved model and configs
     model: LightningModule = hydra.utils.call(eval_cfg.module.load_from_checkpoint, _recursive_=False)
     if eval_cfg.compile is True:
-        model = torch.compile(model)
+        model = cast("LightningModule", torch.compile(model))
 
-    train_cfg: DictConfig = model.hparams
+    train_cfg = cast("DictConfig", model.hparams)
     OmegaConf.set_struct(train_cfg, value=False)  # enable to add new key-value pairs
     cfg = OmegaConf.merge(train_cfg, eval_cfg)
     assert isinstance(cfg, DictConfig)

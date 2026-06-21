@@ -102,9 +102,9 @@ def preprocess(examples: dict[str, list], segmenter_kwargs: dict[str, Any]) -> d
 
 
 def preprocess_with_segmentation(examples: dict[str, list], segmenter_kwargs: dict[str, Any]) -> dict[str, Any]:
-    titles: list[str]
-    bodies: list[str]
-    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]], strict=True)  # type: ignore[assignment]
+    title_values, body_values = zip(*[context.split(" [SEP] ") for context in examples["context"]], strict=True)
+    titles = list(title_values)
+    bodies = list(body_values)
     segmented_titles = batch_segment(titles, **segmenter_kwargs)
     segmented_bodies = batch_segment(bodies, **segmenter_kwargs)
     segmented_contexts = [
@@ -128,9 +128,9 @@ def preprocess_with_segmentation(examples: dict[str, list], segmenter_kwargs: di
 
 
 def preprocess_no_segmentation(examples: dict[str, list]) -> dict[str, Any]:
-    titles: list[str]
-    bodies: list[str]
-    titles, bodies = zip(*[context.split(" [SEP] ") for context in examples["context"]], strict=True)  # type: ignore[assignment]
+    title_values, body_values = zip(*[context.split(" [SEP] ") for context in examples["context"]], strict=True)
+    titles = list(title_values)
+    bodies = list(body_values)
     contexts = [f"{title}[SEP]{body}" for title, body in zip(titles, bodies, strict=True)]
     batch_answers: list[list[dict]] = []
     assert len(examples["answers"]) == len(examples["context"]) == len(contexts)

@@ -15,7 +15,8 @@ def test_init(tokenizer: PreTrainedTokenizerBase) -> None:
 
 
 def test_raw_examples() -> None:
-    dataset: HFDataset = load_dataset("shunk031/JGLUE", name="JSQuAD", split="validation", trust_remote_code=True)
+    dataset = load_dataset("shunk031/JGLUE", name="JSQuAD", split="validation", trust_remote_code=True)
+    assert isinstance(dataset, HFDataset)
     for example in dataset:
         assert isinstance(example["id"], str)
         assert isinstance(example["title"], str)

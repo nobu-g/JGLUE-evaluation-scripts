@@ -51,10 +51,10 @@ class JSQuADMetric(Metric):
                     "id": example_id,
                 }
             )
-        self.squad.update(preds, target)
+        self.squad.update(preds, target)  # ty: ignore[invalid-argument-type]
 
     def compute(self) -> dict[str, torch.Tensor]:
-        return {k: v / 100.0 for k, v in self.squad.compute().items()}
+        return {k: v / 100.0 for k, v in self.squad.compute().items()}  # ty: ignore[missing-argument]
 
     @staticmethod
     def _postprocess_text(text: str) -> str:

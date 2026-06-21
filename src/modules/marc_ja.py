@@ -36,18 +36,18 @@ class MARCJaModule(BaseModule):
         out: SequenceClassifierOutput = self(batch)
         assert out.logits is not None
         predictions = torch.argmax(out.logits, dim=1)  # (b)
-        self.metric.update(predictions, batch["labels"])
+        self.metric.update(predictions, batch["labels"])  # ty: ignore[invalid-argument-type]
 
     def on_validation_epoch_end(self) -> None:
-        self.log("valid/accuracy", self.metric.compute())
+        self.log("valid/accuracy", self.metric.compute())  # ty: ignore[missing-argument]
         self.metric.reset()
 
     def test_step(self, batch: Any) -> None:
         out: SequenceClassifierOutput = self(batch)
         assert out.logits is not None
         predictions = torch.argmax(out.logits, dim=1)  # (b)
-        self.metric.update(predictions, batch["labels"])
+        self.metric.update(predictions, batch["labels"])  # ty: ignore[invalid-argument-type]
 
     def on_test_epoch_end(self) -> None:
-        self.log("test/accuracy", self.metric.compute())
+        self.log("test/accuracy", self.metric.compute())  # ty: ignore[missing-argument]
         self.metric.reset()

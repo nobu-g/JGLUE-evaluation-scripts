@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 import wandb
 from prettytable import PrettyTable
@@ -26,6 +26,8 @@ MODELS = {
     "deberta_v3_base": "DeBERTaV3 base",  # ku-nlp/deberta-v3-base-japanese
 }
 
+Alignment = Literal["l", "c", "r"]
+
 
 @dataclass(frozen=True)
 class RunSummary:
@@ -35,7 +37,7 @@ class RunSummary:
     batch_size: int
 
 
-def create_table(headers: list[str], align: list[str]) -> PrettyTable:
+def create_table(headers: list[str], align: list[Alignment]) -> PrettyTable:
     table = PrettyTable()
     table.field_names = headers
     for header, a in zip(headers, align, strict=True):
@@ -71,7 +73,7 @@ def main() -> None:
         results.append(items)
 
     headers = ["Model", *TASKS.values()]
-    align = ["l"] + ["r"] * len(TASKS)
+    align: list[Alignment] = ["l"] + ["r"] * len(TASKS)
 
     # スコアのテーブル
     print("Scores of best runs:")

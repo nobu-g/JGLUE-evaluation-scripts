@@ -11,6 +11,7 @@ class BaseModule(LightningModule):
     def __init__(self, hparams: DictConfig) -> None:
         super().__init__()
         self.save_hyperparameters(hparams)
+        self.cfg = hparams
 
     def configure_optimizers(self) -> OptimizerLRScheduler:
         # Split weights in two groups, one with weight decay and the other not.
@@ -20,7 +21,7 @@ class BaseModule(LightningModule):
                 "params": [
                     p for n, p in self.named_parameters() if not any(nd in n for nd in no_decay) and p.requires_grad
                 ],
-                "weight_decay": self.hparams.optimizer.weight_decay,
+                "weight_decay": self.cfg.optimizer.weight_decay,
                 "name": "decay",
             },
             {
@@ -32,15 +33,15 @@ class BaseModule(LightningModule):
             },
         ]
         optimizer = hydra.utils.instantiate(
-            self.hparams.optimizer, params=optimizer_grouped_parameters, _convert_="partial"
+            self.cfg.optimizer, params=optimizer_grouped_parameters, _convert_="partial"
         )
         total_steps = self.trainer.estimated_stepping_batches
-        warmup_steps = self.hparams.warmup_steps or total_steps * self.hparams.warmup_ratio
-        if hasattr(self.hparams.scheduler, "num_warmup_steps"):
-            self.hparams.scheduler.num_warmup_steps = warmup_steps
-        if hasattr(self.hparams.scheduler, "num_training_steps"):
-            self.hparams.scheduler.num_training_steps = total_steps
-        lr_scheduler = hydra.utils.instantiate(self.hparams.scheduler, optimizer=optimizer)
+        warmup_steps = self.cfg.warmup_steps or total_steps * self.cfg.warmup_ratio
+        if hasattr(self.cfg.scheduler, "num_warmup_steps"):
+            self.cfg.scheduler.num_warmup_steps = warmup_steps
+        if hasattr(self.cfg.scheduler, "num_training_steps"):
+            self.cfg.scheduler.num_training_steps = total_steps
+        lr_scheduler = hydra.utils.instantiate(self.cfg.scheduler, optimizer=optimizer)
         return {"optimizer": optimizer, "lr_scheduler": {"scheduler": lr_scheduler, "interval": "step", "frequency": 1}}
 
     def on_save_checkpoint(self, checkpoint: dict[str, Any]) -> None:

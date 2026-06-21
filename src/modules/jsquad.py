@@ -46,20 +46,44 @@ class JSQuADModule(BaseModule):
         out: QuestionAnsweringModelOutput = self(batch)
         assert out.start_logits is not None
         assert out.end_logits is not None
-        dataset: JSQuADDataset = self.trainer.val_dataloaders.dataset
-        self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
+        dataloader = self.trainer.val_dataloaders
+        assert dataloader is not None
+        dataset: JSQuADDataset = dataloader.dataset
+        self.metric.update(
+            batch["example_ids"],  # ty: ignore[invalid-argument-type]
+            out.start_logits,
+            out.end_logits,
+            dataset,
+        )
 
     def on_validation_epoch_end(self) -> None:
-        self.log_dict({f"valid/{key}": value for key, value in self.metric.compute().items()})
+        self.log_dict(
+            {
+                f"valid/{key}": value
+                for key, value in self.metric.compute().items()  # ty: ignore[missing-argument]
+            }
+        )
         self.metric.reset()
 
     def test_step(self, batch: dict[str, torch.Tensor]) -> None:
         out: QuestionAnsweringModelOutput = self(batch)
         assert out.start_logits is not None
         assert out.end_logits is not None
-        dataset: JSQuADDataset = self.trainer.test_dataloaders.dataset
-        self.metric.update(batch["example_ids"], out.start_logits, out.end_logits, dataset)
+        dataloader = self.trainer.test_dataloaders
+        assert dataloader is not None
+        dataset: JSQuADDataset = dataloader.dataset
+        self.metric.update(
+            batch["example_ids"],  # ty: ignore[invalid-argument-type]
+            out.start_logits,
+            out.end_logits,
+            dataset,
+        )
 
     def on_test_epoch_end(self) -> None:
-        self.log_dict({f"test/{key}": value for key, value in self.metric.compute().items()})
+        self.log_dict(
+            {
+                f"test/{key}": value
+                for key, value in self.metric.compute().items()  # ty: ignore[missing-argument]
+            }
+        )
         self.metric.reset()
