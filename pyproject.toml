@@ -80,6 +80,7 @@ ignore = [
     "FBT002",  # Boolean default positional argument in function definition
     "ERA001",  # Found commented-out code
     "EM102",  # Exception must not use an f-string literal, assign to variable first
+    "CPY001",  # Missing copyright notice at top of file
 ]
 
 [tool.ruff.lint.per-file-ignores]
