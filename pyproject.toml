@@ -9,7 +9,7 @@ maintainers = [
     {name = "Nobuhiro Ueda", email = "ueda@nlp.ist.i.kyoto-u.ac.jp"},
 ]
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.15"
 dependencies = [
     'torch>=2.4.0; python_version < "3.13"',
     'torch>=2.13.0; python_version >= "3.13"',
