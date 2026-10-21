@@ -10,7 +10,7 @@
 
 ## Requirements
 
-- Python: 3.10+
+- Python: 3.11–3.13
 - Dependencies: See [pyproject.toml](./pyproject.toml).
 
 ## Getting started
