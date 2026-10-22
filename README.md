@@ -28,6 +28,8 @@
 
 ## Training and evaluation
 
+Datasets are loaded directly from the JGLUE v1.2.0 JSON files and JCoLA v1.0 JSON files. MARC-ja uses the Parquet files referenced by the [upstream loader](https://huggingface.co/datasets/shunk031/JGLUE/blob/main/JGLUE.py). No remote Python loading scripts are executed.
+
 You can train and test a model with the following command:
 
 ```shell

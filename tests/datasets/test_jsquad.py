@@ -1,11 +1,11 @@
 from typing import Any
 
 from datasets import Dataset as HFDataset
-from datasets import load_dataset
 from omegaconf import DictConfig
 from transformers import DebertaV2Tokenizer, PreTrainedTokenizerBase
 
 from datamodule.datasets.jsquad import JSQuADDataset
+from datamodule.datasets.loader import load_jglue
 
 
 def test_init(tokenizer: PreTrainedTokenizerBase) -> None:
@@ -15,7 +15,7 @@ def test_init(tokenizer: PreTrainedTokenizerBase) -> None:
 
 
 def test_raw_examples() -> None:
-    dataset = load_dataset("shunk031/JGLUE", name="JSQuAD", split="validation", trust_remote_code=True)
+    dataset = load_jglue("JSQuAD", "validation")
     assert isinstance(dataset, HFDataset)
     for example in dataset:
         assert isinstance(example["id"], str)

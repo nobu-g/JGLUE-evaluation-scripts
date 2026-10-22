@@ -839,7 +839,7 @@ flash-attn = [
 
 [package.metadata]
 requires-dist = [
-    { name = "datasets", specifier = ">=3.5.0,<6.0.0" },
+    { name = "datasets", specifier = ">=5.1.0,<6.0.0" },
     { name = "hydra-core", specifier = ">=1.3.2" },
     { name = "jaconv", specifier = ">=0.4.0" },
     { name = "lightning", specifier = ">=2.4.0" },

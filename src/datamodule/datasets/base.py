@@ -2,9 +2,10 @@ from abc import ABC
 from typing import Generic, TypeVar
 
 from datasets import Dataset as HFDataset
-from datasets import load_dataset
 from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizerBase
+
+from datamodule.datasets.loader import load_jglue
 
 FeatureType = TypeVar("FeatureType")
 
@@ -25,8 +26,7 @@ class BaseDataset(Dataset[FeatureType], ABC, Generic[FeatureType]):
         # NOTE: JGLUE does not provide test set.
         if self.split == "test":
             self.split = "validation"
-        # columns: id, title, context, question, answers, is_impossible
-        hf_dataset = load_dataset("shunk031/JGLUE", name=dataset_name, split=self.split, trust_remote_code=True)
+        hf_dataset = load_jglue(dataset_name, self.split)
         assert isinstance(hf_dataset, HFDataset)
         self.hf_dataset = hf_dataset
         if limit_examples > 0:
